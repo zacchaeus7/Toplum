@@ -1,9 +1,8 @@
-import react from "react";
+import React from "react";
 
 import {View, Text} from 'react-native';
 
  class CommunityScreen extends React.Component{
-
 
     render() {
         
