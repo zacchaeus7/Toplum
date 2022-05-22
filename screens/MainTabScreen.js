@@ -17,6 +17,7 @@ const MainTabScreen = ()=> (
   <Tab.Navigator
   initialRouteName="Feed"
   activeColor='#fff'
+  
 >
   <Tab.Screen
     name="Home"
@@ -111,3 +112,4 @@ const CommunityStackScreen = ({navigation}) => (
 
     </DetailsStack.Navigator>
 );
+
