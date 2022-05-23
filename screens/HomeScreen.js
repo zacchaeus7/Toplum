@@ -1,4 +1,3 @@
-
 import React from 'react'
 import {
     View,
@@ -6,16 +5,15 @@ import {
     Button,
     StyleSheet
   } from 'react-native';
+import SearchBar from '../Components/SearchBar';
 
 const HomeScreen = ({navigation}) =>{
   
     return (
-     <View style={styles.container}>
 
-        <Text>Home Screen</Text>
-        <Button title='go to details Screen'
-        onPress={()=> navigation.navigate("Details")}
-        />
+     <View style={styles.container}>
+       <SearchBar />
+    
       
      </View>
     );
@@ -26,7 +24,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    alignItems: 'center',
-    justifyContent: 'center'
+    //alignItems: 'center',
+    //justifyContent: 'center'
   }
 })

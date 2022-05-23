@@ -98,7 +98,7 @@ class LoginScreen extends React.Component{
                     <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.signIn}
-                    onPress={() => {}}
+                    onPress={() => this.props.navigation.navigate("Home")}
                 >
                 <LinearGradient
                     colors={['#08d4c4', '#01ab9d']}
@@ -111,7 +111,7 @@ class LoginScreen extends React.Component{
                 </TouchableOpacity>
 
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('SignUpScreen')}
+                    onPress={() => this.props.navigation.navigate('Register')}
                     style={[styles.signIn, {
                         borderColor: '#009387',
                         borderWidth: 1,
