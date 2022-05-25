@@ -11,7 +11,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import MainTabScreen from './screens/MainTabScreen';
-import RootStackScreen from './screens/RootStackScreen';
+import RootStackScreen from "./navigations/RootStackScreen";
 
 
 

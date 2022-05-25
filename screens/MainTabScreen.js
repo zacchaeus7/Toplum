@@ -9,6 +9,7 @@ import HomeScreen from './HomeScreen';
 import NewScreen from './NewScreen';
 import LoginScreen from './LoginScreen';
 import RegisterScreen from './RegisterScreen';
+import ActivtyScreen from './ActivityScreen';
 //import CommunityScreen from './CommunityScreen';
 
 const HomeStack = createNativeStackNavigator();
@@ -33,8 +34,8 @@ const MainTabScreen = ()=> (
         }}
       />
       <Tab.Screen
-        name="Login"
-        component={LoginScreen}
+        name="Activity"
+        component={ActivtyScreen}
         options={{
           tabBarLabel: 'Activités',
           tabBarIcon: ({ color, size }) => (

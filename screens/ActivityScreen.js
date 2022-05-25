@@ -28,7 +28,7 @@ const Item = ({ title,sender }) => (
        _data : [
         {
           id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-          activity: 'Titre 1',
+          activity: 'Visite à New York',
           content: "lorem ispsum dis amet ",
           user: 'Zacchaeus',
         },
@@ -42,7 +42,7 @@ const Item = ({ title,sender }) => (
         },
         {
           id: '58694a0f-3da1-471f-bd96-14557e1e29d72',
-          activity: 'Titre "',
+          activity: 'Manifestation "',
           content: "lorem ispsum dis amet ",
           user:"Sarah",
        
@@ -93,8 +93,10 @@ const Item = ({ title,sender }) => (
            translucent = {true}  
          />  
          
-           <SearchBar />
-           
+         <View style={styles.header}>
+          <SearchBar />
+         </View>
+         <View style={styles.footer}> 
          <FlatList
         
           data={this.state._data}
@@ -106,7 +108,7 @@ const Item = ({ title,sender }) => (
                  onHideUnderlay={separators.unhighlight}>
                  <View style={{ backgroundColor: 'white' }}>
                      <View >
-                       <Text style={{color:"orange",fontSize:15,textAlign:"center"}}>{item.activity}</Text>
+                       <Text style={{color:"blue",fontSize:20,textAlign:"center"}}>{item.activity}</Text>
                        
                      </View>
                      <View style={styles.avatarContainer}>
@@ -135,7 +137,7 @@ const Item = ({ title,sender }) => (
            color="white"
            onPress={() => alert("Nouvelle Activité")}
          />
-         
+         </View> 
        </SafeAreaView>
      );
   }
@@ -151,6 +153,21 @@ const styles = StyleSheet.create({
     width: 345,
     marginTop: 20
 },
+header: {
+  flex: 1,
+  backgroundColor:"#009387",
+  justifyContent: 'flex-end',
+  paddingHorizontal: 20,
+  paddingBottom: 50
+},
+footer: {
+  flex: Platform.OS === 'ios' ? 4 : 8,
+  backgroundColor: '#fff',
+  borderTopLeftRadius: 30,
+  borderTopRightRadius: 30,
+  paddingHorizontal: 20,
+  paddingVertical: 30
+},
 transaction: {
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -164,8 +181,8 @@ transaction: {
     backgroundColor:"#009387"
   },
   item: {
-    // backgroundColor: '#fff',
-    // padding: 20,
+    backgroundColor: '#fff',
+    padding: 20,
      borderRadius:12,
     marginVertical: 4,
     marginHorizontal: 10,
@@ -178,8 +195,8 @@ transaction: {
   },
   item_Separator:{
     height:1,
-    width:"10%",
-    backgroundColor:"#ccc"
+    width:"100%",
+    backgroundColor:"black"
   },
   avatarContainer:{
     //backgroundColor:"#D9D9D9,",

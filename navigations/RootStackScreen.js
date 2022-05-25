@@ -2,10 +2,10 @@ import React from "react";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import SplashScreen from "./SplashScreen";
-import LoginScreen from "./LoginScreen";
-import RegisterScreen from "./RegisterScreen";
-import MaintabScreen from './MainTabScreen';
+import SplashScreen from "../screens/SplashScreen";
+import LoginScreen from "../screens/LoginScreen";
+import RegisterScreen from "../screens/RegisterScreen";
+import MaintabScreen from '../screens/MainTabScreen'
 
 const RootStack = createNativeStackNavigator();
 
