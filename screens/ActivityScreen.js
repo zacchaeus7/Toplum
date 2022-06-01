@@ -145,6 +145,7 @@ const Item = ({ title,sender }) => (
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor:"#009387",
     flex: 1,
     marginTop: StatusBar.currentHeight || 0,
   },

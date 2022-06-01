@@ -21,7 +21,7 @@ const MainTabScreen = ()=> (
   <Tab.Navigator
       initialRouteName="Home"
       activeColor="#fff"
-      barStyle={{ backgroundColor: '#009387' }}
+      barStyle={{ backgroundColor: '#115f9b' }}
     >
       <Tab.Screen
         name="Home"
@@ -60,7 +60,7 @@ export default MainTabScreen;
 const HomeStackScreen = ({navigation}) =>(
   <HomeStack.Navigator screenOptions={{
     headerStyle:{
-      backgroundColor: '#009387'
+      backgroundColor: '#115f9b'
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
@@ -81,7 +81,7 @@ const HomeStackScreen = ({navigation}) =>(
 const DetailsStackScreen = ({navigation}) => (
   <DetailsStack.Navigator screenOptions={{
     headerStyle:{
-      backgroundColor: '#009387'
+      backgroundColor: '#115f9b'
     },
     headerTintColor: '#fff',
     headerTitleStyle: {

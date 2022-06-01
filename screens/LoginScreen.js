@@ -14,6 +14,7 @@ import {
     StatusBar,
     Alert
 } from 'react-native';
+import API from "../API/API";
 
 class LoginScreen extends React.Component{
 
@@ -21,75 +22,119 @@ class LoginScreen extends React.Component{
         super(props);
         this.state = {
 
-            email:'',
+            phone:'',
             password:'',
             check_Inputchange:false,
             secureTextEntry:true
     
-        }
+        },
+        this.api = new API();
     }
     textInputChange = (val)=>{
+
         if(val.length != 0){
             this.setState({
-               
-                email:val,
+                phone:val,
                 check_Inputchange:true
             })
         }else{
             this.setState({
               
-                email:val,
+                phone:val,
                 check_Inputchange:false
             })
         }
     }
 
+    handlePasswordChange = (val) => {
+        this.setState({
+            password: val
+        });
+    }
+
+    log_user = async () =>{
+     
+      if(this.state.phone.trim() && this.state.password.trim()){
+
+        const userData = {
+            phone:this.state.phone,
+            password:this.state.password
+        }
+    
+        const response = await this.api.send(userData,'phone_login');
+
+
+        if(response.status == 1){
+
+            console.log(response);
+
+            this.props.navigation.navigate("CheckNumber")
+        }
+        else{
+
+           alert("Checker vos identifiants de connexion svp!");
+        }
+     
+      }else{
+
+        alert("Remplir correctement les champs")
+       
+      }
+        
+    }
+
     render(){
         return(
         
-            <View style={styles.container}>
+            <Animatable.View
+            animation="fadeInRight"
+            duration={1500}
+            style={styles.container}>
 
                <View style={styles.header}>
                     <Text style={styles.text_header}>Connectez-Vous</Text>
                </View>
                 <View style={styles.footer}>
-                    <Text style={styles.text_footer}>Email</Text>
+                    <Text style={styles.text_footer}>Email Or Phone</Text>
                     <View style={styles.action}>
 
                     <FontAwesome 
                     name="user-o"
-                    color="#05375a"
+                    color="#115f9b"
                     />
                     <TextInput
                         placeholder="Votre nom d'utilisateur"
                         style={styles.textInput}
+                        value={this.state.phone}
                         autoCapitalize="none"
                         onChangeText={(val)=>this.textInputChange(val)}
                     />
                     {this.state.check_Inputchange ?
                     <Feather 
                         name="check-circle"
-                        color="green"
+                        color="#115f9b"
                         size={20}
                     />
                     :null}
                 </View>
 
-<                   Text style={styles.text_footer}>Password</Text>
+<                   Text style={styles.text_footer}>Mot de passe</Text>
                     <View style={styles.action}>
                         <FontAwesome 
                         name="lock"
-                        color="#05375a"
+                        color="#115f9b"
                         />
                         <TextInput
-                            placeholder="Votre nom d'utilisateur"
+                            placeholder="Taper le mot de passe"
+                            value={this.state.password}
                             secureTextEntry={true}
                             style={styles.textInput}
+                            onChangeText={(val) => this.handlePasswordChange(val)}
                         />
                        
                         <Feather 
                             name="eye-off"
-                            color="green"
+                            color="#115f9b"
                             size={20}
                         />
                    
@@ -101,30 +146,30 @@ class LoginScreen extends React.Component{
                     onPress={() => this.props.navigation.navigate("Home")}
                 >
                 <LinearGradient
-                    colors={['#08d4c4', '#01ab9d']}
+                    colors={['#115f9b', '#115f9b']}
                     style={styles.signIn}
                 >
                     <Text style={[styles.textSign, {
                         color:'#fff'
-                    }]}>Connexion</Text>
+                    }]}>Se Connecter</Text>
                 </LinearGradient>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                     onPress={() => this.props.navigation.navigate('Register')}
                     style={[styles.signIn, {
-                        borderColor: '#009387',
+                        borderColor: '#115f9b',
                         borderWidth: 1,
                         marginTop: 15
                     }]}
                 >
                     <Text style={[styles.textSign, {
-                        color: '#009387'
+                        color: '#115f9b'
                     }]}>S'enregistrer</Text>
                 </TouchableOpacity>
             </View>
                </View>
-            </View>
+            </Animatable.View>
             
         );
     }
@@ -133,7 +178,7 @@ class LoginScreen extends React.Component{
 const styles = StyleSheet.create({
     container: {
       flex: 1, 
-      backgroundColor: '#009387'
+      backgroundColor: '#115f9b'
     },
     header: {
         flex: 1,
@@ -179,9 +224,10 @@ const styles = StyleSheet.create({
         //flex: 1,
         marginTop: Platform.OS === 'ios' ? 0 : -12,
         paddingLeft: 10,
-        borderBottomColor:"red",
+        borderBottomColor:"#115f9b",
+        borderBottomWidth:2,
         color: '#05375ka',
-        width:"40%"
+        width:"90%"
     },
     errorMsg: {
         color: '#FF0000',

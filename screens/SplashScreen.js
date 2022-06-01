@@ -6,8 +6,7 @@ import {
     TouchableOpacity, 
     Dimensions,
     StyleSheet,
-    StatusBar,
-    Image
+
 } from 'react-native';
 
 import LinearGradient from "react-native-linear-gradient";
@@ -45,12 +44,12 @@ class SplashScreen extends React.Component {
                     duration={1500}
                     style={styles.footer}
                     >
-                        <Text style={styles.title}> Stay Connected With Toplum</Text>
+                        <Text style={styles.title}> Restez En contact avec votre communauté</Text>
                         <Text style={styles.text}>Connectez-vous</Text>
                         <View style={styles.button}>
                             <TouchableOpacity onPress={()=>this.props.navigation.navigate("Login")}>
                             <LinearGradient
-                                colors={['#08d4c4', '#01ab9d']}
+                                colors={['#415f9b', '#415f9b']}
                                 style={styles.signIn}
                             >
                             <Text style={styles.textSign}>Commencez</Text>
@@ -78,16 +77,18 @@ const height_logo = height * 0.28;
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
-    backgroundColor: '#009387'
+    backgroundColor: '#fff'
   },
   header: {
-      flex: 2,
+      flex: 3,
       justifyContent: 'center',
       alignItems: 'center'
   },
   footer: {
-      flex: 1,
-      backgroundColor: '#fff',
+      flex: 3,
+      backgroundColor: '#1f4496',
+      borderColor:'#1f4496',
+      borderWidth:2,
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
       paddingVertical: 50,
@@ -98,12 +99,12 @@ const styles = StyleSheet.create({
       height: height_logo
   },
   title: {
-      color: '#05375a',
+      color: '#fff',
       fontSize: 25,
       fontWeight: 'bold'
   },
   text: {
-      color: 'grey',
+      color: '#fff',
       marginTop:5
   },
   button: {
@@ -111,16 +112,19 @@ const styles = StyleSheet.create({
       marginTop: 30
   },
   signIn: {
-      width: 150,
-      height: 40,
+      width: 250,
+      height: 50,
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: 50,
+      marginTop:50,   
+      borderWidth:3,
+      borderColor:"#fff",
       flexDirection: 'row'
   },
   textSign: {
       color: 'white',
+      fontSize:25,
       fontWeight: 'bold'
   }
 });
-
