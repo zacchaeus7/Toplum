@@ -100,6 +100,7 @@ componentDidMount(){
          </View>
     
          <View style={styles.footer}>
+         <TouchableWithoutFeedback onPress={ () => this.props.navigation.navigate("Community")} >
          <View style={{flexDirection:"row"}}>
               <Text style={{color:"black",fontSize:15, padding:15}}>LES COMMUNAUTE</Text>
               <Text style={{color:"#115f9b",fontSize:15, paddingTop:15, textAlign:'right'}}>VOIR PLUS </Text>
@@ -109,6 +110,7 @@ componentDidMount(){
                   size={20}
               />
             </View>
+        </TouchableWithoutFeedback>
            
             {/* {this.state.load_school && <ActivityIndicator size="large" color="#fd8500" />} */}
             <FlatList
