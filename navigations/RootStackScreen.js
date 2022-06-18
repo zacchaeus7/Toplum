@@ -9,6 +9,8 @@ import MaintabScreen from '../screens/MainTabScreen';
 import CommnunityScreen from '../screens/CommunityScreen';
 import DetailsCommunityScreen from "../screens/DetailsCommunityScreen";
 import CommunityTabScreen from "../screens/CommunityTabScreen";
+import LauncherScreen from "../screens/LauncherScreen";
+import CheckNumberScreen from "../screens/CheckNumberScreen";
 
 const RootStack = createNativeStackNavigator();
 
@@ -20,7 +22,9 @@ class RootStackScreen extends React.Component{
             <RootStack.Navigator screenOptions={{ headerShown: false}}  headerMode="None">
 
                 <RootStack.Screen name="Splash"  component={SplashScreen} />
+                <RootStack.Screen name="Launcher" component={LauncherScreen} />
                 <RootStack.Screen name="Login" component={LoginScreen} />
+                <RootStack.Screen name="CheckNumber" component={CheckNumberScreen} />
                 <RootStack.Screen name="Register" component={RegisterScreen} />
                 <RootStack.Screen name="Home" component={MaintabScreen} />
                 <RootStack.Screen name="Community" component={CommnunityScreen} options={{headerShown:true,title:"Toutes les communautés",headerStyle:{backgroundColor:"#115f9b"} }} />

@@ -5,7 +5,8 @@ import {
     FlatList,
     View,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    ActivityIndicator,
 } from "react-native";
 
 export default class MemberCommunityScreen extends React.Component{
@@ -16,6 +17,7 @@ export default class MemberCommunityScreen extends React.Component{
         this.state = {
             data: [],
             refreshing: true,
+            load:true
         }
     }
 
@@ -25,11 +27,12 @@ export default class MemberCommunityScreen extends React.Component{
 
     fetchCats() {
         this.setState({ refreshing: true });
-        fetch('https://api.thecatapi.com/v1/images/search?limit=10&page=1')
+        fetch('https://api.thecatapi.com/v1/images/search?limit=30&page=1')
             .then(res => res.json())
             .then(resJson => {
                 this.setState({ data: resJson });
                 this.setState({ refreshing: false });
+                this.setState({load:false})
             }).catch(e => console.log(e));
     }
 
@@ -53,6 +56,8 @@ export default class MemberCommunityScreen extends React.Component{
     render() {
       return (
         <SafeAreaView>
+        {this.state.load && <ActivityIndicator size="large" color="#115f9b" />}
+
           <FlatList
             data={this.state.data}
             renderItem={item => this.renderItemComponent(item)}
@@ -60,6 +65,7 @@ export default class MemberCommunityScreen extends React.Component{
             ItemSeparatorComponent={this.ItemSeparator}
             refreshing={this.state.refreshing}
             onRefresh={this.handleRefresh}
+            numColumns={2}
           />
         </SafeAreaView>)
     }
@@ -67,8 +73,10 @@ export default class MemberCommunityScreen extends React.Component{
 
 const styles = StyleSheet.create({
   container: {
+    flex:1,
     height: 300,
-    margin: 10,
+    flexDirection: 'column',
+    margin: 1,
     backgroundColor: '#FFF',
     borderRadius: 6,
   },

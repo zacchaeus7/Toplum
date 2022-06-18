@@ -2,19 +2,20 @@ import React from 'react';
 import { 
     View, 
     Text, 
-    Button, 
     TouchableOpacity, 
-    Dimensions,
     TextInput,
     Platform,
     StyleSheet,
     ScrollView,
-    StatusBar
+    StatusBar,
+    ActivityIndicator
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+import toast from '../Components/Taost.js'
+import PhoneInput from "react-native-phone-number-input";
 import { ToastAndroid } from 'react-native';
 import API from '../API/API';
 
@@ -26,10 +27,13 @@ class RegisterScreen extends React.Component {
             full_name: '',
             phone: '',
             password: '',
+            isLoading:false,
+            email:'',
             confirm_password: '',
             check_textInputChange: false,
             secureTextEntry: true,
             confirm_secureTextEntry: true,
+            isShowErrorMessage:false
         }
         this.api  = new API()
     }
@@ -49,49 +53,52 @@ class RegisterScreen extends React.Component {
     }
 
     textPhonChange = (val) => {
-        if(val.length !== 0){
+        if(val.length != 0){
             this.setState({
                 phone:val,
-                check_textInputChange:true
+                check_textInputChange:true,
+                isShowErrorMessage:false
             })
         }else{
             this.setState({
                 phone:val,
-                check_textInputChange:false
+                check_textInputChange:false,
+                isShowErrorMessage:true
             })
         }
     }
 
-     handlePasswordChange = (val) => {
-        this.setState({
-            password: val
-        });
+    textEmailChange = (val) => {
+        
+        if(val.length !== 0){
+            this.setState({
+                email:val,
+                check_textInputChange:true,
+                
+            })
+            
+        }else{
+            this.setState({
+                email:val,
+                check_textInputChange:false,
+                isShowErrorMessage:true
+            })
+        }
     }
 
-     updateSecureTextEntry = () => {
-        this.setState({
-           
-            secureTextEntry: !this.state.secureTextEntry
-        });
-    }
-
-     updateConfirmSecureTextEntry = () => {
-        this.setState({
-         
-            confirm_secureTextEntry: !this.state.confirm_secureTextEntry
-        });
-    }
 
     register = async () =>{
 
         const userData = {
             full_name: this.state.full_name,
             phone:  this.state.phone,
-            password: this.state.password
+            password: "12345678"
         }
 
 
-        if(this.state.full_name.trim() && this.state.phone.trim() && this.state.password.trim()){
+        if(this.state.full_name.trim() && this.state.phone.trim() && this.state.email){
+
+            this.setState({ isLoading:true})
 
             const response = await this.api.send(userData, 'register');
 
@@ -101,37 +108,48 @@ class RegisterScreen extends React.Component {
                 
                 let user = {...response.user, ...this.props.user};
                 user.is_checked = false;
-    
-                // const action = { type: "REGISTER_USER", value:  user};
-                // this.props.dispatch(action);
-    
-                this.props.navigation.navigate("CheckNumber", {newPhone: ''});
+                this.props.navigation.navigate("CheckNumber");
+
             }else{
                 toast({message: "Une erreur s'est produite"});
             }
 
         }else{
 
-            // this.setState({isLoading: false});
-            alert("vide")
-            //toast({message: "Veuillez renseigner le nom ou le téléphone svp!"});
+            this.setState({isShowErrorMessage:true})
 
         }
     }
 
    render(){
+
     return (
         <View style={styles.container}>
-            <StatusBar backgroundColor='#009387' barStyle="light-content"/>
+            <StatusBar backgroundColor='#fd8500' barStyle="light-content"/>
           <View style={styles.header}>
-              <Text style={styles.text_header}>Creer un compte</Text>
+              <Text style={styles.text_header}>INSCRIPTION</Text>
           </View>
           <Animatable.View 
               animation="fadeInUpBig"
               style={styles.footer}
           >
             <ScrollView>
-              <Text style={styles.text_footer}>Nom Complet </Text>
+              <View style={styles.action}>
+                  
+                  <PhoneInput 
+                      placeholder="téléphone"
+                      defaultValue={this.state.phone}
+                      defaultCode="CD"
+                      textInputStyle={{height:40,borderRadius:10}}
+                      onChangeText={(val) => this.textPhonChange(val)}
+                      withShadow
+                      // autoFocus
+                      withDarkTheme
+                    
+                  />
+                
+              </View>
+             
               <View style={styles.action}>
                   <FontAwesome 
                       name="user-o"
@@ -139,10 +157,10 @@ class RegisterScreen extends React.Component {
                       size={20}
                   />
                   <TextInput 
-                      placeholder="Votre nom complet"
+                      placeholder="Nom complet"
                       style={styles.textInput}
-                      value={this.state.full_name}
                       autoCapitalize="none"
+                      value={this.state.full_name}
                       onChangeText={(val) => this.textInputChange(val)}
                   />
                   {this.state.check_textInputChange ? 
@@ -157,19 +175,18 @@ class RegisterScreen extends React.Component {
                   </Animatable.View>
                   : null}
               </View>
-              <Text style={styles.text_footer}>Téléphone </Text>
               <View style={styles.action}>
                   <FontAwesome 
-                      name="phone"
-                      color="#115f9b"
+                      name="envelope-o"
+                      color="#05375a"
                       size={20}
                   />
                   <TextInput 
-                      placeholder="Votre numero de téléphone"
+                      placeholder="Email"
                       style={styles.textInput}
                       autoCapitalize="none"
-                      value={this.state.phone}
-                      onChangeText={(val) => this.textPhonChange(val)}
+                      value={this.state.email}
+                      onChangeText={(val) => this.textEmailChange(val)}
                   />
                   {this.state.check_textInputChange ? 
                   <Animatable.View
@@ -177,85 +194,42 @@ class RegisterScreen extends React.Component {
                   >
                       <Feather 
                           name="check-circle"
-                          color="#115f9b"
+                          color="green"
                           size={20}
                       />
                   </Animatable.View>
                   : null}
               </View>
   
-              <Text style={[styles.text_footer, {
-                  marginTop: 35
-              }]}>Password</Text>
-              <View style={styles.action}>
-                  <Feather 
-                      name="lock"
-                      color="#115f9b"
-                      size={20}
-                  />
-                  <TextInput 
-                      placeholder="Your Password"
-                      secureTextEntry={this.state.secureTextEntry ? true : false}
-                      style={styles.textInput}
-                      value={this.state.password}
-                      autoCapitalize="none"
-                      onChangeText={(val) => this.handlePasswordChange(val)}
-                  />
-                  <TouchableOpacity
-                      onPress={this.updateSecureTextEntry}
-                  >
-                      {this.state.secureTextEntry ? 
-                      <Feather 
-                          name="eye-off"
-                          color="#115f9b"
-                          size={20}
-                      />
-                      :
-                      <Feather 
-                          name="eye"
-                          color="#115f9b"
-                          size={20}
-                      />
-                      }
-                  </TouchableOpacity>
-              </View>
-  
+               {this.state.isShowErrorMessage ? <Text style={{color:'#f00'}}>Veuillez Remplir correctement les champs</Text> : <Text></Text>}       
              
               <View style={styles.textPrivate}>
-                  <Text style={styles.color_textPrivate}>
-                  Conformément à nos 
-                  </Text>
-                  <Text style={[styles.color_textPrivate, {fontWeight: 'bold'}]}>{" "}conditions d'utilisation </Text>
-                  <Text style={styles.color_textPrivate}>{" "}et</Text>
-                  <Text style={[styles.color_textPrivate, {fontWeight: 'bold'}]}>{" "}à notre politique de confidentialité</Text>
+                  <Text style={[styles.color_textPrivate, {fontWeight: 'bold'}]}>{" "} Conformément à nos conditions d'utilisation et à notre politique de confidentialité </Text>
+
               </View>
               <View style={styles.button}>
+                <ActivityIndicator animating={this.state.isLoading} color="#fd8500" size='large'/>
+
                   <TouchableOpacity
                       style={styles.signIn}
                       onPress={()=>this.register()}
                   >
                   <LinearGradient
-                      colors={['#115f9b', '#115f9b']}
+                      colors={['#fd8500', '#ccae43']}
                       style={styles.signIn}
                   >
                       <Text style={[styles.textSign, {
                           color:'#fff'
-                      }]}>Creer</Text>
+                      }]}>S'inscrire</Text>
                   </LinearGradient>
                   </TouchableOpacity>
-  
-                  <TouchableOpacity
-                      onPress={() => this.props.navigation.goBack()}
-                      style={[styles.signIn, {
-                          borderColor: '#115f9b',
-                          borderWidth: 1,
-                          marginTop: 15
-                      }]}
-                  >
-                      <Text style={[styles.textSign, {
-                          color: '#115f9b'
-                      }]}>Se connecter</Text>
-                  </TouchableOpacity>
+                  <View style={{flexDirection:'row',marginTop:50}}>
+                    <Text style={{color:"#000"}}>Vous avez dejà un compte ? </Text>  
+                    <TouchableOpacity onPress={()=>this.props.navigation.navigate("Login")}> 
+                        <Text style={{backgroundColor:"#fd8500",color:"black",borderRadius:5,fontStyle:'italic',color:"#ffffff"}}>Authentification </Text> 
+                    </TouchableOpacity> 
+                </View>
+                  
               </View>
               </ScrollView>
           </Animatable.View>
@@ -269,7 +243,7 @@ export default RegisterScreen;
 const styles = StyleSheet.create({
     container: {
       flex: 1, 
-      backgroundColor: '#115f9b'
+      backgroundColor: '#fd8500'
     },
     header: {
         flex: 1,
@@ -278,25 +252,24 @@ const styles = StyleSheet.create({
         paddingBottom: 50
     },
     footer: {
-        flex: Platform.OS === 'ios' ? 3 : 5,
+        flex: Platform.OS === 'ios' ? 5 : 7,
         backgroundColor: '#fff',
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5,
+        borderColor:"#fd8500",
         paddingHorizontal: 20,
         paddingVertical: 30
     },
     text_header: {
         color: '#fff',
         fontWeight: 'bold',
+        alignSelf:'center',
         fontSize: 30
     },
-    text_footer: {
-        color: '#115f9b',
-        fontSize: 18
-    },
+    
     action: {
         flexDirection: 'row',
-        marginTop: 10,
+        marginTop: 30,
         borderBottomWidth: 1,
         borderBottomColor: '#f2f2f2',
         paddingBottom: 5
@@ -304,18 +277,18 @@ const styles = StyleSheet.create({
     textInput: {
         flex: 1,
         marginTop: Platform.OS === 'ios' ? 0 : -12,
-        borderBottomColor:"#115f9b",
+        borderBottomColor:"#fd8500",
         borderBottomWidth:2,
         paddingLeft: 10,
         color: '#05375a',
     },
     button: {
         alignItems: 'center',
-        marginTop: 50
+        
     },
     signIn: {
         width: '100%',
-        height: 50,
+        height: 40,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10
@@ -326,10 +299,11 @@ const styles = StyleSheet.create({
     },
     textPrivate: {
         flexDirection: 'row',
+        color:"#000",
         flexWrap: 'wrap',
         marginTop: 20
     },
     color_textPrivate: {
-        color: '#115f9b'
+        color: '#ccc'
     }
   });

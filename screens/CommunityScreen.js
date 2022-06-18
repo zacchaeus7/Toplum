@@ -6,6 +6,7 @@ import {
     View,
     Image,
     TouchableOpacity,
+    ActivityIndicator,
     Text
 } from "react-native";
 
@@ -14,6 +15,7 @@ export default class CommnunityScreen extends React.Component {
         super(props);
         this.state = {
             data: [],
+            load:true,
             refreshing: true,
         }
     }
@@ -29,6 +31,7 @@ export default class CommnunityScreen extends React.Component {
             .then(resJson => {
                 this.setState({ data: resJson });
                 this.setState({ refreshing: false });
+                this.setState({load:false})
             }).catch(e => console.log(e));
     }
 
@@ -71,7 +74,10 @@ export default class CommnunityScreen extends React.Component {
 
     render() {
       return (
+
         <SafeAreaView>
+        {this.state.load && <ActivityIndicator size="large" color="#115f9b" />}
+
           <FlatList
             data={this.state.data}
             renderItem={item => this.renderItemComponent(item)}

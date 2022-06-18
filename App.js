@@ -9,24 +9,28 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-
-import MainTabScreen from './screens/MainTabScreen';
+import { Provider } from 'react-redux';
 import RootStackScreen from "./navigations/RootStackScreen";
+import { Store } from './store/configStore';
 
 
 
 const Drawer = createDrawerNavigator();
 
 
-function App() {
-  return (
-    <NavigationContainer>
-      <RootStackScreen />
-      {/* <Drawer.Navigator  initialRouteName='Home' screenOptions={{ headerShown: false}}>
-        <Drawer.Screen name="Home" component={MainTabScreen} />
-      </Drawer.Navigator> */}
-    </NavigationContainer>
-  );
+class App extends React.Component {
+ 
+  
+  render(){
+   return (
+     <NavigationContainer>
+       <Provider store={Store}>
+          <RootStackScreen /> 
+       </Provider>
+     </NavigationContainer>
+   );
+  }
+
 }
 
 

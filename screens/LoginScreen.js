@@ -1,19 +1,21 @@
 import React from "react";
 import LinearGradient from "react-native-linear-gradient";
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
 import * as Animatable from 'react-native-animatable';
+import LocalStorage from "../storage/LocalStorage";
+import PhoneInput from "react-native-phone-number-input";
+
 
 import { 
     View, 
     Text, 
     TouchableOpacity, 
-    TextInput,
     Platform,
-    StyleSheet ,
-    StatusBar,
-    Alert
+    StyleSheet,
+    ActivityIndicator,
+    StatusBar
 } from 'react-native';
+import { connect } from 'react-redux'; 
+
 import API from "../API/API";
 
 class LoginScreen extends React.Component{
@@ -25,151 +27,138 @@ class LoginScreen extends React.Component{
             phone:'',
             password:'',
             check_Inputchange:false,
-            secureTextEntry:true
+            isLoading:false,
+            isShow:false,
+            MessageError:""
     
         },
         this.api = new API();
+        this.localStorage = new LocalStorage()
     }
+
+
     textInputChange = (val)=>{
 
         if(val.length != 0){
             this.setState({
                 phone:val,
-                check_Inputchange:true
+                check_Inputchange:true,
+                isShow:false,
+                MessageError:"*Le champs numero de téléphone est obligatoire"
             })
         }else{
             this.setState({
-              
                 phone:val,
-                check_Inputchange:false
+                check_Inputchange:false,
+                isShow:true
             })
         }
     }
 
-    handlePasswordChange = (val) => {
-        this.setState({
-            password: val
-        });
-    }
-
+   
     log_user = async () =>{
      
-      if(this.state.phone.trim() && this.state.password.trim()){
+      if(this.state.phone.trim()){
+
+        this.setState({ isLoading:true})
 
         const userData = {
             phone:this.state.phone,
-            password:this.state.password
+            password:"12345678"
         }
+      
+
+        
     
-        const response = await this.api.send(userData,'phone_login');
+        const response = await this.api.send(userData,'login');
 
+        console.log(response);
 
-        if(response.status == 1){
+        if(response.user){
+            
+            let user = {...response.user, ...this.props.user};
 
-            console.log(response);
+            const action = { type: "REGISTER_USER", value:  user};
 
-            this.props.navigation.navigate("CheckNumber")
+            this.props.dispatch(action);
+
+            await this.localStorage.storeData("toplum_user_data",user)
+
+            this.setState({isLoading:false})
+
+             this.props.navigation.navigate("CheckNumber",{user:user})
         }
         else{
 
-           alert("Checker vos identifiants de connexion svp!");
+            this.setState({isShow:true,MessageError:"Identifiants incorrects",isLoading:false})
         }
      
       }else{
 
-        alert("Remplir correctement les champs")
+        this.setState({isShow:true,MessageError:"*Champs obligatoire",isLoading:false})
        
-      }
+         }
         
     }
 
     render(){
+
         return(
-        
-            <Animatable.View
-            animation="fadeInRight"
-            duration={1500}
-            style={styles.container}>
-
-               <View style={styles.header}>
-                    <Text style={styles.text_header}>Connectez-Vous</Text>
-               </View>
-                <View style={styles.footer}>
-                    <Text style={styles.text_footer}>Email Or Phone</Text>
-                    <View style={styles.action}>
-
-                    <FontAwesome 
-                    name="user-o"
-                    color="#115f9b"
-                    />
-                    <TextInput
-                        placeholder="Votre nom d'utilisateur"
-                        style={styles.textInput}
-                        value={this.state.phone}
-                        autoCapitalize="none"
-                        onChangeText={(val)=>this.textInputChange(val)}
-                    />
-                    {this.state.check_Inputchange ?
-                    <Feather 
-                        name="check-circle"
-                        color="#115f9b"
-                        size={20}
-                    />
-                    :null}
-                </View>
-
-<                   Text style={styles.text_footer}>Mot de passe</Text>
-                    <View style={styles.action}>
-                        <FontAwesome 
-                        name="lock"
-                        color="#115f9b"
-                        />
-                        <TextInput
-                            placeholder="Taper le mot de passe"
-                            value={this.state.password}
-                            secureTextEntry={true}
-                            style={styles.textInput}
-                            onChangeText={(val) => this.handlePasswordChange(val)}
-                        />
-                       
-                        <Feather 
-                            name="eye-off"
-                            color="#115f9b"
-                            size={20}
-                        />
-                   
+            <View style={styles.container}>
+                  <StatusBar backgroundColor='#fd8500' barStyle="light-content"/>
+                <Animatable.View
+                    animation="fadeInRight"
+                    duration={1500}
+                    style={styles.container}>
+                    <View style={styles.header}>
+                            <Text style={styles.text_header}>Connexion</Text>
                     </View>
+                        <View style={styles.footer}>
+                            <View style={styles.action}>
+                                <PhoneInput 
+                                    defaultValue={this.state.phone}
+                                    defaultCode="CD"
+                                    placeholder="Numero téléphone"
+                                    textInputStyle={{height:40,borderRadius:10}}
+                                    onChangeText={(val)=>this.textInputChange(val)}
+                                    withShadow
+                                    // autoFocus
+                                    withDarkTheme
+                                />
+                            </View>
+                                
+                                {this.state.isShow ? <Text style={{color:'#f00'}}>{this.state.MessageError}</Text> : <Text></Text>}
 
-                    <View style={styles.button}>
-                <TouchableOpacity
-                    style={styles.signIn}
-                    onPress={() => this.props.navigation.navigate("Home")}
-                >
-                <LinearGradient
-                    colors={['#115f9b', '#115f9b']}
-                    style={styles.signIn}
-                >
-                    <Text style={[styles.textSign, {
-                        color:'#fff'
-                    }]}>Se Connecter</Text>
-                </LinearGradient>
-                </TouchableOpacity>
+                                <View style={styles.button}>
+                                    
+                                    <ActivityIndicator animating={this.state.isLoading} color="#fd8500" size='large'/>
+                                
+                                    <TouchableOpacity
+                                        disabled={this.state.isLoading ? true : false} 
+                                        onPress={() => this.log_user()}
+                                    >
 
-                <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('Register')}
-                    style={[styles.signIn, {
-                        borderColor: '#115f9b',
-                        borderWidth: 1,
-                        marginTop: 15
-                    }]}
-                >
-                    <Text style={[styles.textSign, {
-                        color: '#115f9b'
-                    }]}>S'enregistrer</Text>
-                </TouchableOpacity>
+                                    <LinearGradient
+                                        colors={['#fd8500', '#fd8500']}
+                                        style={styles.signIn}
+                                    >
+                                        <Text style={[styles.textSign, {color:'#fff'
+                                        }]}>Connexion</Text>
+                                    
+                                    </LinearGradient>
+                                    </TouchableOpacity>
+
+                                <View style={{flexDirection:'row',marginTop:50}}>
+                                    <Text style={{color:"#000"}}>Vous n'avez pas de compte ? </Text>  
+                                    <TouchableOpacity onPress={()=>this.props.navigation.navigate("Register")}> 
+                                        <Text style={{backgroundColor:"#fd8500",fontStyle:'italic',color:"black",borderRadius:5,color:"#fff"}}>Inscription </Text> 
+                                    </TouchableOpacity> 
+                                </View>
+                        
+                            </View>
+                    </View>
+                </Animatable.View>
             </View>
-               </View>
-            </Animatable.View>
             
         );
     }
@@ -178,21 +167,24 @@ class LoginScreen extends React.Component{
 const styles = StyleSheet.create({
     container: {
       flex: 1, 
-      backgroundColor: '#115f9b'
+      backgroundColor: '#fff',
+     
     },
     header: {
         flex: 1,
+        backgroundColor: '#fd8500',
+        
+        borderBottomLeftRadius:15,
+        borderBottomRightRadius:15,
         justifyContent: 'flex-end',
         paddingHorizontal: 20,
         paddingBottom: 50
     },
     footer: {
         flex: 3,
+        alignItems:'center',
+        justifyContent: 'center',
         backgroundColor: '#fff',
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-        borderBottomRightRadius:30,
-        borderBottomLeftRadius:30,
         paddingHorizontal: 20,
         paddingVertical: 30
     },
@@ -200,7 +192,8 @@ const styles = StyleSheet.create({
     text_header: {
         color: '#fff',
         fontWeight: 'bold',
-        fontSize: 30
+        textAlign:'center',
+        fontSize: 40
     },
     text_footer: {
         color: '#05375a',
@@ -224,29 +217,37 @@ const styles = StyleSheet.create({
         //flex: 1,
         marginTop: Platform.OS === 'ios' ? 0 : -12,
         paddingLeft: 10,
-        borderBottomColor:"#115f9b",
+        borderBottomColor:"#f88302",
         borderBottomWidth:2,
-        color: '#05375ka',
+        color: '#05375a',
         width:"90%"
     },
     errorMsg: {
         color: '#FF0000',
         fontSize: 14,
     },
-    button: {
-        alignItems: 'center',
-        marginTop: 50
+    button: {  
+        Width: 250,
+        
     },
     signIn: {
-        width: '100%',
-        height: 50,
+        
+        height: 40,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 10
+        borderRadius: 20
     },
     textSign: {
         fontSize: 18,
+        textAlign:'center',
+        width:"100%",
         fontWeight: 'bold'
     }
   });
-export default LoginScreen;
+
+  const mapStateToProps = (state) => {
+    return {
+        user: state.userReducer.user
+    }
+};
+export default connect(mapStateToProps)(LoginScreen);
