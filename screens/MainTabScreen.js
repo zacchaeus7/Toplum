@@ -25,7 +25,7 @@ const MainTabScreen = ()=> (
     >
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={ActivtyScreen}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (

@@ -7,6 +7,8 @@ import { color } from 'react-native-reanimated';
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import API from "../API/API";
+import Community from '../Components/Community';
+import Posts from '../Components/Posts';
 
 const Item = ({ title,sender }) => (
   <View style={styles.item}>
@@ -56,145 +58,41 @@ const Item = ({ title,sender }) => (
     this.setState({load_school:false})
     console.log(this.state.schools)
 
-}
-
-getUniversities = async () => {
-
-  const  universities  = await this.api.getData('universities?per_page=3');
-
-  this.setState({ universities:universities.data });
-
-  this.setState({load_niversity:false})
-  console.log(this.state.universities)
-
-}
+  }
 
 
 componentDidMount(){
 
   this.getSchools()
-  this.getUniversities()
 
 }
 
 
-  ItemSeparator = () =>(
-    <View style={styles.item_Separator} />
-  );
   render(){ 
      return (
-       <ScrollView style={styles.container}>
+       <View style={styles.container}>
          
          <StatusBar  
-           backgroundColor = "#b3e6ff"  
+           backgroundColor = "#D492A9"  
            //barStyle = "dark-content"   
            hidden = {false}    
            translucent = {true}  
          />  
-         
-         <View style={styles.header}>
-           <SearchBar />
-          {/* <View style={{borderWidth:1, backgroundColor:"#fff",height:50,color:"#fff"}}>
-              <Text>School Pay</Text>
-          </View> */}
-         </View>
-    
-         <View style={styles.footer}>
-         <TouchableWithoutFeedback onPress={ () => this.props.navigation.navigate("Community")} >
-         <View style={{flexDirection:"row"}}>
-              <Text style={{color:"black",fontSize:15, padding:15}}>LES COMMUNAUTE</Text>
-              <Text style={{color:"#115f9b",fontSize:15, paddingTop:15, textAlign:'right'}}>VOIR PLUS </Text>
-              <MaterialIcons style={{paddingTop:15 }}
-                  name="navigate-next"
-                  color="#115f9b"
-                  size={20}
-              />
-            </View>
-        </TouchableWithoutFeedback>
-           
-            {/* {this.state.load_school && <ActivityIndicator size="large" color="#fd8500" />} */}
-            <FlatList
-           
-                  data={this.state._data}
-                  renderItem={({ item, separators }) => (
-                    <TouchableWithoutFeedback onPress={ () => this.props.navigation.navigate("DetailsSchool",{school_id:item.id})}>
-                      <View style={styles.item}
-                        key={item.id}
-                        onPress={() => alert("test")}
-                        onShowUnderlay={separators.highlight}
-                        onHideUnderlay={separators.unhighlight}>
-                        <View style={{ backgroundColor: 'white' }}>
-                            <View>
-                              {/* <Text style={{color:"default",fontSize:20, padding:15,marginLeft:-33}}>{item.name}</Text> */}
-                            </View>
-                            <View style={styles.avatarContainer}>
-                              <Image style={{height:80,width:80}}
-                                source={require("../assets/logo.jpg")}
-                              />
-                              <Text style={{color:'black',width:200,marginLeft:10,paddingTop:20}}>{item.name}</Text>
-                            
-                            </View>              
-                        </View>
-                        
-                      </View>
-                      </TouchableWithoutFeedback>
-                    )}
-                 keyExtractor={(item) => item.id}
-                 ListEmptyComponent={<Text>Aucune communautés pour l'instant</Text>}
-                ItemSeparatorComponent={this.ItemSeparator}
-          />    
-         </View>
-         <View style={styles.footer_two}>
-         <View style={{flexDirection:"row"}}>
-              <Text style={{color:"black",fontSize:15, padding:15}}>TOUTES LES ACTIVITES</Text>
-              <Text style={{color:"#115f9b",fontSize:15, paddingTop:15}}>VOIR PLUS</Text>
-              <MaterialIcons style={{paddingTop:15}}
-                  name="navigate-next"
-                  color="#115f9b"
-                  size={20}
-              />
-            </View>  
 
-            {/* {this.state.load_niversity && <ActivityIndicator size="large" color="#fd8500" />} */}
-            
-              <FlatList
-              
-                  data={this.state._data}
-                  renderItem={({ item, index, separators }) => (
-                      <View style={styles.item}
-                        key={item.id}
-                        onPress={() => this._onPress(item)}
-                        onShowUnderlay={separators.highlight}
-                        onHideUnderlay={separators.unhighlight}>
-                        <View style={{ backgroundColor: 'white' }}>
-                            <View>
-                              {/* <Text style={{color:"default",fontSize:20, padding:15,marginLeft:-33}}>{item.name}</Text> */}
-                            </View>
-                            <View style={styles.avatarContainer}>
-                              <Image style={{height:50,width:50}}
-                                source={require("../assets/logo.jpg")}
-                              />
-                              <Text style={{color:'black',width:100,marginLeft:10}}>{item.name}</Text>
-                            </View>              
-                        </View>
-                        
-                      </View>
-                    )}
-                  keyExtractor={item => item.id}
-                  //  ListHeaderComponent={<Text style={{fontSize:20, textAlign:"center",color:"#000"}}>Les Elèves</Text>}
-                  ListEmptyComponent={<Text>Aucune Activité pour l'instant</Text>}
-                ItemSeparatorComponent={this.ItemSeparator}
-          />
-         </View>
+         <Community  navigation={this.props.navigation}/>
          
+         <ScrollView>
+          <View style={styles.header}>
+              <Posts />
+            </View>
+         </ScrollView>
+      
          <FAB
-           style={styles.fab}
-           small
-           icon="plus"
-           color="white"
-           onPress={() => alert("Nouvelle Activité")}
-         />
-       </ScrollView >
+          icon="plus"
+          style={styles.fab}
+          onPress={() => this.props.navigation.navigate("CommunityTab")}
+        />
+       </View >
      );
   }
 }
@@ -202,8 +100,10 @@ componentDidMount(){
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#115f9b',
-    marginTop: StatusBar.currentHeight || 0,
+    backgroundColor: '#fff',
+    marginTop:7,
+
+    // marginTop: StatusBar.currentHeight || 0,
   },
   searchBar: {
     opacity: 0.85,
@@ -211,45 +111,41 @@ const styles = StyleSheet.create({
     marginTop: 20
 },
 header: {
-  flex: 1,
-  justifyContent: 'flex-end',
-  paddingHorizontal: 20,
-  paddingBottom: 50
+  // flex: 1,
+  // justifyContent: 'flex-end',
+  // paddingHorizontal: 20,
+  // paddingBottom: 50
 },
 footer: {
   // flex: Platform.OS === 'ios' ? 4 : 10,
-  backgroundColor: '#fff',
-  borderTopLeftRadius: 7,
-  borderTopRightRadius: 7,
-  borderBottomLeftRadius:7,
-  borderBottomRightRadius:7,
-  paddingHorizontal: 20,
-  paddingVertical: 30
+  // backgroundColor: '#fff',
+  // borderTopLeftRadius: 7,
+  // borderTopRightRadius: 7,
+  // borderBottomLeftRadius:7,
+  // borderBottomRightRadius:7,
+  // paddingHorizontal: 20,
+  // paddingVertical: 30
 },
 footer_two:{
  // flex: Platform.OS === 'ios' ? 4 : 10,
-  backgroundColor: '#fff',
-  borderTopLeftRadius: 13,
-  borderTopColor:"#115f9b",
-  borderTopWidth:2,
-  borderTopRightRadius: 13,
-  borderBottomLeftRadius:7,
-  borderBottomRightRadius:7,
-  paddingHorizontal: 20,
-  paddingVertical: 30
+  // backgroundColor: '#fff',
+  // borderTopLeftRadius: 13,
+  // borderTopColor:"#115f9b",
+  // borderTopWidth:2,
+  // borderTopRightRadius: 13,
+  // borderBottomLeftRadius:7,
+  // borderBottomRightRadius:7,
+  // paddingHorizontal: 20,
+  // paddingVertical: 30
 },
-transaction: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    right: 0,
-    bottom: 40,
-    backgroundColor:"#115f9b"
-  },
+
+fab: {
+  position: 'absolute',
+  backgroundColor:'#D492A9',
+  margin: 16,
+  right: 0,
+  bottom: 0,
+},
   item: {
     backgroundColor: '#fff',
     padding: 20,

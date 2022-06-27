@@ -6,6 +6,7 @@ import { FAB, TextInput } from 'react-native-paper';
 import { color } from 'react-native-reanimated';
 import SearchBar from "../Components/SearchBar";
 import FontAwesome from "react-native-vector-icons/FontAwesome"
+import ActivityTab from './activities/ActivityTabScreen';
 
 
 const Item = ({ title,sender }) => (
@@ -19,12 +20,13 @@ const Item = ({ title,sender }) => (
 
 
 
- class HomeScreen extends React.Component {
+ class ActivityScreen extends React.Component {
  
   constructor(props){
     super(props)
 
     this.state = {
+
        _data : [
         {
           id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
@@ -87,57 +89,20 @@ const Item = ({ title,sender }) => (
        <SafeAreaView style={styles.container}>
          
          <StatusBar  
-           backgroundColor = "#b3e6ff"  
+           backgroundColor = "#D492A9"  
            //barStyle = "dark-content"   
            hidden = {false}    
            translucent = {true}  
          />  
          
-         <View style={styles.header}>
-          <SearchBar />
-         </View>
-         <View style={styles.footer}> 
-         <FlatList
-        
-          data={this.state._data}
-           renderItem={({ item, index, separators }) => (
-               <View style={styles.item}
-                 key={item.key}
-                 onPress={() => this._onPress(item)}
-                 onShowUnderlay={separators.highlight}
-                 onHideUnderlay={separators.unhighlight}>
-                 <View style={{ backgroundColor: 'white' }}>
-                     <View >
-                       <Text style={{color:"blue",fontSize:20,textAlign:"center"}}>{item.activity}</Text>
-                       
-                     </View>
-                     <View style={styles.avatarContainer}>
-                       <Image style={{height:100,width:100}}
-                        source={require("../assets/logo.jpg")}
-                       />
-                       <Text>{item.content}</Text>
-                     </View>
-
-                
-                    <Text style={{textAlign:"right",fontSize:20,color:"blue"}}><FontAwesome name='user' />{item.user}</Text>
-                
-                 </View>
-                 
-               </View>
-             )}
-           keyExtractor={item => item.id}
-           ListHeaderComponent={<Text style={{fontSize:20, textAlign:"center",color:"#000"}}>Les activités</Text>}
-           ListEmptyComponent={<Text>Aucune Activité pour l'instant</Text>}
-            ItemSeparatorComponent={this.ItemSeparator}
-         />
-         <FAB
-           style={styles.fab}
-           small
-           icon="plus"
-           color="white"
-           onPress={() => alert("Nouvelle Activité")}
-         />
+         <View style={styles.header}> 
+            <Image 
+            style={styles.logo}
+              source={require("../assets/logo.jpg")}
+            />
+            <Text style={{paddingTop:30}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Modmpore delectus quisquam.</Text>
          </View> 
+         
        </SafeAreaView>
      );
   }
@@ -145,9 +110,8 @@ const Item = ({ title,sender }) => (
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor:"#009387",
+    backgroundColor:"#fff",
     flex: 1,
-    marginTop: StatusBar.currentHeight || 0,
   },
   searchBar: {
     opacity: 0.85,
@@ -155,39 +119,25 @@ const styles = StyleSheet.create({
     marginTop: 20
 },
 header: {
-  flex: 1,
-  backgroundColor:"#009387",
-  justifyContent: 'flex-end',
-  paddingHorizontal: 20,
-  paddingBottom: 50
+  width:"100%",
+  marginRight:100,
+  height:120,
+  flexDirection:'row',
+ borderBottomWidth:0.5,
+ borderColor:"#ccc"
+ 
 },
-footer: {
-  flex: Platform.OS === 'ios' ? 4 : 8,
-  backgroundColor: '#fff',
-  borderTopLeftRadius: 30,
-  borderTopRightRadius: 30,
-  paddingHorizontal: 20,
-  paddingVertical: 30
+footer:{
+  backgroundColor:"#ccc",
+  borderTopRightRadius:10,
+  margin:10,
+  borderTopLeftRadius:10
 },
-transaction: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    right: 0,
-    bottom: 40,
-    backgroundColor:"#009387"
-  },
-  item: {
-    backgroundColor: '#fff',
-    padding: 20,
-     borderRadius:12,
-    marginVertical: 4,
-    marginHorizontal: 10,
-  },
+logo:{
+  width:100,
+  height:100
+},
+
   title: {
     fontSize: 15,
     textAlign:'center',
@@ -199,17 +149,7 @@ transaction: {
     width:"100%",
     backgroundColor:"black"
   },
-  avatarContainer:{
-    //backgroundColor:"#D9D9D9,",
-    borderRadius:100,
-    height:89,
-    width:89,
-    flexDirection:'row',
-    paddingVertical:13,
-    justifyContent:"center",
-    alignItems:"center"
-  }
+ 
 });
 
-export default HomeScreen;
-
+export default ActivityScreen;

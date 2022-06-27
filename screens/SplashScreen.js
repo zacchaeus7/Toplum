@@ -23,7 +23,7 @@ import LocalStorage from "../storage/LocalStorage";
 
         const userData = await this.localStorage.getData("toplum_user_data");
 
-        if(userData){
+        if(!userData){
 
             const action = { type:"REGISTER_USER", value:userData }
 

@@ -137,7 +137,6 @@ class LoginScreen extends React.Component{
                                         disabled={this.state.isLoading ? true : false} 
                                         onPress={() => this.log_user()}
                                     >
-
                                     <LinearGradient
                                         colors={['#fd8500', '#fd8500']}
                                         style={styles.signIn}

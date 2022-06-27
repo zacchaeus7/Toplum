@@ -11,7 +11,6 @@ import {
 
 export default class MemberCommunityScreen extends React.Component{
 
-
     constructor(props) {
         super(props);
         this.state = {
