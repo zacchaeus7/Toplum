@@ -6,32 +6,46 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import { Provider } from 'react-redux';
-import RootStackScreen from "./navigations/RootStackScreen";
-import { Store } from './store/configStore';
-
-
-
-const Drawer = createDrawerNavigator();
-
-
-class App extends React.Component {
+ import React from 'react';
+ import { Provider as PaperProvider, DarkTheme as PaperDarkTheme, DefaultTheme as PaperDefaultTheme } from 'react-native-paper';
+ import { NavigationContainer, DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
+ import { Provider as ReduxProvider } from 'react-redux';
+ import { Store } from './store/configStore';
+ import RootStackScreen from './navigations/RootStackScreen';
+ import merge from 'deepmerge';
+ import { Appearance } from 'react-native';
  
+ const CombinedDefaultTheme = merge(PaperDefaultTheme, NavigationDefaultTheme);
+ const CombinedDarkTheme = merge(PaperDarkTheme, NavigationDarkTheme);
   
-  render(){
+ function App(){
+ 
+   const colorScheme = Appearance.getColorScheme();
+   const isDarkMode = colorScheme === 'dark' ? true : false;
+   const [isThemeDark, setIsThemeDark] = React.useState(isDarkMode);
+ 
+   let theme = isThemeDark ? CombinedDarkTheme : CombinedDefaultTheme;
+ 
+   theme = {
+     ...theme,
+     roundness: 2,
+     colors: {
+       ...theme.colors,
+       primary: '#fd8500',
+       secondary: '#FFC422',
+       accent: '#F77F41',
+       white: '#fff'
+     },
+   };
+   
    return (
-     <NavigationContainer>
-       <Provider store={Store}>
-          <RootStackScreen /> 
-       </Provider>
-     </NavigationContainer>
+     <PaperProvider theme={theme}>
+       <ReduxProvider store={Store}>
+         <NavigationContainer theme={theme}>
+           <RootStackScreen theme={theme}/>
+         </NavigationContainer>
+       </ReduxProvider>
+     </PaperProvider>
    );
-  }
-
-}
-
-
-export default App;
+ }
+ export default App;

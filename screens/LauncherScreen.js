@@ -34,7 +34,7 @@ class LauncherScreen extends React.Component {
                     <Animatable.Image
                     animation="bounceIn"
                     duration={3000}
-                    source={require("../assets/logo.jpg")}
+                    source={require("../assets/logo.png")}
                     style={styles.logo}
                     resizeMode="stretch"
                     />

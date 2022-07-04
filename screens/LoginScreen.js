@@ -15,8 +15,9 @@ import {
     StatusBar
 } from 'react-native';
 import { connect } from 'react-redux'; 
-
 import API from "../API/API";
+import { withTheme } from "react-native-paper";
+
 
 class LoginScreen extends React.Component{
 
@@ -32,7 +33,7 @@ class LoginScreen extends React.Component{
             MessageError:""
     
         },
-        this.api = new API();
+       this.api = new API();
         this.localStorage = new LocalStorage()
     }
 
@@ -103,18 +104,19 @@ class LoginScreen extends React.Component{
 
     render(){
 
+        const { theme } = this.props;
         return(
-            <View style={styles.container}>
-                  <StatusBar backgroundColor='#fd8500' barStyle="light-content"/>
+            <View style={styles(theme).container}>
+                  {/* <StatusBar backgroundColor='#fd8500' barStyle="light-content"/> */}
                 <Animatable.View
                     animation="fadeInRight"
                     duration={1500}
-                    style={styles.container}>
-                    <View style={styles.header}>
-                            <Text style={styles.text_header}>Connexion</Text>
+                    style={styles(theme).container}>
+                    <View style={styles(theme).header}>
+                            <Text style={styles(theme).text_header}>Connexion</Text>
                     </View>
-                        <View style={styles.footer}>
-                            <View style={styles.action}>
+                        <View style={styles(theme).footer}>
+                            <View style={styles(theme).action}>
                                 <PhoneInput 
                                     defaultValue={this.state.phone}
                                     defaultCode="CD"
@@ -129,7 +131,7 @@ class LoginScreen extends React.Component{
                                 
                                 {this.state.isShow ? <Text style={{color:'#f00'}}>{this.state.MessageError}</Text> : <Text></Text>}
 
-                                <View style={styles.button}>
+                                <View style={styles(theme).button}>
                                     
                                     <ActivityIndicator animating={this.state.isLoading} color="#fd8500" size='large'/>
                                 
@@ -139,7 +141,7 @@ class LoginScreen extends React.Component{
                                     >
                                     <LinearGradient
                                         colors={['#fd8500', '#fd8500']}
-                                        style={styles.signIn}
+                                        style={styles(theme).signIn}
                                     >
                                         <Text style={[styles.textSign, {color:'#fff'
                                         }]}>Connexion</Text>
@@ -148,7 +150,7 @@ class LoginScreen extends React.Component{
                                     </TouchableOpacity>
 
                                 <View style={{flexDirection:'row',marginTop:50}}>
-                                    <Text style={{color:"#000"}}>Vous n'avez pas de compte ? </Text>  
+                                    <Text style={{color:theme.colors.primary}}>Vous n'avez pas de compte ? </Text>  
                                     <TouchableOpacity onPress={()=>this.props.navigation.navigate("Register")}> 
                                         <Text style={{backgroundColor:"#fd8500",fontStyle:'italic',color:"black",borderRadius:5,color:"#fff"}}>Inscription </Text> 
                                     </TouchableOpacity> 
@@ -163,7 +165,7 @@ class LoginScreen extends React.Component{
     }
 }
 
-const styles = StyleSheet.create({
+const styles = (theme)=>StyleSheet.create({
     container: {
       flex: 1, 
       backgroundColor: '#fff',
@@ -171,7 +173,7 @@ const styles = StyleSheet.create({
     },
     header: {
         flex: 1,
-        backgroundColor: '#fd8500',
+        backgroundColor: theme.colors.primary,
         
         borderBottomLeftRadius:15,
         borderBottomRightRadius:15,
@@ -249,4 +251,4 @@ const styles = StyleSheet.create({
         user: state.userReducer.user
     }
 };
-export default connect(mapStateToProps)(LoginScreen);
+export default connect(mapStateToProps)(withTheme(LoginScreen));

@@ -1,14 +1,14 @@
 import React from 'react';
 import { View , StyleSheet, FlatList,ActivityIndicator,SafeAreaView,TouchableWithoutFeedback,Image } from 'react-native';
 import { IconButton, Card, Title, Paragraph, Avatar, Text, withTheme } from 'react-native-paper';
-import API from '../API/API';
 import FastImage from 'react-native-fast-image';
 import * as Animatable from 'react-native-animatable';
+import API from '../API/API';
 
 class DetailsCommunityScreen extends React.Component{
     constructor(props){
         super(props);
-        this.api = new API();
+    //    this.api = new API();
         this.state = {
             school:null,
             data:[
@@ -46,7 +46,7 @@ class DetailsCommunityScreen extends React.Component{
     }
 
     componentDidMount(){
-        this.getBanks();
+        // this.getBanks();
     }
     render(){
         
@@ -55,7 +55,7 @@ class DetailsCommunityScreen extends React.Component{
                 <FastImage 
                     
                     style={styles.image}
-                    source={require('../assets/logo.jpg')}
+                    source={require('../assets/logo.png')}
                     resizeMode={FastImage.resizeMode.cover}>
                     <View style={{ flexDirection: 'row', padding: 5 }}>
                 
@@ -78,7 +78,7 @@ class DetailsCommunityScreen extends React.Component{
 
                 <Card style={ styles.card }>
                 {/* {this.state.load && <ActivityIndicator size="large" color="#fd8500" />} */}
-                    <Card.Title title="UNIVERSITE DE LUBUBMASHI" subtitle="Université Congolaise" left={() => <Avatar.Image size={45} source={require("../assets/logo.jpg")} />} />
+                    <Card.Title title="UNIVERSITE DE LUBUBMASHI" subtitle="Université Congolaise" left={() => <Avatar.Image size={45} source={require("../assets/logo.png")} />} />
                     <FlatList
                         data = {this.state.data}
                         renderItem={({ item, separators }) => (
@@ -92,7 +92,7 @@ class DetailsCommunityScreen extends React.Component{
                                    
                                     <View style={styles.avatarContainer}>
                                       <Image style={{height:50,width:50}}
-                                        source={require("../assets/logo.jpg")}
+                                        source={require("../assets/logo.png")}
                                       />
                                      <View>
                                         <Text style={{color:'black',width:300,marginLeft:10,fontSize:20}}>{item.year}</Text>

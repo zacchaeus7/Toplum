@@ -17,7 +17,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import toast from '../Components/Taost.js'
 import PhoneInput from "react-native-phone-number-input";
 import { ToastAndroid } from 'react-native';
-import API from '../API/API';
+import API from '../API/API.js';
 
 class RegisterScreen extends React.Component {
 

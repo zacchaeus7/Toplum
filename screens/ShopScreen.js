@@ -8,6 +8,7 @@ import {
     Text,
     TouchableOpacity,
     ActivityIndicator,
+    Linking
 } from "react-native";
 
 export default class ShopScreen extends React.Component{
@@ -19,17 +20,20 @@ export default class ShopScreen extends React.Component{
                 {
                     id:1,
                     title:"Article 1",
-                    description:'lorem'
+                    description:'lorem',
+                    mobile_no:974375371
                 },
                 {
                     id:2,
                     title:"Article 2",
-                    description:'lorem'
+                    description:'lorem',
+                    mobile_no:974375371
                 },
                 {
                     id:3,
                     title:"Article 3",
-                    description:'lorem'
+                    description:'lorem',
+                    mobile_no:974375371
                 },
                 {
                     id:4,
@@ -80,10 +84,20 @@ export default class ShopScreen extends React.Component{
     renderItemComponent = (data) =>
         <TouchableOpacity style={styles.container}>
             <View style={styles.post_infos}>
-                <Image style={styles.image} source={require('../assets/images/phone.jpg')} />
-                <View style={{flexDirection:'row'}}>
-                    <Text style={{fontWeight:'bold',marginLeft:5}}>50.000 CDF</Text>
-                    <Text style={{fontWeight:'bold'}}>Title</Text>
+                <Image style={styles.image} source={require('../assets/images/phone1.jpg')} />
+                <View style={{marginTop:10}}>
+                    <Text style={{fontWeight:'bold',fontSize:16,paddingBottom:40}}>{data.title}</Text>
+                    <Text style={{fontWeight:'bold',fontSize:20,paddingBottom:30,color:'#000'}}>50.000 CDF</Text>
+                    <TouchableOpacity
+                     onPress={() => {
+                        Linking.openURL(
+                          'http://api.whatsapp.com/send?phone=243974375371'
+                        );
+                      }}>
+                    <Text style={{fontWeight:'bold',fontSize:16}}>+243 974375371</Text>
+                        
+                    </TouchableOpacity>
+                   
                 </View>
             </View>
         </TouchableOpacity>
@@ -103,7 +117,7 @@ export default class ShopScreen extends React.Component{
     render() {
       return (
         <SafeAreaView style={styles.content}>
-        {this.state.load && <ActivityIndicator size="large" color="#115f9b" />}
+        {/* {this.state.load && <ActivityIndicator size="large" color="#115f9b" />} */}
 
           <FlatList
             data={this.state.datas}
@@ -112,7 +126,7 @@ export default class ShopScreen extends React.Component{
             ItemSeparatorComponent={this.ItemSeparator}
             refreshing={this.state.refreshing}
             onRefresh={this.handleRefresh}
-            numColumns={2}
+            numColumns={1}
           />
         </SafeAreaView>)
     }
@@ -121,7 +135,6 @@ export default class ShopScreen extends React.Component{
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    height: 300,
     flexDirection: 'column',
     backgroundColor: '#fff',
     borderRadius: 6,
@@ -130,12 +143,14 @@ const styles = StyleSheet.create({
     margin:2,
   },
   image: {
-    height: '80%',
-    margin:10,
-    borderRadius: 4,
+    height: 180,
+    width:"50%",
+    borderRightWidth:1,
+    borderRightColor:'#000',
+    margin:0,
   },
   post_infos:{
-    // flexDirection:'row',
+     flexDirection:'row',
     // backgroundColor:'#ccc'
   }
 });

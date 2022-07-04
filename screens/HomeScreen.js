@@ -1,12 +1,12 @@
 
 import React from 'react';
 import { SafeAreaView, View, FlatList,ScrollView,TouchableWithoutFeedback,StyleSheet,ActivityIndicator,ImageBackground, Text, Image, StatusBar } from 'react-native';
-import { FAB, TextInput } from 'react-native-paper';
+import { Appbar, FAB, TextInput, withTheme } from 'react-native-paper';
 import { color } from 'react-native-reanimated';
  import SearchBar from "../Components/ScearchBar";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import API from "../API/API";
+import API from '../API/API';
 import Community from '../Components/Community';
 import Posts from '../Components/Posts';
 
@@ -28,6 +28,8 @@ const Item = ({ title,sender }) => (
 
     this.state = {
 
+      isCommunityLoaded:false,
+
       _data:[
         {
           id:"1",
@@ -42,44 +44,38 @@ const Item = ({ title,sender }) => (
           name:"UNIVERSITE DE LUBUMBASHI"
         },
       ],
-       schools:[],
-       universities:[],
        load_school:false,
+       communities:[],
        load_niversity:false
     }
     this.api = new API();
   }
 
-  getSchools = async () => {
+ getCommunity = async() =>{
 
-    const  schools  = await this.api.getData('schools?per_page=3');
+  const communities = await this.api.getData("communities");
 
-    this.setState({ schools:schools.data });
-    this.setState({load_school:false})
-    console.log(this.state.schools)
+  this.setState({communities:communities.data})
 
-  }
+  this.setState({isCommunityLoaded:true})
+  console.log(communities)
+ }
 
 
 componentDidMount(){
 
-  this.getSchools()
+ this.getCommunity();
+
 
 }
 
 
   render(){ 
+    const { theme, } = this.props;
      return (
-       <View style={styles.container}>
-         
-         <StatusBar  
-           backgroundColor = "#D492A9"  
-           //barStyle = "dark-content"   
-           hidden = {false}    
-           translucent = {true}  
-         />  
-
-         <Community  navigation={this.props.navigation}/>
+       <View style={styles(theme).container}>
+        
+         <Community data={this.state.communities} isCommunityLoaded={this.state.isCommunityLoaded} navigation={this.props.navigation}/>
          
          <ScrollView>
           <View style={styles.header}>
@@ -89,7 +85,7 @@ componentDidMount(){
       
          <FAB
           icon="plus"
-          style={styles.fab}
+          style={styles(theme).fab}
           onPress={() => this.props.navigation.navigate("CommunityTab")}
         />
        </View >
@@ -97,10 +93,10 @@ componentDidMount(){
   }
 }
 
-const styles = StyleSheet.create({
+const styles =(theme)=> StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: theme.colors.white,
     marginTop:7,
 
     // marginTop: StatusBar.currentHeight || 0,
@@ -141,7 +137,7 @@ footer_two:{
 
 fab: {
   position: 'absolute',
-  backgroundColor:'#D492A9',
+  backgroundColor:theme.colors.primary,
   margin: 16,
   right: 0,
   bottom: 0,
@@ -174,4 +170,4 @@ fab: {
     // alignItems:"center"
   }
 });
-export default HomeScreen;
+export default withTheme(HomeScreen);

@@ -14,7 +14,7 @@ const ActivityTab = ()=> (
   <Tab.Navigator
       initialRouteName="Home"
       activeColor="#fff"
-      barStyle={{ backgroundColor: '#D492A9' }}
+      barStyle={{ backgroundColor: '#fff' }}
     >
 
     <Tab.Screen
@@ -23,7 +23,7 @@ const ActivityTab = ()=> (
         options={{
           tabBarLabel: 'Shop',
           tabBarIcon: ({ color, size }) => (
-            <Icon name="basket" color={color} size={25} />
+            <Icon name="basket" color="#000" size={25} />
           ),
         }}
       />
@@ -33,7 +33,7 @@ const ActivityTab = ()=> (
         options={{
           tabBarLabel: 'Livres',
           tabBarIcon: ({ color, size }) => (
-            <Icon name="book" color={color} size={25} />
+            <Icon name="book" color="#000" size={25} />
           ),
         }}
       />

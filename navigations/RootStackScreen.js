@@ -12,6 +12,11 @@ import CommunityTabScreen from "../screens/CommunityTabScreen";
 import LauncherScreen from "../screens/LauncherScreen";
 import CheckNumberScreen from "../screens/CheckNumberScreen";
 import HomeScreen from "../screens/HomeScreen";
+import OnBoardingScreen from "../screens/OnBoardingScreen";
+import { withTheme } from "react-native-paper";
+import MainScreen from "../screens/MainScreen";
+import AccueilCommunitySCreen from "../screens/AccueilCommunityScreen";
+import JoinCommunityScreen from "../screens/JoinCommunityScreen";
 
 const RootStack = createNativeStackNavigator();
 
@@ -19,22 +24,26 @@ class RootStackScreen extends React.Component{
 
 
     render(){
+        const { theme } = this.props;
         return(
             <RootStack.Navigator screenOptions={{ headerShown: false}}  headerMode="None">
 
                 <RootStack.Screen name="Splash"  component={SplashScreen} />
                 <RootStack.Screen name="Launcher" component={LauncherScreen} />
+                <RootStack.Screen name="OnBoardingScreen" component={OnBoardingScreen} />
+                <RootStack.Screen name="MainScreen" component={MainScreen} />
                 <RootStack.Screen name="Login" component={LoginScreen} />
                 <RootStack.Screen name="CheckNumber" component={CheckNumberScreen} />
                 <RootStack.Screen name="Register" component={RegisterScreen} />
-                <RootStack.Screen name="Home" component={HomeScreen}  options={{ headerShown: true, title:"Toplum", headerStyle: { backgroundColor: '#D492A9'},headerTintColor:"#fff",headerTitleAlign: 'center',}} />
+                <RootStack.Screen name="Home" component={HomeScreen} />
                 <RootStack.Screen name="Community" component={CommnunityScreen} options={{headerShown:true,title:"Toutes les communautés",headerStyle:{backgroundColor:"#115f9b"} }} />
                 <RootStack.Screen name="DetailCommunity" component={DetailsCommunityScreen} options={{headerShown:true,title:"UNILU",headerStyle:{backgroundColor:"#115f9b"} }} />
-                <RootStack.Screen name="CommunityTab" component={CommunityTabScreen} options={{headerShown:true,title:"TopLum",headerStyle:{backgroundColor:"#D492A9"},headerTintColor:"#fff" }} />
-
+                <RootStack.Screen name="CommunityTab" component={CommunityTabScreen} options={{headerShown:true,title:"Community",headerStyle:{backgroundColor:theme.colors.primary},headerTintColor:"#fff" }} />
+                <RootStack.Screen name="AccueilCommunity" component={AccueilCommunitySCreen} />
+                <RootStack.Screen name="JoinCommunityScreen" component={JoinCommunityScreen} />
             </RootStack.Navigator>
         );
     }
 }
 
-export default RootStackScreen;
+export default withTheme(RootStackScreen);

@@ -1,5 +1,6 @@
 import React from "react";
-import { View,Text,Dimensions, StyleSheet,Image,ActivityIndicator,TouchableOpacity } from 'react-native';
+import { View,Text,Dimensions, StyleSheet,Image,TouchableOpacity } from 'react-native';
+import { ActivityIndicator } from 'react-native-paper';
 import Carousel from 'react-native-snap-carousel';
 
 const width =  Dimensions.get('window').width;
@@ -11,6 +12,7 @@ export class Community extends React.Component {
 
         this.state = {
             isModePayment:false,
+            isCommunityLoaded:false,
             entries:[
                 {
                     'title':"UPL"
@@ -26,51 +28,60 @@ export class Community extends React.Component {
                     'title':"UNIKAM"
                 },
         
-            ]
+            ],
         }
         
     }
 
 
 
-    _renderItem ({item, index}) { 
+    _renderItem ({item}) { 
+
+        const { navigation } = this.props;
+        console.log(item.image)
         return (
             <View style={styles.slide}>
-                <TouchableOpacity onPress={()=>this.props.navigation.navigate("Community") } >
+                <TouchableOpacity onPress={()=> navigation.navigate("CommunityTab") } >
                 <Image 
                     style={{width:100,height:100, borderRadius:50}}
-                        source={require('../assets/logo.jpg')}         
+                        source={{uri:item.image}}         
                 />
                 </TouchableOpacity>
-                <Text style={{fontWeight:'bold'}}>{item.title}</Text>
+                <Text style={{fontWeight:'bold'}}>{item.name}</Text>
             </View>
         );
     }
 
     render () {
+        const {data,isCommunityLoaded} = this.props
         return (
             <View>
+
+                {!isCommunityLoaded ? <ActivityIndicator size="large" color="#fd8500" />:
+
                  <View style={styles.slideContent}>
                     <View style={{flexDirection:"row",backgroundColor:"#fff"}}>
                         <Text style={{fontWeight:"bold",fontSize:18,marginLeft:10,color:"#000"}}>Les communutés</Text>
                         <Text style={{fontWeight:"bold",marginLeft:150,fontSize:18,color:"#115f9b",marginRight:10}}>Voir Plus</Text>
                     </View>
+                    
                     <Carousel
                         layout={"default"}
                         layoutCardOffset={15}
                         ref={ref => this.carousel = ref}
-                        data={this.state.entries}
+                        data={data}
                         sliderWidth={width}
                         itemWidth={110}
                         inactiveSlideOpacity={0.5}
                         loop={true}
-                        renderItem={this._renderItem}
+                        renderItem={(item)=>this._renderItem(item)}
                         onSnapToItem = { index => this.setState({activeIndex:index}) }
                         onPress={() => this.carousel.snapToNext()} 
                     
                     />
-                     {/* {!this.state.isModePayment && <ActivityIndicator size="large" color="#fd8500" />} */}
+      
                 </View>
+                  }
             </View>
            
             

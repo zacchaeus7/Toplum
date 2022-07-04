@@ -1,6 +1,6 @@
 import React from "react";
-import { View, ImageBackground,ActivityIndicator,StyleSheet,Image,Text,BackHandler } from 'react-native'
-import { Paragraph } from "react-native-paper";
+import { View, ImageBackground,StyleSheet,Image,BackHandler } from 'react-native'
+import { Paragraph, ThemeProvider,ActivityIndicator,Text, withTheme } from "react-native-paper";
 import { connect } from "react-redux";
 import LocalStorage from "../storage/LocalStorage";
 
@@ -29,10 +29,10 @@ import LocalStorage from "../storage/LocalStorage";
 
             this.props.dispatch(action)
 
-            this.props.navigation.navigate("Home")
+            this.props.navigation.navigate("MainScreen");
         }
         else{
-            this.props.navigation.navigate("Login"); 
+            this.props.navigation.navigate("OnBoardingScreen"); 
         }
     }
 
@@ -60,12 +60,13 @@ import LocalStorage from "../storage/LocalStorage";
 
     render(){
      
+        const { theme } = this.props;
         return(
             <View>
-                <ImageBackground  style= { styles.backgroundImage } source={require('../assets/logo.jpg')} >
-                    {/* <Image source={require('../assets/logo.jpg')} style={styles.logo}/> */}
-                   
-                    {this.state.isLoading ? <ActivityIndicator color="#fd8500" size='large' style={{ position: 'absolute', bottom: 15, left: 0, right: 0 }}/>:'' }
+                <ImageBackground  style= { styles.backgroundImage } source={require('../assets/images/bg/bg1.jpg')} >
+                    <Image source={require('../assets/logo.png')} style={styles.logo}/>
+                   <Text style={{color:"3000",fontSize:20,fontWeight:'bold'}}>TopLum</Text>
+                    {this.state.isLoading ? <ActivityIndicator color={theme.colors.primary} size='large' style={{ position: 'absolute', bottom: 15, left: 0, right: 0 }}/>:'' }
 
                 </ImageBackground>
             </View>
@@ -78,7 +79,7 @@ const mapStateToProps = (state) => {
         user: state.userReducer.user
     }
 };
-export default connect(mapStateToProps)(SplashSCreen)
+export default connect(mapStateToProps)(withTheme(SplashSCreen))
 
 const styles = StyleSheet.create({
     logo:{

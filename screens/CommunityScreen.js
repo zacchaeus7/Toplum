@@ -48,7 +48,7 @@ export default class CommnunityScreen extends React.Component {
              </View>
              <View style={styles.avatarContainer}>
                  <Image style={{height:50,width:50}}
-                 source={require("../assets/logo.jpg")}
+                 source={require("../assets/logo.png")}
                  />
                  <View>
                      <Text style={{color:'black',width:300,marginLeft:10,fontSize:20}}>UNIVERSITE DE LUBUMBASHI</Text>
