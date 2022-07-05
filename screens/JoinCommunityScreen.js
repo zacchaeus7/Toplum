@@ -40,7 +40,14 @@ class JoinCommunityScreen extends React.Component{
       isShow:false,
       MessageError:"",
       activeStep: 0,
-      illustration:  stepOneIllustration
+      illustration:  stepOneIllustration,
+      msg:null,
+
+      full_name:null,
+      end_date:null,
+      faculty:null,
+      community_id:null,
+      user_id:null
 
     };
 
@@ -85,6 +92,25 @@ class JoinCommunityScreen extends React.Component{
     }
   }
 
+  addCommunityMember = async()=>{
+
+  const data = {
+      full_name:"Zachee Kabemba Amuri",
+      end_date:"2022",
+      faculty:"genie logiciel",
+      community_id:1,
+      user_id:1
+  }
+
+   const response = await this.api.send(data,"addMemberToCommunity")
+
+    if(response.status == 1){
+      this.setState({msg:response.message})
+    }
+   
+  
+  }
+
   render(){
 
     const { theme, navigation } = this.props;
@@ -109,7 +135,7 @@ class JoinCommunityScreen extends React.Component{
                 />
               </View>
                 <View>
-                  <Title style={{ color: theme.colors.white }}>Rejoindre la communauté</Title>
+                  <Title style={{ color: theme.colors.black }}>Rejoindre la communauté</Title>
                   <Paragraph style={{ color: "#93A1CD" }}>Lorem ipsum dolor sum quntu dolor sum dolors</Paragraph>
                 </View>
             </View>
@@ -118,12 +144,14 @@ class JoinCommunityScreen extends React.Component{
               source={this.state.illustration}
             />
             <View style={{ padding: 13 }}>
+          <Text style={{color:"#00f"}}>{this.state.msg ? this.state.msg : ''}</Text>
+              
               <Stepper
                 active={this.state.activeStep}
                 content={stepperContent}
                 onNext={() => this.onNext()}
                 onBack={() => this.onBack()}
-                onFinish={() => Alert.alert("Finish")}
+                onFinish={() => this.addCommunityMember()}
                 stepStyle={{backgroundColor: theme.colors.secondary, width: 30, height: 30, borderRadius: 30, justifyContent: 'center', alignItems: 'center', opacity: 1}}
                 buttonStyle={{ padding: 10,width:100,marginTop:20, borderRadius: 4, marginRight: 150, backgroundColor: theme.colors.secondary}}
               />
@@ -160,7 +188,7 @@ const styles = (theme) => StyleSheet.create({
   },
 
   appNameText: {
-    color: "#93A1CD",
+    color: "#000",
     fontWeight: 'bold',
     textAlign: 'center',
     padding: 25
@@ -174,7 +202,7 @@ const styles = (theme) => StyleSheet.create({
 });
 
 const stepperContent = [
-  <StepOne title="INFORMATIONS SUR LA COMMUNAUTE" />,
+  <StepOne title="INFORMATIONS PERSONNELLES" />,
   <StepTwo title="DEUXIEME ETAPE" />,
   <StepThree title="TROISIEME ETAPE" />,
 ];

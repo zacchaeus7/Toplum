@@ -32,9 +32,10 @@
      colors: {
        ...theme.colors,
        primary: '#fd8500',
-       secondary: '#FFC422',
+       secondary: '#000',
        accent: '#F77F41',
-       white: '#fff'
+       white: '#fff',
+       black:"#000"
      },
    };
    
