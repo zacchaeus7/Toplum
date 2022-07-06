@@ -65,6 +65,7 @@ export default class AccueilCommunitySCreen extends React.Component{
         <View style={{flexDirection:'row',backgroundColor:"#ccc",height:40,borderRadius:3,top:"60%"}}>
             <MaterialIcons name="favorite" color="#fd8500"  size={30} />
             <MaterialIcons name="comment"  size={30} />
+            <MaterialIcons name="share"  size={30} />
         </View>
         </ImageBackground>
         
