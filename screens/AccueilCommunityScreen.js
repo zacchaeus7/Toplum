@@ -59,11 +59,15 @@ export default class AccueilCommunitySCreen extends React.Component{
             Etiam consectetur vel risus non dictum. 
           </Paragraph>
 
-          <Image style={styles.image} source={{ uri: data.item.url }} />
-        <View style={{flexDirection:'row',height:40,borderRadius:3,backgroundColor:"#fff"}}>
-            <MaterialIcons name="favorite"  size={30} />
-            <MaterialIcons name="favorite"  size={30} />
+        {/* <Image style={styles.image} source={{ uri: data.item.url }} /> */}
+        <ImageBackground style={styles.image} source={{ uri: data.item.url }} >
+        
+        <View style={{flexDirection:'row',backgroundColor:"#ccc",height:40,borderRadius:3,top:"60%"}}>
+            <MaterialIcons name="favorite" color="#fd8500"  size={30} />
+            <MaterialIcons name="comment"  size={30} />
         </View>
+        </ImageBackground>
+        
         </View>
 
     ItemSeparator = () => <View style={{
