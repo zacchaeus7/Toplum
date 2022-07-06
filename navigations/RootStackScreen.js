@@ -17,6 +17,7 @@ import { withTheme } from "react-native-paper";
 import MainScreen from "../screens/MainScreen";
 import AccueilCommunitySCreen from "../screens/AccueilCommunityScreen";
 import JoinCommunityScreen from "../screens/JoinCommunityScreen";
+import AccountScreen from "../screens/AccountScreen";
 
 const RootStack = createNativeStackNavigator();
 
@@ -41,6 +42,7 @@ class RootStackScreen extends React.Component{
                 <RootStack.Screen name="CommunityTab" component={CommunityTabScreen} options={{headerShown:true,title:"Community",headerStyle:{backgroundColor:theme.colors.primary},headerTintColor:"#fff" }} />
                 <RootStack.Screen name="AccueilCommunity" component={AccueilCommunitySCreen} />
                 <RootStack.Screen name="JoinCommunityScreen" component={JoinCommunityScreen} />
+                <RootStack.Screen name="AccountScreen" component={AccountScreen} />
             </RootStack.Navigator>
         );
     }

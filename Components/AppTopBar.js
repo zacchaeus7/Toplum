@@ -15,11 +15,11 @@ class AppTopBar extends React.Component{
   }
 
   render(){
-    const { theme, navigation,title,icon } = this.props;
+    const { theme, navigation,title,icon,newScreen } = this.props;
     return (
       <View style={{marginTop: -StatusBar.currentHeight + 20}}>
         <Appbar.Header style={{ height: 120 }}>
-          <Appbar.Action icon={icon} size={50} onPress={() => console.log("pressed")} />
+          <Appbar.Action icon={icon} size={50} onPress={() => navigation.navigate(newScreen)} />
           {/* <IconButton
             style={{marginTop: 45, marginLeft: -55, backgroundColor: theme.colors.secondary}}
             icon="information-outline"

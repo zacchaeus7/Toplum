@@ -21,7 +21,7 @@ class MainScreen extends React.Component{
     return(
       <React.Fragment>
         <StatusBar backgroundColor={theme.colors.primary} />
-        <AppTopBar  title="TopLum" icon="account-circle" navigation={this.props.navigation} />
+        <AppTopBar  title="TopLum" icon="account-circle" navigation={this.props.navigation} newScreen="AccountScreen" />
         <HomeScreen navigation={this.props.navigation} />
       </React.Fragment>
     );

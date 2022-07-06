@@ -10,7 +10,8 @@ import {
     ActivityIndicator,
     Text
 } from "react-native";
- import { FAB } from 'react-native-paper';
+ import { FAB, Paragraph } from 'react-native-paper';
+ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export default class AccueilCommunitySCreen extends React.Component{
 
@@ -49,14 +50,20 @@ export default class AccueilCommunitySCreen extends React.Component{
     }
 
     renderItemComponent = (data) =>
-        <View style={styles.container}>
-           <Image style={styles.image} source={{ uri: data.item.url }} />
-            <Text style={{paddingTop:45,marginLeft:10,color:"#fff"}}>ILUNGA KALALA JABO</Text>
-            <TouchableOpacity 
-            onPress={()=>alert("Ajouter Au favorit")}
-            style={{paddingTop:40}}>
-               {this.displayFavoriteMember()}
-            </TouchableOpacity>
+        <View style={styles.content}>
+          <Text style={{fontSize:20,fontWeight:'bold',color:'#000'}}>
+            Zachaeus Kabemba
+          </Text>
+          <Paragraph> 
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+            Etiam consectetur vel risus non dictum. 
+          </Paragraph>
+
+          <Image style={styles.image} source={{ uri: data.item.url }} />
+        <View style={{flexDirection:'row',height:40,borderRadius:3,backgroundColor:"#fff"}}>
+            <MaterialIcons name="favorite"  size={30} />
+            <MaterialIcons name="favorite"  size={30} />
+        </View>
         </View>
 
     ItemSeparator = () => <View style={{
@@ -74,9 +81,9 @@ export default class AccueilCommunitySCreen extends React.Component{
 
     render() {
       return (
-        <SafeAreaView>
-             <ImageBackground style={styles.backgroundImage} source={require("../assets/images/bg/bg2.jpg")}
-        >
+        <SafeAreaView >
+         {/* <ImageBackground style={styles.backgroundImage} source={require("../assets/images/bg/bg2.jpg")}
+        > */}
         {this.state.load && <ActivityIndicator size="large" color="#115f9b" />}
           <FlatList
             data={this.state.data}
@@ -87,7 +94,7 @@ export default class AccueilCommunitySCreen extends React.Component{
             onRefresh={this.handleRefresh}
             numColumns={1}
           />
-          </ImageBackground>
+          {/* </ImageBackground> */}
            <FAB
             icon="plus"
             style={styles.fab}
@@ -100,12 +107,14 @@ export default class AccueilCommunitySCreen extends React.Component{
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    flexDirection:'row',
-    width:400,
-    // margin: 1,
-     backgroundColor: '#000',
-     opacity:0.6
-    // borderRadius: 6,
+    width:"100%",
+    // backgroundColor:"#fff"
+  },
+  content:{
+    flex:1,
+    width:"100%",
+    padding:15
+    // backgroundColor:"#fff"
   },
   fab: {
     position: 'absolute',
@@ -115,9 +124,10 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   image: {
-    width:100,
-    height:100,
-    borderRadius: 50,
+    width:"100%",
+    height:250,
+    resizeMode:'cover',
+    borderRadius:2
   },
   backgroundImage:{
     width: '100%',
