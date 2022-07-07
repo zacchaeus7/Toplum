@@ -67,9 +67,6 @@ class LoginScreen extends React.Component{
             phone:this.state.phone,
             password:"12345678"
         }
-      
-
-        
     
         const response = await this.api.send(userData,'login');
 

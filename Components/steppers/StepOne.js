@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { TextInput, withTheme } from 'react-native-paper';
+import { Button, TextInput, withTheme } from 'react-native-paper';
 import { connect } from 'react-redux'
+import Confirm from '../Dialogs/Confirm';
 
 class StepOne extends React.Component {
 
@@ -12,21 +13,27 @@ class StepOne extends React.Component {
       value:null,
       isFocus:false,
         data : [],
-        full_name:"AMURI KABEMBA ZACHEE",
-        dateIn:"2020 -2022"
+        full_name:null,
+        dateIn:null,
+        isShowDialog:false,
+        isFinish:false
     };
 
   }
 
   getFullName(val){
 
-    if(val.length > 12){
+    if(val.length > 0){
 
-      this.setState({full_name:val})
+      let full_name = [];
 
-      const action = {type:"ADD_USER_TO_COMMUNITY",value:this.state.full_name}
+      full_name.push(val)
 
-      this.props.dispatch(action)
+      const lastIndexElement = full_name[full_name.length - 1]
+
+      console.log(lastIndexElement);
+   
+      this.setState({full_name:lastIndexElement})
 
     }
    
@@ -34,23 +41,42 @@ class StepOne extends React.Component {
 
   getYears(val){
 
-    if(val.length > 12){
+    if(val.length > 0){
 
-      let val = {val,...val}
-      this.setState({dateIn:val})
+      let full_year = [];
 
-      const action = {type: "ADD_USER_TO_COMMUNITY",value:this.state.dateIn}
+      full_year.push(val)
 
-      this.props.dispatch(action)
+      const lastIndexElement = full_year[full_year.length - 1]
+
+      this.setState({dateIn:lastIndexElement})
 
     }
 
   }
 
+  addToUserStateStore(){
+
+    this.setState({isShowDialog:true});
+    
+    let community = {
+      full_name:this.state.full_name,
+      dateIn:this.state.dateIn
+    }
+
+    const action = {type:"ADD_USER_TO_COMMUNITY",value:community}
+
+    this.props.dispatch(action)
+     
+    this.setState({isShowDialog:false});
+    this.setState({isFinish:true});
+
+  }
+
 
   componentDidMount(){
-    console.log(this.props)
 
+    console.log(this.props)
 
   }
 
@@ -75,7 +101,19 @@ class StepOne extends React.Component {
             value={this.state.dateIn}
             onChangeText={(value) =>this.getYears(value)}
           />
+          <Button icon="loading"
+          style={styles.Button}
+           mode="contained"
+            onPress={()=>this.addToUserStateStore()}>
+           Enregistrer
+        </Button>
         </View>
+
+        <Confirm 
+          Visible={this.state.isShowDialog}
+          isFinish={this.state.isFinish}
+          Title="ENREGISTREMENT ENCOURS ... "
+        />
       </View>
     );
   }
@@ -91,6 +129,9 @@ const styles = (theme) => StyleSheet.create({
     borderWidth: 3,
     borderRadius: 8,
     paddingHorizontal: 8,
+  },
+  Button:{
+
   },
   icon: {
     marginRight: 5,
@@ -125,7 +166,7 @@ const styles = (theme) => StyleSheet.create({
 const mapStateToProps = (state) =>{
 
   return{
-    community: state.joinCommunityReducer
+    community: state.joinCommunityReducer.community
   }
 }
 

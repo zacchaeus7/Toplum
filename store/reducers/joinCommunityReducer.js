@@ -1,7 +1,7 @@
 
 
 export const initialState = { 
-    user: [] 
+    community: [] 
   }
   
   export function joinCommunityReducer(state = initialState, action) {
@@ -13,7 +13,7 @@ export const initialState = {
         state = initialState;
         nextState = {
           ...state,
-          user: {...state.user, ...action.value}
+          community: {...state.community, ...action.value}
         };
   
         return nextState

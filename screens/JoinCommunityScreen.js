@@ -94,10 +94,11 @@ class JoinCommunityScreen extends React.Component{
 
   addCommunityMember = async()=>{
 
+
   const data = {
-      full_name:"Zachee Kabemba Amuri",
-      end_date:"2022",
-      faculty:"genie logiciel",
+      full_name:this.props.community.full_name,
+      end_date:this.props.community.activity,
+      faculty:this.props.community.faculty,
       community_id:1,
       user_id:1
   }
@@ -207,10 +208,11 @@ const stepperContent = [
   <StepThree title="TROISIEME ETAPE" />,
 ];
 
-const mapStateToProps = (state) => {
-  return {
-    user: state.userReducer.user
+const mapStateToProps = (state) =>{
+
+  return{
+    community: state.joinCommunityReducer.community
   }
-};
+}
 
 export default connect(mapStateToProps)(withTheme(JoinCommunityScreen));

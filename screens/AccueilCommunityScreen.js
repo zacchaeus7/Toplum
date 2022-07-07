@@ -12,6 +12,7 @@ import {
 } from "react-native";
  import { FAB, Paragraph } from 'react-native-paper';
  import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import FabG from "../Components/fabs/FabG";
 
 export default class AccueilCommunitySCreen extends React.Component{
 
@@ -100,11 +101,13 @@ export default class AccueilCommunitySCreen extends React.Component{
             numColumns={1}
           />
           {/* </ImageBackground> */}
-           <FAB
+           {/* <FAB
             icon="plus"
             style={styles.fab}
             onPress={() => this.props.navigation.navigate("JoinCommunityScreen")}
-        />
+        /> */}
+
+        <FabG navigation={this.props.navigation} />
         </SafeAreaView>)
     }
 }

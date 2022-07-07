@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { withTheme,TextInput } from 'react-native-paper';
+import { withTheme,TextInput,Button } from 'react-native-paper';
+import { connect } from 'react-redux'
 
 class StepTwo extends React.Component {
 
@@ -11,11 +12,32 @@ class StepTwo extends React.Component {
     this.state = {
       value:null,
       isFocus:false,
-        data : []
+        data : [],
+        faculty:null,
+        activity:null
     };
 
   }
 
+  addToUserStateStore(){
+
+   const community2 = {
+
+    faculty:this.state.faculty,
+    activity:this.state.activity
+
+   }
+
+
+   const action = {type:"ADD_USER_TO_COMMUNITY", value:community2}
+
+   this.props.dispatch(action);
+
+  }
+
+componentDidMount(){
+  console.log(this.props)
+}
 
 
   render(){
@@ -27,17 +49,23 @@ class StepTwo extends React.Component {
         <View style={styles(theme).form}>
           <TextInput 
             style={styles(theme).Inputs}
-            value={this.state.full_name}
-            onChangeText={(value)=>this.setState({full_name:"dsds"})}
+            value={this.state.faculty}
+            onChangeText={(value)=>this.setState({faculty:value})}
             label="FACULTE"
             
           />
           <TextInput 
             style={styles(theme).Inputs}
             label="Autre activité"
-            value={this.state.dateIn}
-            onChangeText={(value)=>this.setState({dateIn:value})}
+            value={this.state.activity}
+            onChangeText={(value)=>this.setState({activity:value})}
           />
+           <Button icon="loading"
+            style={styles.Button}
+            mode="contained"
+              onPress={()=>this.addToUserStateStore()}>
+            Enregistrer
+        </Button>
         </View>
       </View>
     );
@@ -54,6 +82,9 @@ const styles = (theme) => StyleSheet.create({
     borderWidth: 3,
     borderRadius: 8,
     paddingHorizontal: 8,
+  },
+  Button:{
+
   },
   icon: {
     marginRight: 5,
@@ -86,4 +117,11 @@ const styles = (theme) => StyleSheet.create({
 
 });
 
-export default withTheme(StepTwo);
+const mapStateToProps = (state) =>{
+
+  return{
+    community: state.joinCommunityReducer.community
+  }
+}
+
+export default connect(mapStateToProps)(withTheme(StepTwo));
