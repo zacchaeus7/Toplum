@@ -21,7 +21,7 @@ class StepTwo extends React.Component {
 
   addToUserStateStore(){
 
-   const community2 = {
+   const community = {
 
     faculty:this.state.faculty,
     activity:this.state.activity
@@ -29,7 +29,7 @@ class StepTwo extends React.Component {
    }
 
 
-   const action = {type:"ADD_USER_TO_COMMUNITY", value:community2}
+   const action = {type:"ADD_USER_TO_COMMUNITY", value:community}
 
    this.props.dispatch(action);
 

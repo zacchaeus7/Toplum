@@ -1,6 +1,7 @@
 import React from "react";
 import { View,Text,StyleSheet,Image } from 'react-native';
 import { withTheme, Avatar, TextInput } from 'react-native-paper';
+import {connect} from 'react-redux';
 
 class StepThree extends React.Component{
 
@@ -17,6 +18,10 @@ class StepThree extends React.Component{
         
     }
     
+}
+
+componentDidMount(){
+    console.log(this.props)
 }
     render(){
         const { theme } = this.props;
@@ -86,4 +91,10 @@ const styles = StyleSheet.create({
     }
 })
 
-export default withTheme(StepThree);
+const mapStateToProps = (state) =>{
+    return{
+        community:state.joinCommunityReducer.community
+    }
+}
+
+export default connect(mapStateToProps)(withTheme(StepThree));

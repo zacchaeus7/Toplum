@@ -16,42 +16,21 @@ class StepOne extends React.Component {
         full_name:null,
         dateIn:null,
         isShowDialog:false,
-        isFinish:false
+        isFinish:false,
+        title:""
     };
 
   }
 
   getFullName(val){
-
-    if(val.length > 0){
-
-      let full_name = [];
-
-      full_name.push(val)
-
-      const lastIndexElement = full_name[full_name.length - 1]
-
-      console.log(lastIndexElement);
    
-      this.setState({full_name:lastIndexElement})
+    this.setState({full_name:val})
 
-    }
-   
   }
 
   getYears(val){
 
-    if(val.length > 0){
-
-      let full_year = [];
-
-      full_year.push(val)
-
-      const lastIndexElement = full_year[full_year.length - 1]
-
-      this.setState({dateIn:lastIndexElement})
-
-    }
+    this.setState({dateIn:val})
 
   }
 
@@ -59,7 +38,8 @@ class StepOne extends React.Component {
 
     this.setState({isShowDialog:true});
     
-    let community = {
+    
+    const community = {
       full_name:this.state.full_name,
       dateIn:this.state.dateIn
     }
@@ -68,8 +48,10 @@ class StepOne extends React.Component {
 
     this.props.dispatch(action)
      
-    this.setState({isShowDialog:false});
+     this.setState({isShowDialog:false});
     this.setState({isFinish:true});
+
+     this.setState({isFinish:true});
 
   }
 
@@ -111,8 +93,8 @@ class StepOne extends React.Component {
 
         <Confirm 
           Visible={this.state.isShowDialog}
-          isFinish={this.state.isFinish}
-          Title="ENREGISTREMENT ENCOURS ... "
+           isFinish={this.state.isFinish}
+          Title={this.state.title}
         />
       </View>
     );

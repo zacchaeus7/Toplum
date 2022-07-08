@@ -21,6 +21,7 @@ import Stepper from "react-native-stepper-ui";
 import StepOne from "../Components/steppers/StepOne";
 import StepTwo from "../Components/steppers/StepTwo";
 import StepThree from "../Components/steppers/StepThree";
+import Confirm from '../Components/Dialogs/Confirm';
 
 const stepOneIllustration = require("../assets/images/illustrations/1.png");
 const stepTwoIllustration = require("../assets/images/illustrations/2.jpg");
@@ -47,7 +48,10 @@ class JoinCommunityScreen extends React.Component{
       end_date:null,
       faculty:null,
       community_id:null,
-      user_id:null
+      user_id:null,
+
+      isShowDialog:false,
+      isFinish:false,
 
     };
 
@@ -95,10 +99,13 @@ class JoinCommunityScreen extends React.Component{
   addCommunityMember = async()=>{
 
 
+    this.setState({isShowDialog:true});
+
   const data = {
-      full_name:this.props.community.full_name,
-      end_date:this.props.community.activity,
-      faculty:this.props.community.faculty,
+      full_name:this.props.community[0].full_name,
+      end_date:this.props.community[0].end_date,
+      // end_date:this.props.community[1].activity,
+      faculty:this.props.community[1].faculty,
       community_id:1,
       user_id:1
   }
@@ -106,7 +113,10 @@ class JoinCommunityScreen extends React.Component{
    const response = await this.api.send(data,"addMemberToCommunity")
 
     if(response.status == 1){
+
       this.setState({msg:response.message})
+
+      this.setState({isFinish:true})
     }
    
   
@@ -159,6 +169,11 @@ class JoinCommunityScreen extends React.Component{
             </View>
           </ImageBackground>
         </Card>
+        <Confirm 
+          Visible={this.state.isShowDialog}
+           isFinish={this.state.isFinish}
+          Title={this.state.title}
+        />
         <Text style={ styles(theme).appNameText }>TOPLUM</Text>
       </View>
     );
