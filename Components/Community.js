@@ -41,7 +41,7 @@ export class Community extends React.Component {
         console.log(item.image)
         return (
             <View style={styles.slide}>
-                <TouchableOpacity onPress={()=> navigation.navigate("CommunityTab") } >
+                <TouchableOpacity onPress={()=> navigation.navigate("CommunityTab",{communityprops:item}) } >
                 <Image 
                     style={{width:100,height:100, borderRadius:50}}
                         source={{uri:item.image}}         

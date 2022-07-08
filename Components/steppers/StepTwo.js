@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { withTheme,TextInput,Button } from 'react-native-paper';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import Confirm from '../Dialogs/Confirm';
 
 class StepTwo extends React.Component {
 
@@ -14,25 +15,42 @@ class StepTwo extends React.Component {
       isFocus:false,
         data : [],
         faculty:null,
-        activity:null
+        activity:null,
+        isShowDialog:false,
+        isFinish:false,
+        Title:"",
     };
 
   }
 
   addToUserStateStore(){
 
-   const community = {
+    this.setState({isShowDialog:true});
 
-    faculty:this.state.faculty,
-    activity:this.state.activity
+    const community = {
 
-   }
+      faculty:this.state.faculty,
+      activity:this.state.activity
+
+    }
+
+    setTimeout(() => {
+      // this.setState({isShowDialog:false});
+      this.setState({isFinish:true});
+      this.setState({title:"ENREGISTREMENT REUSSI.."}) 
+    },
+    
+    2000)
 
 
    const action = {type:"ADD_USER_TO_COMMUNITY", value:community}
 
    this.props.dispatch(action);
 
+  }
+
+  CancelDialog(){
+   this.setState({isShowDialog:false})
   }
 
 componentDidMount(){
@@ -67,6 +85,12 @@ componentDidMount(){
             Enregistrer
         </Button>
         </View>
+        <Confirm 
+          Visible={this.state.isShowDialog}
+           isFinish={this.state.isFinish}
+          Title={this.state.title}
+          CancelDialog={()=>this.CancelDialog()}
+        />
       </View>
     );
   }
