@@ -41,7 +41,7 @@ class JoinCommunityScreen extends React.Component{
       isShow:false,
       MessageError:"",
       activeStep: 0,
-      illustration:  stepOneIllustration,
+      illustration: stepOneIllustration,
       msg:null,
 
       full_name:null,
@@ -98,29 +98,39 @@ class JoinCommunityScreen extends React.Component{
 
   addCommunityMember = async()=>{
 
-
-    this.setState({isShowDialog:true});
+     this.setState({isShowDialog:true});
+     this.setState({title:"Ajout du membre encours..."}) 
 
   const data = {
-      full_name:this.props.community[0].full_name,
-      end_date:this.props.community[0].end_date,
-      // end_date:this.props.community[1].activity,
-      faculty:this.props.community[1].faculty,
-      community_id:1,
-      user_id:1
+       full_name:this.props.community[0].full_name,
+       end_date:this.props.community[0].end_date,
+       faculty:this.props.community[1].faculty,
+       community_id:2,
+       user_id:1
   }
 
    const response = await this.api.send(data,"addMemberToCommunity")
 
+   console.log(response)
+
     if(response.status == 1){
+      setTimeout(() => {
+        // this.setState({isShowDialog:false});
+        this.setState({isFinish:true});  
+        this.setState({title:response.message}) 
+         
 
-      this.setState({msg:response.message})
-
-      this.setState({isFinish:true})
+      },
+      
+      2000)
     }
    
-  
   }
+
+  CancelDialog(){
+    this.setState({isShowDialog:false})
+    this.props.navigation.navigate("CommunityTab");
+   }
 
   render(){
 
@@ -173,6 +183,7 @@ class JoinCommunityScreen extends React.Component{
           Visible={this.state.isShowDialog}
            isFinish={this.state.isFinish}
           Title={this.state.title}
+          CancelDialog={()=>this.CancelDialog()}
         />
         <Text style={ styles(theme).appNameText }>TOPLUM</Text>
       </View>

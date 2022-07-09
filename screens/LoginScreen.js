@@ -59,13 +59,14 @@ class LoginScreen extends React.Component{
    
     log_user = async () =>{
      
+        console.log(this.state.phone)
       if(this.state.phone.trim()){
 
         this.setState({ isLoading:true})
 
         const userData = {
             phone:this.state.phone,
-            password:"12345678"
+            // password:"12345678"
         }
     
         const response = await this.api.send(userData,'login');

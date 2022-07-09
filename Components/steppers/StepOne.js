@@ -37,9 +37,8 @@ class StepOne extends React.Component {
   addToUserStateStore(){
 
     this.setState({isShowDialog:true});
-    
-    
-    const community = {
+
+     const community = {
       full_name:this.state.full_name,
       dateIn:this.state.dateIn
     }
@@ -48,12 +47,21 @@ class StepOne extends React.Component {
 
     this.props.dispatch(action)
      
-     this.setState({isShowDialog:false});
-    this.setState({isFinish:true});
+    this.setState({title:"ENREGISTREMENT ENCOURS.."})  
 
-     this.setState({isFinish:true});
+    setTimeout(() => {
+      // this.setState({isShowDialog:false});
+      this.setState({isFinish:true});
+      this.setState({title:"ENREGISTREMENT REUSSI.."}) 
+    },
+
+    2000)
 
   }
+
+  CancelDialog(){
+    this.setState({isShowDialog:false})
+   }
 
 
   componentDidMount(){
@@ -95,6 +103,7 @@ class StepOne extends React.Component {
           Visible={this.state.isShowDialog}
            isFinish={this.state.isFinish}
           Title={this.state.title}
+          CancelDialog={()=>this.CancelDialog()}
         />
       </View>
     );
