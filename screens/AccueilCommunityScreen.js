@@ -28,6 +28,7 @@ export default class AccueilCommunitySCreen extends React.Component{
 
     componentDidMount() {
         this.fetchCats();
+        console.log(this.props)
     }
 
 

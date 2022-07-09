@@ -20,6 +20,7 @@ export default class ShopScreen extends React.Component{
                 {
                     id:1,
                     title:"Article 1",
+                    amount:1000,
                     description:'lorem',
                     mobile_no:974375371
                 },
@@ -27,32 +28,38 @@ export default class ShopScreen extends React.Component{
                     id:2,
                     title:"Article 2",
                     description:'lorem',
+                    amount:58966,
                     mobile_no:974375371
                 },
                 {
                     id:3,
                     title:"Article 3",
                     description:'lorem',
+                    amount:2000,
                     mobile_no:974375371
                 },
                 {
                     id:4,
                     title:"Article 4",
+                    amount:96000,
                     description:'lorem'
                 },
                 {
                     id:5,
                     title:"Article 3",
+                    amount:1000,
                     description:'lorem'
                 },
                 {
                     id:6,
                     title:"Article 4",
+                    amount:1000,
                     description:'lorem'
                 },
                 {
                     id:7,
                     title:"Article 3",
+                    amount:1000,
                     description:'lorem'
                 },
                 {
@@ -87,7 +94,7 @@ export default class ShopScreen extends React.Component{
                 <Image style={styles.image} source={require('../assets/images/phone1.jpg')} />
                 <View style={{marginTop:10}}>
                     <Text style={{fontWeight:'bold',fontSize:16,paddingBottom:40}}>{item.title}</Text>
-                    <Text style={{fontWeight:'bold',fontSize:20,paddingBottom:30,color:'#000'}}>50.000 CDF</Text>
+                    <Text style={{fontWeight:'bold',fontSize:20,paddingBottom:30,color:'#000'}}>{item.amount+" "}CDF</Text>
                     <TouchableOpacity
                      onPress={() => {
                         Linking.openURL(
