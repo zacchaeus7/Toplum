@@ -8,7 +8,8 @@ import {
     Image,
     TouchableOpacity,
     ActivityIndicator,
-    Text
+    Text,
+    Linking
 } from "react-native";
  import { FAB, Paragraph } from 'react-native-paper';
  import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -65,7 +66,16 @@ export default class AccueilCommunitySCreen extends React.Component{
         
         <View style={{flexDirection:'row',backgroundColor:"#ccc",height:40,borderRadius:3,top:"60%"}}>
             <MaterialIcons name="favorite" color="#fd8500"  size={30} />
-            <MaterialIcons name="comment"  size={30} />
+            <TouchableOpacity
+                     onPress={() => {
+                        Linking.openURL(
+                          'http://api.whatsapp.com/send?text=TopLum est pret à répondre à toutes vos préocupation&phone=243974375371?'
+                        );
+                      }}>
+                   <MaterialIcons name="comment"  size={30} />
+                        
+                    </TouchableOpacity>
+           
             <MaterialIcons name="share"  size={30} />
         </View>
         </ImageBackground>

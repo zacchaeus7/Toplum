@@ -97,7 +97,7 @@ const Item = ({ title,sender }) => (
          
          <View style={styles.header}> 
             <Image 
-            style={styles.logo}
+              style={styles.logo}
               source={require("../assets/logo.png")}
             />
             <Text style={{paddingTop:30}}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Modmpore delectus quisquam.</Text>

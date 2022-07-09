@@ -81,12 +81,12 @@ export default class ShopScreen extends React.Component{
             }).catch(e => console.log(e));
     }
 
-    renderItemComponent = (data) =>
+    renderItemComponent = ({item}) =>
         <TouchableOpacity style={styles.container}>
             <View style={styles.post_infos}>
                 <Image style={styles.image} source={require('../assets/images/phone1.jpg')} />
                 <View style={{marginTop:10}}>
-                    <Text style={{fontWeight:'bold',fontSize:16,paddingBottom:40}}>{data.title}</Text>
+                    <Text style={{fontWeight:'bold',fontSize:16,paddingBottom:40}}>{item.title}</Text>
                     <Text style={{fontWeight:'bold',fontSize:20,paddingBottom:30,color:'#000'}}>50.000 CDF</Text>
                     <TouchableOpacity
                      onPress={() => {
