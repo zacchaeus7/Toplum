@@ -23,6 +23,8 @@ import LocalStorage from "../storage/LocalStorage";
 
         const userData = await this.localStorage.getData("toplum_user_data");
 
+        console.log(userData)
+
         if(userData){
 
             const action = { type:"REGISTER_USER", value:userData }
@@ -34,6 +36,7 @@ import LocalStorage from "../storage/LocalStorage";
         else{
             this.props.navigation.navigate("OnBoardingScreen"); 
         }
+        
     }
 
 

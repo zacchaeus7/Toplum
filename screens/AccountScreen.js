@@ -59,8 +59,8 @@ class AccountScreen extends React.Component{
                 />
               </View>
                 <View>
-                  <Title style={{ color: theme.colors.white }}>Amuri Kabemba Zachée</Title>
-                  <Paragraph style={{ color: theme.colors.black, }}>Lorem ipsum dolor sum quntu dolor sum dolors</Paragraph>
+                  <Title style={{ color: theme.colors.white }}>{this.props.user.name}</Title>
+                  <Paragraph style={{ color: theme.colors.black, }}>{this.props.user.phone}</Paragraph>
                 </View>
             </View>
            <View style={{flexDirection:'row',marginVertical:10}}>
@@ -69,7 +69,7 @@ class AccountScreen extends React.Component{
                 source={require('../assets/images/icons/account_png.png')}
                 />
                <View>
-                    <Text style={{paddingTop:30}}>Amuri Kabemba Zachée</Text>
+                    <Text style={{paddingTop:30}}>{this.props.user.name}</Text>
                     <Paragraph style={{opacity:0.5}}>Tout est possible a clui qui croit </Paragraph>
                </View>
            </View>

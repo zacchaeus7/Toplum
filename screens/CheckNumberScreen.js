@@ -14,9 +14,17 @@ class CheckPhoneNumber extends React.Component{
     getCode = (code)=>{     
 
         this.setState({isLoading:true})
+
         setTimeout(() => {
-            this.props.navigation.navigate("Home");
+
+            this.props.navigation.navigate("MainScreen");
+
         },3000)
+        
+    }
+
+    componentDidMount(){
+        console.log(this.props.route.params)
     }
      
     render(){

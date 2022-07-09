@@ -38,7 +38,7 @@ export class Community extends React.Component {
     _renderItem ({item}) { 
 
         const { navigation } = this.props;
-        console.log(item.image)
+ 
         return (
             <View style={styles.slide}>
                 <TouchableOpacity onPress={()=> navigation.navigate("CommunityTab",{communityprops:item}) } >

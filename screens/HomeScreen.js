@@ -9,6 +9,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import API from '../API/API';
 import Community from '../Components/Community';
 import Posts from '../Components/Posts';
+import { connect } from 'react-redux'
 
 const Item = ({ title,sender }) => (
   <View style={styles.item}>
@@ -29,21 +30,6 @@ const Item = ({ title,sender }) => (
     this.state = {
 
       isCommunityLoaded:false,
-
-      _data:[
-        {
-          id:"1",
-          name:"UNIVERSITE PROTESTANTE DE LUBUMBASHI"
-        },
-        {
-          id:"2",
-          name:"UNIVERSITE NOUVEAUX HORIZONS"
-        },
-        {
-          id:"3",
-          name:"UNIVERSITE DE LUBUMBASHI"
-        },
-      ],
        load_school:false,
        communities:[],
        load_niversity:false
@@ -58,13 +44,15 @@ const Item = ({ title,sender }) => (
   this.setState({communities:communities.data})
 
   this.setState({isCommunityLoaded:true})
-  console.log(communities)
+
+  
  }
 
 
 componentDidMount(){
 
  this.getCommunity();
+
 
 
 }
@@ -170,4 +158,10 @@ fab: {
     // alignItems:"center"
   }
 });
-export default withTheme(HomeScreen);
+
+const mapStateToProps = (state) =>{
+  return{
+    user: state.userReducer.user
+  }
+}
+export default connect(mapStateToProps)(withTheme(HomeScreen));

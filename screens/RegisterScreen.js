@@ -17,6 +17,8 @@ import Feather from 'react-native-vector-icons/Feather';
 import toast from '../Components/Taost.js'
 import PhoneInput from "react-native-phone-number-input";
 import { ToastAndroid } from 'react-native';
+import LocalStorage from "../storage/LocalStorage";
+import { connect } from 'react-redux';
 import API from '../API/API.js';
 
 class RegisterScreen extends React.Component {
@@ -35,7 +37,8 @@ class RegisterScreen extends React.Component {
             confirm_secureTextEntry: true,
             isShowErrorMessage:false
         }
-        this.api  = new API()
+        this.api  = new API();
+        this.localStorage = new LocalStorage()
     }
 
      textInputChange = (val) => {
@@ -90,25 +93,36 @@ class RegisterScreen extends React.Component {
     register = async () =>{
 
         const userData = {
-            full_name: this.state.full_name,
-            phone:  this.state.phone,
+            name: this.state.full_name,
+            phone: this.state.phone,
+            email:this.state.email,
             password: "12345678"
         }
 
-
         if(this.state.full_name.trim() && this.state.phone.trim() && this.state.email){
 
+            
             this.setState({ isLoading:true})
 
-            const response = await this.api.send(userData, 'register');
+            const response = await this.api.send(userData, 'users/register');
 
-            //this.setState({isLoading: false});
+            console.log(response)
+
+            this.setState({isLoading: false});
             
             if(response.status == 1){
                 
                 let user = {...response.user, ...this.props.user};
-                user.is_checked = false;
-                this.props.navigation.navigate("CheckNumber");
+
+                console.log(response)
+              
+                const action = { type: "REGISTER_USER", value:  user};
+
+                this.props.dispatch(action);
+
+                 await this.localStorage.storeData("toplum_user_data",user)
+
+                this.props.navigation.navigate("CheckNumber",{user:user});
 
             }else{
                 toast({message: "Une erreur s'est produite"});
@@ -238,7 +252,14 @@ class RegisterScreen extends React.Component {
    }
 };
 
-export default RegisterScreen;
+const mapStateToProps = (state)=>{
+
+    return {
+        user: state.userReducer.user
+    }
+}
+
+export default connect(mapStateToProps)(RegisterScreen) ;
 
 const styles = StyleSheet.create({
     container: {
