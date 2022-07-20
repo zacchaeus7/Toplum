@@ -106,8 +106,6 @@ class RegisterScreen extends React.Component {
 
             const response = await this.api.send(userData, 'users/register');
 
-            console.log(response)
-
             this.setState({isLoading: false});
             
             if(response.status == 1){

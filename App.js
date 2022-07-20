@@ -31,7 +31,7 @@
      roundness: 2,
      colors: {
        ...theme.colors,
-       primary: '#fd8500',
+       primary: '#14F',
        secondary: '#000',
        accent: '#F77F41',
        white: '#fff',

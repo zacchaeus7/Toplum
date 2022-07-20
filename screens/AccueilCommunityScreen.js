@@ -11,24 +11,32 @@ import {
     Text,
     Linking
 } from "react-native";
- import { FAB, Paragraph } from 'react-native-paper';
+ import { FAB, Paragraph,Card,Title,Button } from 'react-native-paper';
  import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FabG from "../Components/fabs/FabG";
+import ReadMore from 'react-native-read-more-text';
+import DescriptionCard from "../Components/DescriptionCard";
+import { connect } from "react-redux";
+import API from "../API/API";
+import Post from "../Components/Post";
 
-export default class AccueilCommunitySCreen extends React.Component{
+ class AccueilCommunitySCreen extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
             data: [],
             refreshing: true,
-            load:true
+            load:true,
+            grantToPublish:false
         }
+
+        this.api = new API();
     }
 
     componentDidMount() {
         this.fetchCats();
-        console.log(this.props)
+       this.checkMemberBelonToCommunity();
     }
 
 
@@ -52,36 +60,46 @@ export default class AccueilCommunitySCreen extends React.Component{
         )
     }
 
-    renderItemComponent = (data) =>
-        <View style={styles.content}>
-          <Text style={{fontSize:20,fontWeight:'bold',color:'#000'}}>
-            Zachaeus Kabemba
-          </Text>
-          <Paragraph> 
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-            Etiam consectetur vel risus non dictum. 
-          </Paragraph>
+    checkMemberBelonToCommunity = async()=>{
 
-        {/* <Image style={styles.image} source={{ uri: data.item.url }} /> */}
-        <ImageBackground style={styles.image} source={{ uri: data.item.url }} >
+      const response = await this.api.getData("check_member_belon_to_community/"+this.props.user.id+'/'+ 1)
+
+      if(response.status ==1){
+        this.setState({grantToPublish:true})
+      }
+      
+    }
+
+    
+
+    // renderItemComponent = (data) =>
+    //     <View style={styles.content}>
+    //       <Card mode="outlined">
+    //         <Card.Title title="Zachaeus Kabemba">
+    //         </Card.Title>
+    //         <Card.Content>
+    //           <Title>Fin de la guerre à l'est de la RDC</Title>
+    //           <DescriptionCard />
+    //         </Card.Content>
+    //         <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
+    //         <Card.Actions>
+
+    //         <MaterialIcons name="favorite" color="#fd8500"  size={30} />
+    //         <TouchableOpacity
+    //             onPress={() => {
+    //               Linking.openURL(
+    //                 'http://api.whatsapp.com/send?text=TopLum est pret à répondre à toutes vos préocupations&phone=243974375371?'
+    //               );
+    //             }}>
+    //           <MaterialIcons name="comment"  size={30} />
+                  
+    //           </TouchableOpacity>
+    //         <MaterialIcons name="share"  size={30} />
+    //           {/* <Button>Ok</Button> */}
+    //         </Card.Actions>
+    //     </Card>
         
-        <View style={{flexDirection:'row',backgroundColor:"#ccc",height:40,borderRadius:3,top:"60%"}}>
-            <MaterialIcons name="favorite" color="#fd8500"  size={30} />
-            <TouchableOpacity
-                     onPress={() => {
-                        Linking.openURL(
-                          'http://api.whatsapp.com/send?text=TopLum est pret à répondre à toutes vos préocupation&phone=243974375371?'
-                        );
-                      }}>
-                   <MaterialIcons name="comment"  size={30} />
-                        
-                    </TouchableOpacity>
-           
-            <MaterialIcons name="share"  size={30} />
-        </View>
-        </ImageBackground>
-        
-        </View>
+    //     </View>
 
     ItemSeparator = () => <View style={{
         height: 2,
@@ -99,40 +117,32 @@ export default class AccueilCommunitySCreen extends React.Component{
     render() {
       return (
         <SafeAreaView >
-         {/* <ImageBackground style={styles.backgroundImage} source={require("../assets/images/bg/bg2.jpg")}
-        > */}
-        {this.state.load && <ActivityIndicator size="large" color="#115f9b" />}
-          <FlatList
-            data={this.state.data}
-            renderItem={item => this.renderItemComponent(item)}
-            keyExtractor={item => item.id.toString()}
-            ItemSeparatorComponent={this.ItemSeparator}
-            refreshing={this.state.refreshing}
-            onRefresh={this.handleRefresh}
-            numColumns={1}
-          />
-          {/* </ImageBackground> */}
-           {/* <FAB
-            icon="plus"
-            style={styles.fab}
-            onPress={() => this.props.navigation.navigate("JoinCommunityScreen")}
-        /> */}
-
-        <FabG navigation={this.props.navigation} />
+          <Post />
+        <FabG 
+          navigation={this.props.navigation}
+        />
         </SafeAreaView>)
     }
 }
+const mapStateToProps = (state) =>{
+  return{
+    user: state.userReducer.user,
 
-const styles = StyleSheet.create({
+  }
+}
+
+export default connect(mapStateToProps)(AccueilCommunitySCreen)
+
+const styles =  StyleSheet.create({
   container: {
     flex:1,
     width:"100%",
-    // backgroundColor:"#fff"
+     backgroundColor:"#fff"
   },
   content:{
     flex:1,
-    width:"100%",
-    padding:15
+     width:"100%",
+    padding:3
     // backgroundColor:"#fff"
   },
   fab: {

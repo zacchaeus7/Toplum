@@ -23,7 +23,7 @@ import LocalStorage from "../storage/LocalStorage";
 
         const userData = await this.localStorage.getData("toplum_user_data");
 
-        console.log(userData)
+        console.log(!userData)
 
         if(userData){
 

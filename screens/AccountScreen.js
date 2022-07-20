@@ -34,6 +34,8 @@ class AccountScreen extends React.Component{
     this.localStorage = new LocalStorage();
   }
 
+  componentDidMount(){console.log(this.props.user)}
+
 
   render(){
 

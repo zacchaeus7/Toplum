@@ -1,9 +1,9 @@
 import  React from 'react';
 import { StyleSheet } from 'react-native';
-import { FAB, Portal, Provider } from 'react-native-paper';
+import { FAB, Portal, Provider,Text } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
-const FabG = () => {
+const FabG = (publish) => {
 
 
   const [state, setState] = React.useState({ open: false });
@@ -16,10 +16,8 @@ const FabG = () => {
 
   return (
     <Provider>
-      <Portal
-        
-      >
-        
+      <Portal>
+       
         <FAB.Group
           open={open}
           icon={open ? 'calendar-today' : 'plus'}

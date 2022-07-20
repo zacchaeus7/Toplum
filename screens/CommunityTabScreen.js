@@ -26,7 +26,8 @@ function MyTabs() {
     <Tab.Navigator tabBarOptions={{
       style: {
         backgroundColor: '#fff',
-  }
+      },
+      showLabel: false,
     }}>
       <Tab.Screen name="Accueil" component={AccueilCommunitySCreen} options={{
        tabBarLabel: '',

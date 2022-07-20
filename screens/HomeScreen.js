@@ -8,8 +8,9 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import API from '../API/API';
 import Community from '../Components/Community';
-import Posts from '../Components/Posts';
+import Post from '../Components/Post';
 import { connect } from 'react-redux'
+import CompleteProfile from '../Components/Dialogs/CompleteProfile';
 
 const Item = ({ title,sender }) => (
   <View style={styles.item}>
@@ -32,7 +33,8 @@ const Item = ({ title,sender }) => (
       isCommunityLoaded:false,
        load_school:false,
        communities:[],
-       load_niversity:false
+       load_niversity:false,
+       isCompleteProfileDialogVisible:false
     }
     this.api = new API();
   }
@@ -48,13 +50,24 @@ const Item = ({ title,sender }) => (
   
  }
 
+ checkProfileComplete = async ()=>{
+
+  const requiredProfile = await this.api.getData('checkUserProfileIsCompleted/'+this.props.user.id)
+
+  if(requiredProfile.status == 1){
+
+    this.setState({isCompleteProfileDialogVisible:true})
+
+  }
+
+  
+ }
+
+
 
 componentDidMount(){
-
  this.getCommunity();
-
-
-
+this.checkProfileComplete();
 }
 
 
@@ -63,11 +76,12 @@ componentDidMount(){
      return (
        <View style={styles(theme).container}>
         
-         <Community data={this.state.communities} isCommunityLoaded={this.state.isCommunityLoaded} navigation={this.props.navigation}/>
-         
+        <View style={{height:150}}>
+          <Community data={this.state.communities} isCommunityLoaded={this.state.isCommunityLoaded} navigation={this.props.navigation}/>
+        </View>         
          <ScrollView>
           <View style={styles.header}>
-              <Posts />
+              <Post />
             </View>
          </ScrollView>
       
@@ -75,6 +89,10 @@ componentDidMount(){
           icon="plus"
           style={styles(theme).fab}
           onPress={() => this.props.navigation.navigate("CommunityTab")}
+        />
+        <CompleteProfile 
+          Title="Completer Votre profile"
+          Visible={this.state.isCompleteProfileDialogVisible}
         />
        </View >
      );
@@ -93,34 +111,6 @@ const styles =(theme)=> StyleSheet.create({
     opacity: 0.85,
     width: 345,
     marginTop: 20
-},
-header: {
-  // flex: 1,
-  // justifyContent: 'flex-end',
-  // paddingHorizontal: 20,
-  // paddingBottom: 50
-},
-footer: {
-  // flex: Platform.OS === 'ios' ? 4 : 10,
-  // backgroundColor: '#fff',
-  // borderTopLeftRadius: 7,
-  // borderTopRightRadius: 7,
-  // borderBottomLeftRadius:7,
-  // borderBottomRightRadius:7,
-  // paddingHorizontal: 20,
-  // paddingVertical: 30
-},
-footer_two:{
- // flex: Platform.OS === 'ios' ? 4 : 10,
-  // backgroundColor: '#fff',
-  // borderTopLeftRadius: 13,
-  // borderTopColor:"#115f9b",
-  // borderTopWidth:2,
-  // borderTopRightRadius: 13,
-  // borderBottomLeftRadius:7,
-  // borderBottomRightRadius:7,
-  // paddingHorizontal: 20,
-  // paddingVertical: 30
 },
 
 fab: {

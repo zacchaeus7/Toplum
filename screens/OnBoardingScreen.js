@@ -14,18 +14,18 @@ class OnBoardingScreen extends React.Component{
             screens: {
                 first: {
                     title: "Communauté",
-                    description: "Lorem ipsum dolor sum ergo dolor, Lorem ipsum dolor sum ergo dolor, Lorem ipsum dolor sum ergo dolor",
+                    description: "Rejoindre topLum c'est rejoindre ses amis de toujours, ses futures amis et ses futures clients.",
                     illustration: require('../assets/images/onboarding/1.webp'),
                 },
                 second: {
                     title: "𝗟𝗼𝗿𝗲𝗺 𝗱𝗼𝗹𝗼𝗿",
-                    description: "Lorem ipsum dolor sum ergo dolor, Lorem ipsum dolor sum ergo dolor, Lorem ipsum dolor sum ergo dolor",
+                    description: "Adherer à la communauté d'anciens et nouveaux etudiants de votre université",
                     illustration: require('../assets/images/onboarding/o1.png'),
                     
                 },
                 third: {
                     title: "𝗦𝘂𝗺 𝗗𝗼𝗹𝗼𝗿",
-                    description: "Lorem ipsum dolor sum ergo dolor, Lorem ipsum dolor sum ergo dolor, Lorem ipsum dolor sum ergo dolor",
+                    description: "Se faire connaitre, promouvoir ses activités et nouer des relations etroites avec ceux qui oeuvrent dans notre domaine",
                     illustration: require('../assets/images/onboarding/1.jpg'),
 
                 }

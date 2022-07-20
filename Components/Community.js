@@ -43,11 +43,11 @@ export class Community extends React.Component {
             <View style={styles.slide}>
                 <TouchableOpacity onPress={()=> navigation.navigate("CommunityTab",{communityprops:item}) } >
                 <Image 
-                    style={{width:100,height:100, borderRadius:50}}
-                        source={{uri:item.image}}         
+                    style={{width:70,height:70, borderRadius:70}}
+                        source={{uri:item?.image}}         
                 />
                 </TouchableOpacity>
-                <Text style={{fontWeight:'bold'}}>{item.name}</Text>
+                <Text style={{fontWeight:'bold'}}>{item?.name}</Text>
             </View>
         );
     }
@@ -91,22 +91,22 @@ export class Community extends React.Component {
 
 const styles = StyleSheet.create({
     slideContent:{
-        backgroundColor:"#fbf5f5",
-        height:210,
+        backgroundColor:"#fff",
+        height:150,
         justifyContent:'center',
         alignItems:'center',
         borderRadius:10,
         
     },
     slide: {
-        backgroundColor:"#fff",
+        // backgroundColor:"#fff",
         justifyContent:'center',
         alignItems:'center',
-        margin:5,
-        marginTop:30,
-        borderRadius:8,
-        borderWidth:1,
-        borderColor:"#ccc"
+        // margin:5,
+        marginTop:20,
+        // // borderRadius:8,
+        // borderWidth:1,
+        // borderColor:"#ccc"
 
     }
 });

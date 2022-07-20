@@ -59,14 +59,13 @@ class LoginScreen extends React.Component{
    
     log_user = async () =>{
      
-        console.log(this.state.phone)
       if(this.state.phone.trim()){
 
         this.setState({ isLoading:true})
 
         const userData = {
             phone:this.state.phone,
-            // password:"12345678"
+             password:"12345678"
         }
     
         const response = await this.api.send(userData,'login');
@@ -81,7 +80,7 @@ class LoginScreen extends React.Component{
 
             this.props.dispatch(action);
 
-            await this.localStorage.storeData("toplum_user_data",user)
+            // await this.localStorage.storeData("toplum_user_data",user)
 
             this.setState({isLoading:false})
 
@@ -111,7 +110,8 @@ class LoginScreen extends React.Component{
                     duration={1500}
                     style={styles(theme).container}>
                     <View style={styles(theme).header}>
-                            <Text style={styles(theme).text_header}>Connexion</Text>
+                        <Text style={{color: '#fff',fontWeight: 'bold',textAlign:'center',fontSize: 35}}>TopLum</Text>
+                        <Text style={styles(theme).text_header}>Connexion</Text>
                     </View>
                         <View style={styles(theme).footer}>
                             <View style={styles(theme).action}>
@@ -172,9 +172,6 @@ const styles = (theme)=>StyleSheet.create({
     header: {
         flex: 1,
         backgroundColor: theme.colors.primary,
-        
-        borderBottomLeftRadius:15,
-        borderBottomRightRadius:15,
         justifyContent: 'flex-end',
         paddingHorizontal: 20,
         paddingBottom: 50
@@ -192,7 +189,7 @@ const styles = (theme)=>StyleSheet.create({
         color: '#fff',
         fontWeight: 'bold',
         textAlign:'center',
-        fontSize: 40
+        fontSize: 20
     },
     text_footer: {
         color: '#05375a',

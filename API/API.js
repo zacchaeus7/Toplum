@@ -2,9 +2,9 @@ import {Component} from 'react';
 //import LocalStorage from '../storage/LocalStorage';
 
 class API extends Component {
-  // serverUrl = "http://192.168.1.155:8000/api";
-  // serverUrl = "http://192.168.1.191:8000/api";
-  serverUrl = "http://192.168.88.20:8000/api";
+  serverUrl = "http://192.168.1.155:8000/api";
+//  serverUrl = "http://192.168.1.191:8000/api";
+  // serverUrl = "http://192.168.88.20:8000/api";
   // serverUrl = "http://192.168.88.39:3333/api";
   //serverUrl = "https://api.lido-delivery.com/api";
 

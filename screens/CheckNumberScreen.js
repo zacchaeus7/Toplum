@@ -1,30 +1,50 @@
 import React from "react";
 import { View, StyleSheet,ActivityIndicator,Text  } from 'react-native';
 import CodeInput from 'react-native-confirmation-code-input';
+import { connect } from 'react-redux';
+import API from "../API/API";
+import LocalStorage from "../storage/LocalStorage";
 class CheckPhoneNumber extends React.Component{
 
     constructor(props){
         super(props)
+
         this.state = {
             isLoading:false
         }
 
+         this.api = new API()
+         this.localStorage = new LocalStorage()
     }
 
-    getCode = (code)=>{     
+    getCode = async (code)=>{     
 
         this.setState({isLoading:true})
 
-        setTimeout(() => {
+        const response = await this.api.getData("otpVerfication/"+code)
 
-            this.props.navigation.navigate("MainScreen");
+        if(response.status == 1){
 
-        },3000)
+            let user = {...response.user, ...this.props.user};
+
+            const action = { type: "REGISTER_USER", value:  user};
+
+            this.props.dispatch(action);
+
+           await this.localStorage.storeData("toplum_user_data",user)
+
+            this.props.navigation.navigate("MainScreen")
+
+        }else{
+            alert("Code de Incorrect")
+        }
+
+        this.setState({isLoading:false})
         
     }
 
     componentDidMount(){
-        console.log(this.props.route.params)
+        console.log(this.props.user.otp_verfication)
     }
      
     render(){
@@ -96,4 +116,9 @@ const styles = StyleSheet.create({
   
 });
 
-export default CheckPhoneNumber;
+const mapStateToProps = (state) =>{
+    return {
+        user: state.userReducer.user
+    }
+}
+export default connect(mapStateToProps)(CheckPhoneNumber);
