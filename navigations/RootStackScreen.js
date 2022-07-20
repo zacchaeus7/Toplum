@@ -18,6 +18,7 @@ import MainScreen from "../screens/MainScreen";
 import AccueilCommunitySCreen from "../screens/AccueilCommunityScreen";
 import JoinCommunityScreen from "../screens/JoinCommunityScreen";
 import AccountScreen from "../screens/AccountScreen";
+import MakePostScreen from "../screens/MakePostScreen";
 
 const RootStack = createNativeStackNavigator();
 
@@ -43,6 +44,7 @@ class RootStackScreen extends React.Component{
                 <RootStack.Screen name="AccueilCommunity" component={AccueilCommunitySCreen} />
                 <RootStack.Screen name="JoinCommunityScreen" component={JoinCommunityScreen} />
                 <RootStack.Screen name="AccountScreen" component={AccountScreen} />
+                <RootStack.Screen name="MakePostScreen" component={MakePostScreen} options={{headerShown:false}} />
             </RootStack.Navigator>
         );
     }

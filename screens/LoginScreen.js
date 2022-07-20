@@ -80,8 +80,6 @@ class LoginScreen extends React.Component{
 
             this.props.dispatch(action);
 
-            // await this.localStorage.storeData("toplum_user_data",user)
-
             this.setState({isLoading:false})
 
              this.props.navigation.navigate("CheckNumber",{user:user})

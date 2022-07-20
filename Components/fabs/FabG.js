@@ -26,15 +26,9 @@ const FabG = (publish) => {
             { icon: 'plus', 
             onPress: () => console.log('Pressed add') },
             {
-              icon: 'star',
-              label: 'Publier Sur TopLum',
-
-              onPress: () => console.log('Pressed star'),
-            },
-            {
               icon: 'email',
-              label: 'Publier dans la communauty',
-              onPress: () => console.log('Pressed email'),
+              label: 'Faire une publication',
+              onPress: () => navigation.navigate("MakePostScreen"),
             },
             {
               icon: 'bell',
