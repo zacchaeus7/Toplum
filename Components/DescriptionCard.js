@@ -29,6 +29,7 @@ class DescriptionCard extends React.Component{
 
       render(){
 
+        const { description } = this.props
         return(
             <View>
                 <ReadMore
@@ -37,17 +38,7 @@ class DescriptionCard extends React.Component{
                 renderRevealedFooter={this._renderRevealedFooter}
                 onReady={this._handleTextReady}>
                 <Text style={styles.cardText}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam consectetur vel risus non dictum. 
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                    Etiam consectetur vel risus non dictum. 
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                    Etiam consectetur vel risus non dictum. 
-                    Etiam consectetur vel risus non dictum. 
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                    Etiam consectetur vel risus non dictum. 
-                    Etiam consectetur vel risus non dictum. 
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                    Etiam consectetur vel risus non dictum. 
+                   {description}
               </Text>
             </ReadMore>
             </View>

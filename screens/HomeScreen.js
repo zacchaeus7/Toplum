@@ -34,7 +34,10 @@ const Item = ({ title,sender }) => (
        load_school:false,
        communities:[],
        load_niversity:false,
-       isCompleteProfileDialogVisible:false
+       isCompleteProfileDialogVisible:false,
+       posts:[],
+       refreshing: true,
+       load:true,
     }
     this.api = new API();
   }
@@ -63,11 +66,30 @@ const Item = ({ title,sender }) => (
   
  }
 
+ getPosts = async()=> {
+     
+  const response = await this.api.getData("posts/1/1")
+
+  this.setState({ refreshing: false });
+  this.setState({load:false})
+
+  this.setState({posts:response.data})
+
+  // console.log(this.state.posts)
+}
+
+handleRefresh = () => {
+  this.setState({ refreshing: false }, () => { this.getPosts() }); // call fetchCats after setting the state
+}
+
 
 
 componentDidMount(){
  this.getCommunity();
 this.checkProfileComplete();
+this.getPosts();
+this.setState({refreshing:true});
+this.handleRefresh();
 }
 
 
@@ -81,7 +103,7 @@ this.checkProfileComplete();
         </View>         
          <ScrollView>
           <View style={styles.header}>
-              <Post />
+              <Post data={this.state.posts} load={this.state.load} refresh={this.state.refreshing}/>
             </View>
          </ScrollView>
       

@@ -11,8 +11,9 @@ import {
     Text,
     Linking
 } from "react-native";
- import { FAB, Paragraph,Card,Title,ActivityIndicator } from 'react-native-paper';
+ import { FAB, Paragraph,Card,Title,ActivityIndicator, withTheme } from 'react-native-paper';
  import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import API from "../API/API";
 import DescriptionCard from "./DescriptionCard";
 
 class Post extends React.Component{
@@ -23,31 +24,40 @@ class Post extends React.Component{
             data:[],
             refreshing: true,
             load:true,
+            posts:[],
         }
+        this.api = new API();
     }
 
-    fetchCats() {
-        this.setState({ refreshing: true });
-        fetch('https://api.thecatapi.com/v1/images/search?limit=30&page=1')
-            .then(res => res.json())
-            .then(resJson => {
-                this.setState({ data: resJson });
-                this.setState({ refreshing: false });
-                this.setState({load:false})
-            }).catch(e => console.log(e));
-    }
+    // fetchCats() {
+    //     this.setState({ refreshing: true });
+    //     fetch('https://api.thecatapi.com/v1/images/search?limit=30&page=1')
+    //         .then(res => res.json())
+    //         .then(resJson => {
+    //             this.setState({ data: resJson });
+    //             this.setState({ refreshing: false });
+    //             this.setState({load:false})
+    //         }).catch(e => console.log(e));
+    // }
+
+
 
     componentDidMount(){
-        this.fetchCats();
+        // this.fetchCats();
+        // this.getPosts();
     }
-    renderItemComponent = (data) =>
-        <View style={styles.content}>
+    renderItemComponent = ({item})=>
+       <View style={styles.content}>
           <Card mode="outlined">
-            <Card.Title title="Zachaeus Kabemba">
+          {/* <Image 
+                style={styles.illustrationImage}
+                source={require('../assets/images/icons/account_png.png')}
+                /> */}
+            <Card.Title title={item.full_name.toUpperCase()}>
             </Card.Title>
             <Card.Content>
-              <Title>Fin de la guerre à l'est de la RDC</Title>
-              <DescriptionCard />
+              <Title>{item.title}</Title>
+              <DescriptionCard description={item.description} />
             </Card.Content>
             <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
             <Card.Actions>
@@ -70,18 +80,20 @@ class Post extends React.Component{
         </View>
 
         render(){
+
+          const {data,load,refresh} = this.props
            return(
-            <SafeAreaView style={{marginTop:10}}>
-        {this.state.load ?
+        <SafeAreaView style={{marginTop:10}}>
+        {load ?
         <ActivityIndicator size="large" color="#115f9b" />
             :
             <FlatList
-            data={this.state.data}
-            renderItem={item => this.renderItemComponent(item)}
+            data={data}
+            renderItem={(item) => this.renderItemComponent(item)}
             keyExtractor={item => item.id.toString()}
             ItemSeparatorComponent={this.ItemSeparator}
             refreshing={this.state.refreshing}
-            onRefresh={this.handleRefresh}
+            onRefresh={refresh}
             numColumns={1}
             ListHeaderComponent={<Text style={{textAlign:'center',fontSize:20,fontWeight:'bold'}}>PUBLICATIONS RECENTES</Text>}
         />
@@ -93,9 +105,9 @@ class Post extends React.Component{
         }
 }
 
-export default Post
+export default withTheme(Post)
 
-const styles =  StyleSheet.create({
+const styles =  (theme)=>StyleSheet.create({
     container: {
       flex:1,
       width:"100%",
@@ -106,5 +118,10 @@ const styles =  StyleSheet.create({
        width:"100%",
       padding:3
       // backgroundColor:"#fff"
+    },
+    illustrationImage:{
+      width:50,
+      height:100,
+      resizeMode: "contain",
     },
 })

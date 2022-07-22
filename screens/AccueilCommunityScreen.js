@@ -25,7 +25,7 @@ import Post from "../Components/Post";
     constructor(props) {
         super(props);
         this.state = {
-            data: [],
+            posts: [],
             refreshing: true,
             load:true,
             grantToPublish:false
@@ -34,22 +34,23 @@ import Post from "../Components/Post";
         this.api = new API();
     }
 
+    getPosts = async()=> {
+     
+      const response = await this.api.getData("posts/"+2+"/1")
+    
+      this.setState({ refreshing: false });
+      this.setState({load:false})
+    
+      this.setState({posts:response.data})
+    
+      // console.log(this.state.posts)
+    }
+
     componentDidMount() {
-        this.fetchCats();
+         this.getPosts();
        this.checkMemberBelonToCommunity();
     }
 
-
-    fetchCats() {
-        this.setState({ refreshing: true });
-        fetch('https://api.thecatapi.com/v1/images/search?limit=30&page=1')
-            .then(res => res.json())
-            .then(resJson => {
-                this.setState({ data: resJson });
-                this.setState({ refreshing: false });
-                this.setState({load:false})
-            }).catch(e => console.log(e));
-    }
 
     displayFavoriteMember(){
         return(
@@ -70,36 +71,7 @@ import Post from "../Components/Post";
       
     }
 
-    
-
-    // renderItemComponent = (data) =>
-    //     <View style={styles.content}>
-    //       <Card mode="outlined">
-    //         <Card.Title title="Zachaeus Kabemba">
-    //         </Card.Title>
-    //         <Card.Content>
-    //           <Title>Fin de la guerre à l'est de la RDC</Title>
-    //           <DescriptionCard />
-    //         </Card.Content>
-    //         <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
-    //         <Card.Actions>
-
-    //         <MaterialIcons name="favorite" color="#fd8500"  size={30} />
-    //         <TouchableOpacity
-    //             onPress={() => {
-    //               Linking.openURL(
-    //                 'http://api.whatsapp.com/send?text=TopLum est pret à répondre à toutes vos préocupations&phone=243974375371?'
-    //               );
-    //             }}>
-    //           <MaterialIcons name="comment"  size={30} />
-                  
-    //           </TouchableOpacity>
-    //         <MaterialIcons name="share"  size={30} />
-    //           {/* <Button>Ok</Button> */}
-    //         </Card.Actions>
-    //     </Card>
-        
-    //     </View>
+  
 
     ItemSeparator = () => <View style={{
         height: 2,
@@ -117,7 +89,7 @@ import Post from "../Components/Post";
     render() {
       return (
         <SafeAreaView >
-          <Post />
+          <Post data={this.state.posts} load={this.state.load} />
         <FabG 
           navigation={this.props.navigation}
         />
