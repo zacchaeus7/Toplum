@@ -68,7 +68,9 @@ const Item = ({ title,sender }) => (
 
  getPosts = async()=> {
      
-  const response = await this.api.getData("posts/1/1")
+  const response = await this.api.getData("posts")
+
+  console.log(response)
 
   this.setState({ refreshing: false });
   this.setState({load:false})
@@ -90,6 +92,7 @@ this.checkProfileComplete();
 this.getPosts();
 this.setState({refreshing:true});
 this.handleRefresh();
+
 }
 
 

@@ -33,7 +33,7 @@ class DescriptionCard extends React.Component{
         return(
             <View>
                 <ReadMore
-                numberOfLines={3}
+                numberOfLines={2}
                 renderTruncatedFooter={this._renderTruncatedFooter}
                 renderRevealedFooter={this._renderRevealedFooter}
                 onReady={this._handleTextReady}>

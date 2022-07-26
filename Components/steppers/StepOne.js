@@ -14,7 +14,7 @@ class StepOne extends React.Component {
       isFocus:false,
         data : [],
         full_name:null,
-        dateIn:null,
+        end_date:null,
         isShowDialog:false,
         isFinish:false,
         title:""
@@ -22,51 +22,9 @@ class StepOne extends React.Component {
 
   }
 
-  getFullName(val){
-   
-    this.setState({full_name:val})
-
-  }
-
-  getYears(val){
-
-    this.setState({dateIn:val})
-
-  }
-
-  addToUserStateStore(){
-
-    this.setState({isShowDialog:true});
-
-     const community = {
-      full_name:this.state.full_name,
-      dateIn:this.state.dateIn
-    }
-
-    const action = {type:"ADD_USER_TO_COMMUNITY",value:community}
-
-    this.props.dispatch(action)
-     
-    this.setState({title:"ENREGISTREMENT ENCOURS.."})  
-
-    setTimeout(() => {
-      // this.setState({isShowDialog:false});
-      this.setState({isFinish:true});
-      this.setState({title:"ENREGISTREMENT REUSSI.."}) 
-    },
-
-    2000)
-
-  }
-
-  CancelDialog(){
-    this.setState({isShowDialog:false})
-   }
-
-
   componentDidMount(){
 
-    console.log(this.props)
+    // console.log(this.props)
 
   }
 
@@ -74,37 +32,32 @@ class StepOne extends React.Component {
   render(){
     const { theme } = this.props;
 
+    // console.log(this.props)
     return (
       <View style={styles(theme).container}>
         <Text style={{flexWrap: 'wrap', alignSelf: 'flex-start', color: theme.colors.primary}}>{this.props.title}</Text>
         <View style={styles(theme).form}>
           <TextInput 
             style={styles(theme).Inputs}
-            value={this.state.full_name}
-            onChangeText={(value)=>this.getFullName(value)}
-            label="Votre nom complet"
+            value={this.props.community.full_name}
+          onChangeText={(val)=> {
+            this.setState({ full_name: val });
+            this.props.dispatch({type: "ADD_USER_TO_COMMUNITY", value: { full_name: val }});
+        }}
+            label="Nom complet"
             
           />
           <TextInput 
             style={styles(theme).Inputs}
-            label="Année d'adhesion"
-            value={this.state.dateIn}
-            onChangeText={(value) =>this.getYears(value)}
+            label="Date de fin"
+            value={this.props.community.end_date}
+            onChangeText={(val)=> {
+              this.setState({ end_date: val });
+              this.props.dispatch({type: "ADD_USER_TO_COMMUNITY", value: { end_date: val }});
+          }}
           />
-          <Button icon="loading"
-          style={styles.Button}
-           mode="contained"
-            onPress={()=>this.addToUserStateStore()}>
-           Enregistrer
-        </Button>
         </View>
 
-        <Confirm 
-          Visible={this.state.isShowDialog}
-           isFinish={this.state.isFinish}
-          Title={this.state.title}
-          CancelDialog={()=>this.CancelDialog()}
-        />
       </View>
     );
   }

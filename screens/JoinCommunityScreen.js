@@ -96,17 +96,22 @@ class JoinCommunityScreen extends React.Component{
     }
   }
 
+  componentDidMount(){
+    console.log(this.props.route.params.currentCommunity.currentCommunity)
+  }
+
   addCommunityMember = async()=>{
 
      this.setState({isShowDialog:true});
      this.setState({title:"Ajout du membre encours..."}) 
 
   const data = {
-       full_name:this.props.community[0].full_name,
-       end_date:this.props.community[0].end_date,
-       faculty:this.props.community[1].faculty,
-       community_id:2,
-       user_id:1
+       full_name:this.props.community.full_name,
+       end_date:this.props.community.end_date,
+       faculty:this.props.community.faculty,
+       ACTIVITY:this.props.community.activity,
+       community_id:this.props.route.params.currentCommunity.currentCommunity,
+       user_id:this.props.user.id
   }
 
    const response = await this.api.send(data,"addMemberToCommunity")
@@ -237,7 +242,8 @@ const stepperContent = [
 const mapStateToProps = (state) =>{
 
   return{
-    community: state.joinCommunityReducer.community
+    community: state.joinCommunityReducer.community,
+    user: state.userReducer.user
   }
 }
 

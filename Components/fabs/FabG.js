@@ -3,8 +3,9 @@ import { StyleSheet } from 'react-native';
 import { FAB, Portal, Provider,Text } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 
-const FabG = (publish) => {
+const FabG = (currentCommunity) => {
 
+  console.log(currentCommunity)
 
   const [state, setState] = React.useState({ open: false });
 
@@ -19,6 +20,7 @@ const FabG = (publish) => {
       <Portal>
        
         <FAB.Group
+        style={styles.fab}
           open={open}
           icon={open ? 'calendar-today' : 'plus'}
           actions={[
@@ -33,7 +35,7 @@ const FabG = (publish) => {
             {
               icon: 'bell',
               label: 'Rejoindre la communauty',
-              onPress: () => navigation.navigate("JoinCommunityScreen"),
+              onPress: () => navigation.navigate("JoinCommunityScreen",{currentCommunity:currentCommunity}),
             },
             
           ]}
@@ -53,9 +55,9 @@ export default FabG;
 
 const styles = StyleSheet.create({
     fab: {
-        position: 'absolute',
-        backgroundColor:"#fd8500",
-        margin: 16,
+        // position: 'absolute',
+        // backgroundColor:"#fd8500",
+        // margin: 16,
         right: 0,
         bottom: 0,
       },

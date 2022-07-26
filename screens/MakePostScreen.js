@@ -2,6 +2,7 @@ import React from "react";
 
 import { View,StyleSheet } from 'react-native';
 import {  Text, TextInput,RadioButton, Button, ThemeProvider, withTheme} from 'react-native-paper';
+import { connect } from "react-redux";
 import API from "../API/API";
 import AppTopBar from "../Components/AppTopBar";
 
@@ -14,7 +15,7 @@ class MakePostScreen extends React.Component{
             value:1,
             title:null,
             description:null,
-            community_accession_id:5,
+            community_accession_id:null,
             isLoading:false
         }
 
@@ -26,11 +27,16 @@ class MakePostScreen extends React.Component{
 
         this.setState({isLoading:true})
 
+
+        const getCommunity = await this.api.getData("findCommunity/"+this.props.user.id)
+
+        this.setState({community_accession_id:getCommunity.id})
+
         const data = {
             title:this.state.title,
             description:this.state.description,
             is_community_or_toplum:this.state.value,
-            community_accession_id:this.state.community_accession_id,
+            community_accession_id:getCommunity.id,
         }
 
 
@@ -54,6 +60,11 @@ class MakePostScreen extends React.Component{
 
         }
 
+    }
+
+    componentDidMount = async()=>{
+
+        
     }
 
     render(){
@@ -85,14 +96,14 @@ class MakePostScreen extends React.Component{
                     />
                    
                     <TextInput 
-                        style={{height:70,paddingTop:1,backgroundColor:'#fff',borderWidth:1,borderColor:"#ccc"}}
+                        style={{height:70,paddingTop:1,width:"100%",backgroundColor:'#fff',borderWidth:1,borderColor:"#ccc"}}
                         value={this.state.description}
                         onChangeText={(val)=>this.setState({description:val})}
                         label="Que Voulez-vous dire???"
                     />
 
                     <Button 
-                        style={{backgroundColor:"#000",marginTop:5,borderRadius:6,color:"#fff",height:50}}
+                        style={{backgroundColor:"#000",marginTop:5,borderRadius:6,color:"#fff",height:50,bottom:"-100%"}}
                         icon="loading"
                         mode="elevated"
                         loading={this.state.isLoading}
@@ -105,7 +116,14 @@ class MakePostScreen extends React.Component{
     }
 }
 
-export default withTheme(MakePostScreen);
+const mapStateToProps = (state)=>{
+    return{
+
+        user:state.userReducer.user
+    }
+}
+
+export default connect(mapStateToProps)(withTheme(MakePostScreen));
 
 const styles = StyleSheet.create({
 

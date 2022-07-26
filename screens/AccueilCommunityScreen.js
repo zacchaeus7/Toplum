@@ -36,8 +36,10 @@ import Post from "../Components/Post";
 
     getPosts = async()=> {
      
-      const response = await this.api.getData("posts/"+2+"/1")
+      const response = await this.api.getData("community_posts/"+2+"/"+this.props.route.params.currentCommunity)
     
+      console.log(response);
+
       this.setState({ refreshing: false });
       this.setState({load:false})
     
@@ -47,8 +49,10 @@ import Post from "../Components/Post";
     }
 
     componentDidMount() {
-         this.getPosts();
+
+       this.getPosts();
        this.checkMemberBelonToCommunity();
+      // console.log(this.props.route.params.currentCommunity)
     }
 
 
@@ -92,6 +96,7 @@ import Post from "../Components/Post";
           <Post data={this.state.posts} load={this.state.load} />
         <FabG 
           navigation={this.props.navigation}
+          currentCommunity={this.props.route.params.currentCommunity}
         />
         </SafeAreaView>)
     }

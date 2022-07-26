@@ -67,30 +67,20 @@ componentDidMount(){
         <View style={styles(theme).form}>
           <TextInput 
             style={styles(theme).Inputs}
-            value={this.state.faculty}
-            onChangeText={(value)=>this.setState({faculty:value})}
-            label="FACULTE"
+            value={this.props.community.faculty}
+            onChangeText={(value)=>{
+              this.setState({faculty:value})
+              this.props.dispatch({type:"ADD_USER_TO_COMMUNITY",value:{faculty:value}})}}
+            label="Faculté"
             
           />
           <TextInput 
             style={styles(theme).Inputs}
-            label="Autre activité"
-            value={this.state.activity}
-            onChangeText={(value)=>this.setState({activity:value})}
+            label="Votre metier"
+            value={this.props.community.activity}
+            onChangeText={(value)=>{this.props.dispatch({type:"ADD_USER_TO_COMMUNITY",value:{activity:value}})}}
           />
-           <Button icon="loading"
-            style={styles.Button}
-            mode="contained"
-              onPress={()=>this.addToUserStateStore()}>
-            Enregistrer
-        </Button>
         </View>
-        <Confirm 
-          Visible={this.state.isShowDialog}
-           isFinish={this.state.isFinish}
-          Title={this.state.title}
-          CancelDialog={()=>this.CancelDialog()}
-        />
       </View>
     );
   }

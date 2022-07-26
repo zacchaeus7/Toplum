@@ -32,19 +32,19 @@ componentDidMount(){
               <View style={styles.trasanction}>
                 <Avatar.Icon size={80} icon="account-circle" style={{ marginTop: 10 }} />
                 <View style={styles.transaction_text}>
-                    <Text style={{fontSize:20}}>SARAH KABEMBA</Text>
+                    <Text style={{fontSize:20}}>{this.props.community.full_name}</Text>
                 </View>
               </View>
               <View style={styles.institution}>
                 <Text style={{padding:20,fontSize:15,fontWeight:'bold',color:"#000" }}>FACULTE</Text>
                 <View style={{marginLeft:20}}>
-                    <Text style={{color: theme.colors.primary,fontSize:15,fontWeight:'bold',padding:20}}>DROIT</Text>
+                    <Text style={{color: theme.colors.primary,fontSize:15,fontWeight:'bold',padding:20}}>{this.props.community.faculty}</Text>
                 </View>
               </View>
 
               <View style={{flexDirection:"row"}}>
                 <Text style={{padding:20,fontSize:15,fontWeight:'bold',color:"#000" }}>ACTIVITE</Text>
-                <Text style={{padding:20,fontSize:15,fontWeight:'bold',color: theme.colors.primary }}>AVOCAT</Text>
+                <Text style={{padding:20,fontSize:15,fontWeight:'bold',color: theme.colors.primary }}>{this.props.community.activity}</Text>
               </View> 
             </View>
         );

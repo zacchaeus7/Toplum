@@ -21,7 +21,10 @@ function TestSCreen(){
     </View>
     )
 }
-function MyTabs() {
+function MyTabs(route,navigation) {
+
+  const currentCommunity = route.route.params.Community_id
+
   return (
     <Tab.Navigator tabBarOptions={{
       style: {
@@ -29,12 +32,15 @@ function MyTabs() {
       },
       showLabel: false,
     }}>
-      <Tab.Screen name="Accueil" component={AccueilCommunitySCreen} options={{
+      <Tab.Screen name="Accueil" component={AccueilCommunitySCreen} 
+      options={{
        tabBarLabel: '',
       tabBarIcon: ({ color, size }) => (
         <Icon name="home" color={color} size={25} />
       ),
-    }} />
+    }} 
+     initialParams={{currentCommunity: currentCommunity}}
+    />
       <Tab.Screen name="Membres" component={MemberCommunityScreen}
       options={{
         tabBarLabel: '',

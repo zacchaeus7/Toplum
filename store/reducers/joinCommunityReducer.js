@@ -1,6 +1,14 @@
 
 
-const initialState = {community:[]}
+const initialState = {community: 
+    {
+        full_name:null,
+        end_date:null,
+        faculty:null,
+        activity:null
+    }
+   
+}
 
 export function joinCommunityReducer(state = initialState, action) {
 
@@ -9,9 +17,13 @@ export function joinCommunityReducer(state = initialState, action) {
 
             return{
                 ...state,
-                community:[...state.community, action.value]
+                community:{...state.community, ...action.value}
             }
 
+        }
+        case "CLEAR_FROM_COMMUNITY":{
+            return {...state,
+            transaction: initialState.community}
         }
         default:
             
