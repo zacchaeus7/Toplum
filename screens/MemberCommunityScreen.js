@@ -30,14 +30,13 @@ export default class MemberCommunityScreen extends React.Component{
 
 getCommunityMembers = async()=>{
 
-    const members = await this.api.getData('community_members/'+2);
+    const response = await this.api.getData('community_members/'+this.props.route.params.currentCommunity);
 
-    console.log(members)
-   this.setState({data:members})
+    this.setState({data:response.user.data})
 }
 
 componentDidMount() {
-    // console.log(this.props.navigation.communityprops)
+    // console.log(this.props.route.params.currentCommunity)
     this.getCommunityMembers();
 }
 
@@ -45,7 +44,7 @@ displayFavoriteMember(){
     return(
         <Image 
         source={ require("../assets/images/icons/ic_favorite_full.png")}
-        style={{width:40,height:40,borderRadius:20,marginLeft:30}}
+        style={{width:35,height:35,borderRadius:5}}
     />
     )
 }
@@ -53,12 +52,14 @@ displayFavoriteMember(){
 renderItemComponent = ({item}) =>
     <View style={styles.container}>
        <Image style={styles.image} source={require('../assets/images/icons/account_png.png')} />
-        <Text style={{paddingTop:45,marginLeft:10,color:"#fff"}}>{item.full_name}</Text>
+       <View>
+       <Text style={{paddingTop:30,marginLeft:10,color:"#000"}}>{item.full_name}</Text>
         <TouchableOpacity 
-        onPress={()=>alert("Ajouter Au favorit")}
-        style={{paddingTop:40}}>
+            onPress={()=>alert("Ajouter Au favorit")}
+            style={{paddingTop:45,marginLeft:10}}>
            {this.displayFavoriteMember()}
         </TouchableOpacity>
+       </View>
     </View>
 
 ItemSeparator = () => <View style={{
@@ -77,9 +78,10 @@ ItemSeparator = () => <View style={{
 render() {
   return (
     <SafeAreaView>
-         <ImageBackground style={styles.backgroundImage} source={require("../assets/images/bg/bg2.jpg")}
-    >
+         {/* <ImageBackground style={styles.backgroundImage} source={require("../assets/images/bg/bg2.jpg")}
+    > */}
     {this.state.load && <ActivityIndicator size="large" color="#115f9b" />}
+      
       <FlatList
         data={this.state.data}
         renderItem={(item) => this.renderItemComponent(item)}
@@ -89,7 +91,7 @@ render() {
         // onRefresh={this.handleRefresh}
         numColumns={1}
       />
-      </ImageBackground>
+      {/* </ImageBackground> */}
        <FAB
         icon="plus"
         style={styles.fab}
@@ -100,32 +102,33 @@ render() {
 }
 
 const styles = StyleSheet.create({
-container: {
-flex:1,
-flexDirection:'row',
-width:400,
-// margin: 1,
- backgroundColor: '#000',
- opacity:0.6
-// borderRadius: 6,
-},
-fab: {
-position: 'absolute',
-backgroundColor:"#fd8500",
-margin: 16,
-right: 0,
-bottom: 0,
-},
-image: {
-width:100,
-height:100,
-borderRadius: 50,
-},
-backgroundImage:{
-width: '100%',
-height: '100%',
-justifyContent: "center",
-alignItems: "center",
-opacity: 0.7
-},
+    container: {
+        flex:1,
+        flexDirection:'row',
+        width:"100%",
+        
+        // margin: 1,
+        // backgroundColor: '#000',
+        // opacity:0.6
+    // borderRadius: 6,
+    },
+    fab: {
+        position: 'absolute',
+        backgroundColor:"#fd8500",
+        margin: 16,
+        right: 0,
+        bottom: 0,
+    },
+    image: {
+        width:80,
+        height:80,
+        borderRadius: 40,
+    },
+    backgroundImage:{
+        width: '100%',
+        height: '100%',
+        justifyContent: "center",
+        alignItems: "center",
+        // opacity: 0.7
+    },
 });

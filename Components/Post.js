@@ -15,6 +15,7 @@ import {
  import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { connect } from "react-redux";
 import API from "../API/API";
+import WrapperComponent from "./CommentModel";
 import DescriptionCard from "./DescriptionCard";
 
 class Post extends React.Component{
@@ -26,6 +27,7 @@ class Post extends React.Component{
             refreshing: true,
             load:true,
             posts:[],
+            like:0
         }
         this.api = new API();
     }
@@ -41,8 +43,7 @@ class Post extends React.Component{
     //         }).catch(e => console.log(e));
     // }
 
-    likeOrUnLike = async({item})=>{
-
+    likeOrUnLike = async(item)=>{
       const data = {
         post_id:1,
         user_id:this.props.user.id,
@@ -51,52 +52,52 @@ class Post extends React.Component{
        const response = await this.api.send(data,"like_or_unLike")
 
        console.log(response);
+
     }
 
 
 
     componentDidMount(){
-        console.log(this.props)
+       
     }
     renderItemComponent = ({item}) =>{
       return(
         <View style={styles.content}>
-      <Card mode="outlined">
-      {/* <Image 
-            style={styles.illustrationImage}
-            source={require('../assets/images/icons/account_png.png')}
-            /> */}
-        <Card.Title title={item.full_name.toLowerCase()+"("+item.name+")"}>
-        </Card.Title>
-        <Card.Content>
-          <Title>{item.title}</Title>
-          <DescriptionCard description={item.description} />
-        </Card.Content>
-        <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
-        <Card.Actions>
-        <TouchableOpacity
-        onPress={item=>this.likeOrUnLike(item)}
-        >
-          <MaterialIcons name="favorite" color="#fd8500"  size={30} />
-        </TouchableOpacity>
-        {item.like > 0 ? 
-        <Badge style={{ left: "0%", top: "-3%", backgroundColor: "#00f", color: "#fff" }}>{item.like}</Badge>
-      :<Text></Text>  
-      } 
-        <TouchableOpacity
-            onPress={() => {
-              Linking.openURL(
-                'http://api.whatsapp.com/send?text=TopLum est pret à répondre à toutes vos préocupations&phone=243974375371?'
-              );
-            }}>
-          <MaterialIcons name="comment"  size={30} />
-              
-          </TouchableOpacity>
-        <MaterialIcons name="share"  size={30} />
-          {/* <Button>Ok</Button> */}
-        </Card.Actions>
-    </Card>
-    
+          <Card mode="outlined">
+            <Card.Title title={item.full_name.toLowerCase()+"("+item.name+")"}>
+            </Card.Title>
+            <Card.Content>
+              <Title>{item.title}</Title>
+              <DescriptionCard description={item.description} />
+            </Card.Content>
+            <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
+            <Card.Actions>
+            <TouchableOpacity
+              onPress={(item)=>this.likeOrUnLike(item)}
+              >
+              <MaterialIcons name="favorite" color="#fd8500"  size={30} />
+            </TouchableOpacity>
+            {item.like > 0 ? 
+            <Badge style={{ left: "0%", top: "-3%", backgroundColor: "#00f", color: "#fff" }}>{item.like}</Badge>
+          :<Text></Text>  
+          } 
+            <TouchableOpacity
+                onPress={() => {
+                  Linking.openURL(
+                    'http://api.whatsapp.com/send?text=TopLum est pret à répondre à toutes vos préocupations&phone=243974375371?'
+                  );
+                }}>
+              <MaterialIcons name="comment"  size={30} />    
+              </TouchableOpacity>
+              <TouchableOpacity
+              onPress={()=>{<WrapperComponent />}}
+              >
+              <MaterialIcons name="share"  size={30} />
+              </TouchableOpacity>
+            
+              {/* <Button>Ok</Button> */}
+            </Card.Actions>
+        </Card>
     </View>
       )
 
@@ -105,24 +106,24 @@ class Post extends React.Component{
         render(){
 
           const {data,load,refresh} = this.props
+
            return(
-        <SafeAreaView style={{marginTop:10}}>
-        {load ?
-        <ActivityIndicator size="large" color="#115f9b" />
-            :
-            <FlatList
-            data={data}
-            renderItem={(item) => this.renderItemComponent(item)}
-            keyExtractor={item => item.id.toString()}
-            ItemSeparatorComponent={this.ItemSeparator}
-            refreshing={this.state.refreshing}
-            onRefresh={refresh}
-            numColumns={1}
-            ListHeaderComponent={<Text style={{textAlign:'center',fontSize:20,fontWeight:'bold'}}>PUBLICATIONS RECENTES</Text>}
-        />
-        }
-                
-               
+            <SafeAreaView style={{marginTop:10}}>
+              
+              {load ?
+              <ActivityIndicator size="large" color="#115f9b" />
+                  :
+                  <FlatList
+                  data={data}
+                  renderItem={(item) => this.renderItemComponent(item)}
+                  keyExtractor={item => item.id.toString()}
+                  ItemSeparatorComponent={this.ItemSeparator}
+                  refreshing={this.state.refreshing}
+                  onRefresh={refresh}
+                  numColumns={1}
+                  ListHeaderComponent={<Text style={{textAlign:'center',fontSize:20,fontWeight:'bold'}}>PUBLICATIONS RECENTES</Text>}
+              />
+              }   
             </SafeAreaView>
            )
         }

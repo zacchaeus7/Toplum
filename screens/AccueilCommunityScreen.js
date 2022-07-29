@@ -14,8 +14,6 @@ import {
  import { FAB, Paragraph,Card,Title,Button } from 'react-native-paper';
  import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import FabG from "../Components/fabs/FabG";
-import ReadMore from 'react-native-read-more-text';
-import DescriptionCard from "../Components/DescriptionCard";
 import { connect } from "react-redux";
 import API from "../API/API";
 import Post from "../Components/Post";

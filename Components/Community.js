@@ -14,20 +14,7 @@ export class Community extends React.Component {
             isModePayment:false,
             isCommunityLoaded:false,
             entries:[
-                {
-                    'title':"UPL"
-                },
-                {
-                    'title':"UNH"
-                },
-                
-                {
-                    'title':"UNILU"
-                },
-                {
-                    'title':"UNIKAM"
-                },
-        
+              
             ],
         }
         

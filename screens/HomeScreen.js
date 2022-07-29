@@ -38,6 +38,7 @@ const Item = ({ title,sender }) => (
        posts:[],
        refreshing: true,
        load:true,
+       like:0,
     }
     this.api = new API();
   }
@@ -77,7 +78,7 @@ const Item = ({ title,sender }) => (
 
   this.setState({posts:response.data})
 
-  // console.log(this.state.posts)
+    
 }
 
 handleRefresh = () => {
@@ -87,7 +88,7 @@ handleRefresh = () => {
 
 
 componentDidMount(){
- this.getCommunity();
+this.getCommunity();
 this.checkProfileComplete();
 this.getPosts();
 this.setState({refreshing:true});
@@ -106,7 +107,12 @@ this.handleRefresh();
         </View>         
          <ScrollView>
           <View style={styles.header}>
-              <Post data={this.state.posts} load={this.state.load} refresh={this.state.refreshing}/>
+              <Post 
+                data={this.state.posts}
+                load={this.state.load}
+                refresh={this.state.refreshing}
+                
+                />
             </View>
          </ScrollView>
       

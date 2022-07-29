@@ -47,7 +47,9 @@ function MyTabs(route,navigation) {
        tabBarIcon: ({ color, size }) => (
          <FontAweson name="users" color={color} size={25} />
        ),
-     }} />
+     }} 
+     initialParams={{currentCommunity: currentCommunity}}
+     />
       <Tab.Screen name="Album" component={AlbumCommunityScreen}
       options={{
         tabBarLabel: '',
