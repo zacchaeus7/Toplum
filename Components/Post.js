@@ -72,30 +72,30 @@ class Post extends React.Component{
             </Card.Content>
             <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
             <Card.Actions>
-            <TouchableOpacity
-              onPress={()=>this.likeOrUnLike(item)}
-              >
-              <MaterialIcons name="favorite" color="#fd8500"  size={30} />
-            </TouchableOpacity>
-            {item.like > 0 ? 
-            <Badge style={{ left: "0%", top: "-3%", backgroundColor: "#00f", color: "#fff" }}>{item.like}</Badge>
-          :<Text></Text>  
-          } 
-            <TouchableOpacity
-                onPress={() => {
-                  Linking.openURL(
-                    'http://api.whatsapp.com/send?text=TopLum est pret à répondre à toutes vos préocupations&phone=243974375371?'
-                  );
-                }}>
-              <MaterialIcons name="comment"  size={30} />    
-              </TouchableOpacity>
-              <TouchableOpacity
-              onPress={()=>{<WrapperComponent />}}
-              >
-              <MaterialIcons name="share"  size={30} />
-              </TouchableOpacity>
-            
-              {/* <Button>Ok</Button> */}
+              <View style={{flexDirection:"row",borderRadius:5,margin:2,borderWidth:0.7,height:50,borderColor:"#ccc",alignItems:'center',width:"100%"}}>
+                <TouchableOpacity
+                  onPress={()=>this.likeOrUnLike(item)}
+                  >
+                  <MaterialIcons name="favorite" color="#fd8500"  size={30} />
+                </TouchableOpacity>
+                    {item.like > 0 ? 
+                    <Badge style={{ left: "0%", top: "-8%", backgroundColor: "#00f", color: "#fff" }}>{item.like}</Badge>
+                    :<Text></Text>  
+                    } 
+                <TouchableOpacity
+                    onPress={() => {
+                      Linking.openURL(
+                        'http://api.whatsapp.com/send?text=TopLum est pret à répondre à toutes vos préocupations&phone=243974375371?'
+                      );
+                    }}>
+                  <MaterialIcons name="comment"  size={30} />    
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                  onPress={()=>{<WrapperComponent />}}
+                  >
+                <MaterialIcons name="share"  size={30} />
+                </TouchableOpacity>
+              </View>
             </Card.Actions>
         </Card>
     </View>

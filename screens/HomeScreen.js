@@ -71,8 +71,6 @@ const Item = ({ title,sender }) => (
      
   const response = await this.api.getData("posts")
 
-  console.log(response)
-
   this.setState({ refreshing: false });
   this.setState({load:false})
 

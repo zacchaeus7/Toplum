@@ -35,8 +35,6 @@ import Post from "../Components/Post";
     getPosts = async()=> {
      
       const response = await this.api.getData("community_posts/"+2+"/"+this.props.route.params.currentCommunity)
-    
-      console.log(response);
 
       this.setState({ refreshing: false });
       this.setState({load:false})
