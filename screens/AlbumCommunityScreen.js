@@ -60,6 +60,7 @@ export default class AlbumCommunityScreen extends React.Component{
             ItemSeparatorComponent={this.ItemSeparator}
             refreshing={this.state.refreshing}
             onRefresh={this.handleRefresh}
+            //  numColumns={2}
           />
         </SafeAreaView>)
     }

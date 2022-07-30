@@ -108,7 +108,7 @@ class LoginScreen extends React.Component{
                     duration={1500}
                     style={styles(theme).container}>
                     <View style={styles(theme).header}>
-                        <Text style={{color: '#fff',fontWeight: 'bold',textAlign:'center',fontSize: 35}}>TopLum</Text>
+                        <Text style={{color: '#fff',fontWeight: 'bold',textAlign:'center',fontSize: 35}}>Taarifa</Text>
                         <Text style={styles(theme).text_header}>Connexion</Text>
                     </View>
                         <View style={styles(theme).footer}>

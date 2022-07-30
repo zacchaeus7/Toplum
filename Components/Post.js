@@ -15,7 +15,7 @@ import {
  import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { connect } from "react-redux";
 import API from "../API/API";
-import WrapperComponent from "./CommentModel";
+import WrapperComponent from "./CommentModal";
 import DescriptionCard from "./DescriptionCard";
 
 class Post extends React.Component{
@@ -45,7 +45,7 @@ class Post extends React.Component{
 
     likeOrUnLike = async(item)=>{
       const data = {
-        post_id:1,
+        post_id:item.id,
         user_id:this.props.user.id,
         like:true
       }
@@ -73,7 +73,7 @@ class Post extends React.Component{
             <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
             <Card.Actions>
             <TouchableOpacity
-              onPress={(item)=>this.likeOrUnLike(item)}
+              onPress={()=>this.likeOrUnLike(item)}
               >
               <MaterialIcons name="favorite" color="#fd8500"  size={30} />
             </TouchableOpacity>
@@ -114,14 +114,14 @@ class Post extends React.Component{
               <ActivityIndicator size="large" color="#115f9b" />
                   :
                   <FlatList
-                  data={data}
-                  renderItem={(item) => this.renderItemComponent(item)}
-                  keyExtractor={item => item.id.toString()}
-                  ItemSeparatorComponent={this.ItemSeparator}
-                  refreshing={this.state.refreshing}
-                  onRefresh={refresh}
-                  numColumns={1}
-                  ListHeaderComponent={<Text style={{textAlign:'center',fontSize:20,fontWeight:'bold'}}>PUBLICATIONS RECENTES</Text>}
+                    data={data}
+                    renderItem={(item) => this.renderItemComponent(item)}
+                    keyExtractor={item => item.id.toString()}
+                    ItemSeparatorComponent={this.ItemSeparator}
+                    refreshing={this.state.refreshing}
+                    onRefresh={refresh}
+                    numColumns={1}
+                    ListHeaderComponent={<Text style={{textAlign:'center',fontSize:20,fontWeight:'bold'}}>PUBLICATIONS RECENTES</Text>}
               />
               }   
             </SafeAreaView>

@@ -10,9 +10,10 @@
  import { Provider as PaperProvider, DarkTheme as PaperDarkTheme, DefaultTheme as PaperDefaultTheme } from 'react-native-paper';
  import { NavigationContainer, DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationDefaultTheme } from '@react-navigation/native';
  import { Provider as ReduxProvider } from 'react-redux';
- import { Store } from './store/configStore';
+ import { Store,Persistor } from './store/configStore';
  import RootStackScreen from './navigations/RootStackScreen';
  import merge from 'deepmerge';
+ import { PersistGate } from 'redux-persist/integration/react';
  import { Appearance } from 'react-native';
  
  const CombinedDefaultTheme = merge(PaperDefaultTheme, NavigationDefaultTheme);
@@ -42,9 +43,11 @@
    return (
      <PaperProvider theme={theme}>
        <ReduxProvider store={Store}>
-         <NavigationContainer theme={theme}>
-           <RootStackScreen theme={theme}/>
-         </NavigationContainer>
+        <PersistGate loading={null} persistor={Persistor}>
+          <NavigationContainer theme={theme}>
+            <RootStackScreen theme={theme}/>
+          </NavigationContainer>
+          </PersistGate>
        </ReduxProvider>
      </PaperProvider>
    );

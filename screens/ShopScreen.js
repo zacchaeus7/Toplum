@@ -10,6 +10,8 @@ import {
     ActivityIndicator,
     Linking
 } from "react-native";
+import { FAB } from 'react-native-paper';
+import CommentModal from "../Components/CommentModal";
 
 export default class ShopScreen extends React.Component{
 
@@ -69,7 +71,8 @@ export default class ShopScreen extends React.Component{
                 }
             ],
             refreshing: true,
-            load:true
+            load:true,
+            isModalShow:false
         }
     }
 
@@ -121,6 +124,10 @@ export default class ShopScreen extends React.Component{
         this.setState({ refreshing: false }, () => { this.fetchCats() }); // call fetchCats after setting the state
     }
 
+    showModal(){
+        this.setState({isModalShow:true})
+    }
+
     render() {
       return (
         <SafeAreaView style={styles.content}>
@@ -135,6 +142,15 @@ export default class ShopScreen extends React.Component{
             onRefresh={this.handleRefresh}
             numColumns={1}
           />
+          <FAB
+            icon="camera"
+            style={styles.fab}
+            onPress={() =>this.showModal()}
+            />
+
+            <CommentModal 
+                isVisible={this.state.isModalShow}
+            />
         </SafeAreaView>)
     }
 }
@@ -159,5 +175,12 @@ const styles = StyleSheet.create({
   post_infos:{
      flexDirection:'row',
     // backgroundColor:'#ccc'
-  }
+  },
+  fab: {
+    position: 'absolute',
+    backgroundColor:"#fd8500",
+    margin: 16,
+    right: 0,
+    bottom: 0,
+  },
 });
