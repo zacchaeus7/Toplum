@@ -7,7 +7,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import { connect } from "react-redux";
 import API from "../../API/API";
 
-export class AvatarImage extends React.Component {
+export class AlbumModal extends React.Component {
 
     constructor(props){
         super(props)
@@ -191,4 +191,4 @@ const mapStateToProps = (state)=>{
       user:state.userReducer.user
     }
   }
-export default connect(mapStateToProps)(AvatarImage)
+export default connect(mapStateToProps)(AlbumModal)

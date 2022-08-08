@@ -1,6 +1,6 @@
 import React from "react";
 import { View, ImageBackground,StyleSheet,Image,BackHandler } from 'react-native'
-import { Paragraph, ThemeProvider,ActivityIndicator,Text, withTheme } from "react-native-paper";
+import { Paragraph,IconButton, ThemeProvider,ActivityIndicator,Text, withTheme } from "react-native-paper";
 import { connect } from "react-redux";
 import LocalStorage from "../storage/LocalStorage";
 

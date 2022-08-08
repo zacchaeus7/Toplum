@@ -15,7 +15,7 @@ import {
  import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { connect } from "react-redux";
 import API from "../API/API";
-import WrapperComponent from "./CommentModal";
+ import WrapperComponent from "./Modals/CommentModal";
 import DescriptionCard from "./DescriptionCard";
 
 class Post extends React.Component{

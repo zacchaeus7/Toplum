@@ -64,7 +64,9 @@ function MyTabs(route,navigation) {
         <Feather name="activity" color={color} size={25} />
 
        ),
-     }} />
+     }} 
+     initialParams={{currentCommunity: currentCommunity}}
+     />
       <Tab.Screen name="Favorits" component={FavoriteCommunityMember}
       options={{
         tabBarLabel: '',

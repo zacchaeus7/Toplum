@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "react-native-modal";
 import { View,Text,Button } from 'react-native';
-import AvatarImage from "./ImagePickers/Avatar";
+import AvatarImage from "../ImagePickers/Avatar";
 
 class CommentModal extends React.Component {
 

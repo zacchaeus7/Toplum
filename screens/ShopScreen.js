@@ -11,7 +11,7 @@ import {
     Linking
 } from "react-native";
 import { FAB } from 'react-native-paper';
-import CommentModal from "../Components/CommentModal";
+import CommentModal from "../Components/Modals/CommentModal";
 
 export default class ShopScreen extends React.Component{
 

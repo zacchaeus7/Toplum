@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet, StatusBar, ImageBackground, Image } from "react-native";
-import { withTheme, Card, Text, Button, Paragraph, Title } from "react-native-paper";
+import { withTheme, Card, Text, Button,IconButton, Paragraph, Title } from "react-native-paper";
 import Dots from 'react-native-dots-pagination';
 import * as Animatable from 'react-native-animatable';
 
@@ -45,6 +45,7 @@ class OnBoarding extends React.Component{
                     </ImageBackground>
                 </Card>
                 <View style={{ alignItems: 'center' }}>
+                
                     <Button 
                         mode="contained"
                         color={theme.colors.secondary}

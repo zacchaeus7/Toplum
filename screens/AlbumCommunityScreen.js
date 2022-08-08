@@ -7,6 +7,8 @@ import {
     Image,
     TouchableOpacity
 } from "react-native";
+import { FAB } from 'react-native-paper';
+import ImagePicker from 'react-native-image-crop-picker';
 
 export default class AlbumCommunityScreen extends React.Component{
 
@@ -16,6 +18,7 @@ export default class AlbumCommunityScreen extends React.Component{
         this.state = {
             data: [],
             refreshing: true,
+            isModalShow:false
         }
     }
 
@@ -50,6 +53,24 @@ export default class AlbumCommunityScreen extends React.Component{
         this.setState({ refreshing: false }, () => { this.fetchCats() }); // call fetchCats after setting the state
     }
 
+    showModal(){
+      this.setState({isModalShow:true})
+  }
+
+  onClickAvatar(){
+       
+    ImagePicker.openPicker({
+        width: 300,
+        height: 400,
+        cropping: true
+      }).then(image => {
+        console.log(image);
+         this.setState({avatar:image.path})
+         this.setState({avatarData:image});
+      });
+
+}
+
     render() {
       return (
         <SafeAreaView>
@@ -62,6 +83,13 @@ export default class AlbumCommunityScreen extends React.Component{
             onRefresh={this.handleRefresh}
             //  numColumns={2}
           />
+          <FAB
+            icon="camera"
+            style={styles.fab}
+            onPress={() =>this.onClickAvatar()}
+            />
+
+      
         </SafeAreaView>)
     }
 }
@@ -76,5 +104,12 @@ const styles = StyleSheet.create({
   image: {
     height: '100%',
     borderRadius: 4,
+  },
+  fab: {
+    position: 'absolute',
+    backgroundColor:"#fd8500",
+    margin: 16,
+    right: 0,
+    bottom: 0,
   },
 });
