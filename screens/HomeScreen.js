@@ -84,11 +84,10 @@ handleRefresh = () => {
 }
 
 
-
 componentDidMount(){
 this.getCommunity();
 this.checkProfileComplete();
-this.getPosts();
+ this.getPosts();
 this.setState({refreshing:true});
 this.handleRefresh();
 

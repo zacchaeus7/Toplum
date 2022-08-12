@@ -51,26 +51,14 @@ export class AvatarImage extends React.Component {
        formData.append('file',{
              uri:this.state.avatarData.path,
              type:this.state.avatarData.mime,
-            //  name:name+"."+expas[2],
-            //  price:this.state.price,
-            // whatsapp_phone:this.state.whatsappPhone,
-            // user_id:this.props.user.id,
-            // community_id:1
        })
+       formData.append('name',this.state.name);
+       formData.append('price',this.state.price);
+       formData.append('whatsapp_phone',this.state.whatsappPhone);
+       formData.append('user_id',this.props.user.is);
+       formData.append('community_id',1);
 
-    
-
-       let data = 
-       {
-           file:formData, 
-           name:this.state.name,
-           price:this.state.price,
-           whatsapp_phone:this.state.whatsappPhone,
-           user_id:this.props.user.id,
-           community_id:1
-       }
-
-       const test = this.api.createFormData(data);
+    //  const formDatas = this.api.createFormData(formData);
             
        
        let res = await fetch(
@@ -78,17 +66,17 @@ export class AvatarImage extends React.Component {
         {
           method: 'post',
           headers: {
-            //  'Content-Type': 'multipart/form-data;',
-            // 'Accept': 'application/json',
-            // 'Content-Type': 'application/json'
+             'Content-Type': 'multipart/form-data;',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
           },
-          body: data,
+          body: JSON.stringify(formData),
         }
       );
-        let responseJson = await res.json();
+         let responseJson = await res.json();
 
-           console.log(responseJson)
-        //   console.log(response);
+           console.log(formData);
+            console.log(responseJson);
         // console.log(data);
 
        
