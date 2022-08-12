@@ -10,118 +10,71 @@ import {
     ActivityIndicator,
     Linking
 } from "react-native";
+import { Avatar, Button, Card, Title, Divider } from 'react-native-paper';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { FAB } from 'react-native-paper';
 import CommentModal from "../Components/Modals/CommentModal";
 
-export default class ShopScreen extends React.Component{
+
+import API from "../API/API";
+import { connect } from "react-redux";
+
+ class ShopScreen extends React.Component{
 
     constructor(props) {
         super(props);
         this.state = {
-            datas: [
-                {
-                    id:1,
-                    title:"Article 1",
-                    amount:1000,
-                    description:'lorem',
-                    mobile_no:974375371
-                },
-                {
-                    id:2,
-                    title:"Article 2",
-                    description:'lorem',
-                    amount:58966,
-                    mobile_no:974375371
-                },
-                {
-                    id:3,
-                    title:"Article 3",
-                    description:'lorem',
-                    amount:2000,
-                    mobile_no:974375371
-                },
-                {
-                    id:4,
-                    title:"Article 4",
-                    amount:96000,
-                    description:'lorem'
-                },
-                {
-                    id:5,
-                    title:"Article 3",
-                    amount:1000,
-                    description:'lorem'
-                },
-                {
-                    id:6,
-                    title:"Article 4",
-                    amount:1000,
-                    description:'lorem'
-                },
-                {
-                    id:7,
-                    title:"Article 3",
-                    amount:1000,
-                    description:'lorem'
-                },
-                {
-                    id:8,
-                    title:"Article 4",
-                    description:'lorem'
-                }
-            ],
+            datas: [],
             refreshing: true,
             load:true,
             isModalShow:false
         }
+        this.api = new API();
     }
 
     componentDidMount() {
-        this.fetchCats();
+        this.getItems();
     }
 
-    fetchCats() {
-        this.setState({ refreshing: true });
-        fetch('https://api.thecatapi.com/v1/images/search?limit=30&page=1')
-            .then(res => res.json())
-            .then(resJson => {
-                this.setState({ data: resJson });
-                this.setState({ refreshing: false });
-                this.setState({load:false})
-            }).catch(e => console.log(e));
+    getItems = async()=> {
+       
+         const items = await this.api.getData('shops');
+
+         this.setState({datas:items.data,refreshing: true});
+
     }
 
     renderItemComponent = ({item}) =>
         <TouchableOpacity style={styles.container}>
-            <View style={styles.post_infos}>
-                <Image style={styles.image} source={require('../assets/images/phone1.jpg')} />
-                <View style={{marginTop:10}}>
-                    <Text style={{fontWeight:'bold',fontSize:16,paddingBottom:40}}>{item.title}</Text>
-                    <Text style={{fontWeight:'bold',fontSize:20,paddingBottom:30,color:'#000'}}>{item.amount+" "}CDF</Text>
-                    <TouchableOpacity
+            <View >
+            <Card style={styles.container}>
+                <Card.Title title={item.name} />
+                <Card.Cover style={{marginLeft:5,width:200}} source={{uri:item.image}} />
+                <Card.Content>
+                {/* <Title>Card title</Title> */}
+                <Title>${" "+item.price.toFixed(2)}</Title>
+                </Card.Content>
+                <View style={{flexDirection:"row"}}>
+                <TouchableOpacity
                      onPress={() => {
                         Linking.openURL(
-                          'http://api.whatsapp.com/send?phone=243974375371'
+                          'http://api.whatsapp.com/send?phone=+243'+item.whatsapp_phone
                         );
                       }}>
-                    <Text style={{fontWeight:'bold',fontSize:16}}>+243 974375371</Text>
-                        
+                          <FontAwesome name="whatsapp" color="#0f0" size={40} />
+                    
                     </TouchableOpacity>
-                   
+                    <TouchableOpacity>
+                    <Text style={{marginTop:5}}>+243{item.whatsapp_phone}</Text>
+                    </TouchableOpacity>
                 </View>
+            </Card>
+            <Divider />
             </View>
         </TouchableOpacity>
 
-    ItemSeparator = () => <View style={{
-        height: 2,
-        backgroundColor: "rgba(0,0,0,0.5)",
-        // marginLeft: 10,
-        // marginRight: 10,
-    }}
-    />
-
     handleRefresh = () => {
-        this.setState({ refreshing: false }, () => { this.fetchCats() }); // call fetchCats after setting the state
+        this.setState({ refreshing: false }, () => { this.getItems() }); // call fetchCats after setting the state
     }
 
     showModal(){
@@ -130,57 +83,85 @@ export default class ShopScreen extends React.Component{
 
     render() {
       return (
-        <SafeAreaView style={styles.content}>
-        {/* {this.state.load && <ActivityIndicator size="large" color="#115f9b" />} */}
+        <View>
+            <View style={{height:20,margin:10,borderRadius:5}}>
+                <Card>
+                    <Card.Title title="Shop de la communauté" />
+                    <Card.Content>
 
-          <FlatList
-            data={this.state.datas}
-            renderItem={item => this.renderItemComponent(item)}
-            keyExtractor={item => item.id.toString()}
-            ItemSeparatorComponent={this.ItemSeparator}
-            refreshing={this.state.refreshing}
-            onRefresh={this.handleRefresh}
-            numColumns={1}
-          />
-          <FAB
-            icon="camera"
-            style={styles.fab}
-            onPress={() =>this.showModal()}
-            />
+                    </Card.Content>
+                    <View style={{flexDirection:"row"}}>
+        
+                    </View>
+                </Card>
+            </View>
+            <SafeAreaView style={styles.content}>
+            {/* {this.state.load && <ActivityIndicator size="large" color="#115f9b" />} */}
 
-            <CommentModal 
-                isVisible={this.state.isModalShow}
+            <FlatList
+                data={this.state.datas}
+                renderItem={item => this.renderItemComponent(item)}
+                keyExtractor={item => item.id.toString()}
+                // ItemSeparatorComponent={this.ItemSeparator}
+                refreshing={this.state.refreshing}
+                onRefresh={this.handleRefresh}
+                numColumns={2}
             />
-        </SafeAreaView>)
+              
+
+                <CommentModal 
+                    isVisible={this.state.isModalShow}
+                />
+            </SafeAreaView>
+            <FAB
+                icon="camera"
+                style={styles.fab}
+                onPress={() =>this.showModal()}
+                />
+        </View>
+        )
     }
 }
+
+const mapStateToProps = (state)=>{
+
+    return{
+        user:state.userReducer.user
+    }
+}
+
+export default connect(mapStateToProps)(ShopScreen)
 
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    flexDirection: 'column',
+    width:"200%",
+    // margin:2,
+    borderRadius:4,
+    flexDirection:'row',
     backgroundColor: '#fff',
-    borderRadius: 6,
   },
   content:{
     margin:2,
+    marginTop:30
   },
   image: {
-    height: 180,
-    width:"50%",
+    height: 200,
+    width:300,
+    justifyContent:'center',
+    alignItems:'center',
     borderRightWidth:1,
     borderRightColor:'#000',
-    margin:0,
+    margin:15,
   },
   post_infos:{
      flexDirection:'row',
-    // backgroundColor:'#ccc'
   },
   fab: {
     position: 'absolute',
-    backgroundColor:"#fd8500",
+    backgroundColor:"#14F",
     margin: 16,
     right: 0,
-    bottom: 0,
+    bottom: 50,
   },
 });

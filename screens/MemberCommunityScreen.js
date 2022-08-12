@@ -10,7 +10,7 @@ import {
     ActivityIndicator,
     Text
 } from "react-native";
- import { FAB } from 'react-native-paper';
+import { Avatar,FAB,Button, Card, Title, Divider } from 'react-native-paper';
 import API from "../API/API";
 import {connect} from 'react-redux';
 
@@ -98,27 +98,36 @@ handleRefresh = () => {
 
 render() {
   return (
-    <SafeAreaView>
-         {/* <ImageBackground style={styles.backgroundImage} source={require("../assets/images/bg/bg2.jpg")}
-    > */}
-    {/* {this.state.load && <ActivityIndicator size="large" color="#115f9b" />} */}
-      
-      <FlatList
-        data={this.state.data}
-        renderItem={(item) => this.renderItemComponent(item)}
-        keyExtractor={item => item.id.toString()}
-        ItemSeparatorComponent={this.ItemSeparator}
-        refreshing={this.state.refreshing}
-         onRefresh={this.handleRefresh}
-        numColumns={1}
-      />
-      {/* </ImageBackground> */}
-       <FAB
-        icon="plus"
-        style={styles.fab}
-        onPress={() => this.props.navigation.navigate("JoinCommunityScreen")}
-    />
-    </SafeAreaView>)
+    <View>
+        <View style={{height:20,margin:10,borderRadius:5}}>
+                <Card>
+                    <Card.Title title="Tous les membres" />
+                    <Card.Content>
+
+                    </Card.Content>
+                    <View style={{flexDirection:"row"}}>
+        
+                    </View>
+                </Card>
+            </View>
+            <SafeAreaView style={{marginTop:35}}>
+            <FlatList
+                data={this.state.data}
+                renderItem={(item) => this.renderItemComponent(item)}
+                keyExtractor={item => item.id.toString()}
+                ItemSeparatorComponent={this.ItemSeparator}
+                refreshing={this.state.refreshing}
+                onRefresh={this.handleRefresh}
+                numColumns={1}
+            />
+            {/* </ImageBackground> */}
+            <FAB
+                icon="plus"
+                style={styles.fab}
+                onPress={() => this.props.navigation.navigate("JoinCommunityScreen")}
+            />
+            </SafeAreaView>
+    </View>)
 }
 }
 
