@@ -6,6 +6,7 @@ import { ActivityIndicator, Avatar,IconButton, Button, TextInput } from 'react-n
 import ImagePicker from 'react-native-image-crop-picker';
 import { connect } from "react-redux";
 import API from "../../API/API";
+import Confirm from "../Dialogs/Confirm";
 
 export class AvatarImage extends React.Component {
 
@@ -16,7 +17,11 @@ export class AvatarImage extends React.Component {
            name:null,
            price:null,
            whatsappPhone:null,
-           avatarData:[{}]
+           avatarData:[{}],
+
+           isConfirmModalVivible : false,
+           isFinishConfirmModal:false,
+           modalTitle:""
         }
         this.onClickAvatar = this.onClickAvatar.bind(this);
         this.api = new API();
@@ -42,44 +47,45 @@ export class AvatarImage extends React.Component {
 
     uploadAvatar = async()=>{
 
-    // const response = await this.api.send(data,'uploadAvatar');
+        this.setState({isConfirmModalVivible:true,modalTitle:"Article en cours d'ajout..."})
 
         let URL = "http://192.168.1.155:8000/api/uploadAvatar"
         var name =Date.now();
-        // const expas = this.state.avatarData.path.split(".")
+         const expas = this.state.avatarData.path.split(".")
        const formData = new FormData();
        formData.append('file',{
              uri:this.state.avatarData.path,
              type:this.state.avatarData.mime,
+             name:this.state.avatarData.path
+             
        })
-       formData.append('name',this.state.name);
+
+       formData.append('name',this.state.name); 
+       formData.append('whatsapp_phone',this.state.whatsappPhone);
        formData.append('price',this.state.price);
        formData.append('whatsapp_phone',this.state.whatsappPhone);
-       formData.append('user_id',this.props.user.is);
-       formData.append('community_id',1);
+       formData.append('user_id',this.props.user.id),
+       formData.append('community_id',1),
 
-    //  const formDatas = this.api.createFormData(formData);
-            
-       
+       this.api.createFormData(formData);
+
        let res = await fetch(
         URL,
         {
           method: 'post',
           headers: {
-             'Content-Type': 'multipart/form-data;',
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+              'Content-Type': 'multipart/form-data',
           },
-          body: JSON.stringify(formData),
+          body: formData,
         }
       );
-         let responseJson = await res.json();
+        let responseJson = await res.json();
 
-           console.log(formData);
-            console.log(responseJson);
-        // console.log(data);
+        console.log(responseJson);
+        if(responseJson.status == 1){
 
-       
+            this.setState({isFinishConfirmModal:true,modalTitle:"Votre article a été ajouté"})
+        }
 
     }
 
@@ -147,6 +153,13 @@ export class AvatarImage extends React.Component {
                     onPress={() => this.uploadAvatar()}>
                     Enregistrer
                 </Button>
+
+                <Confirm 
+                    Visible = {this.state.isConfirmModalVivible}
+                    Title = {this.state.modalTitle}
+                    isFinish = {this.state.isFinishConfirmModal}
+                    CancelDialog = {()=>this.setState({isConfirmModalVivible:false})}
+                />
             </View>
            
             

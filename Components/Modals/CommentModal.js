@@ -7,7 +7,7 @@ class CommentModal extends React.Component {
 
   render(){
 
-    const {isVisible} = this.props;
+    const {isVisible,isCancel} = this.props;
 
     return (
       <View>
