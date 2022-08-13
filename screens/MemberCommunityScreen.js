@@ -13,6 +13,7 @@ import {
 import { Avatar,FAB,Button, Card, Title, Divider } from 'react-native-paper';
 import API from "../API/API";
 import {connect} from 'react-redux';
+import EmptyFlatList from "../Components/EmptyFlatList";
 
   class MemberCommunityScreen extends React.Component{
 
@@ -116,6 +117,7 @@ render() {
                 renderItem={(item) => this.renderItemComponent(item)}
                 keyExtractor={item => item.id.toString()}
                 ItemSeparatorComponent={this.ItemSeparator}
+                ListEmptyComponent={<EmptyFlatList />}
                 refreshing={this.state.refreshing}
                 onRefresh={this.handleRefresh}
                 numColumns={1}
@@ -154,7 +156,7 @@ const styles = StyleSheet.create({
     },
     fab: {
         position: 'absolute',
-        backgroundColor:"#fd8500",
+        backgroundColor:"#14F",
         margin: 16,
         right: 0,
         bottom: 0,

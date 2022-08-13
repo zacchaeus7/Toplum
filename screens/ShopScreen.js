@@ -18,6 +18,7 @@ import CommentModal from "../Components/Modals/CommentModal";
 
 import API from "../API/API";
 import { connect } from "react-redux";
+import EmptyFlatList from "../Components/EmptyFlatList";
 
  class ShopScreen extends React.Component{
 
@@ -34,22 +35,23 @@ import { connect } from "react-redux";
 
     componentDidMount() {
         this.getItems();
+        // console.log(this.props.route.params.currentCommunity)
     }
 
     getItems = async()=> {
        
-         const items = await this.api.getData('shops');
+         const items = await this.api.getData('shop_items/'+this.props.route.params.currentCommunity);
 
-         this.setState({datas:items.data,refreshing: true});
+         this.setState({datas:items.data,refreshing: false});
 
     }
 
     renderItemComponent = ({item}) =>
         <TouchableOpacity style={styles.container}>
             <View >
-            <Card style={styles.container}>
-                <Card.Title title={item.name} />
-                <Card.Cover style={{marginLeft:5,width:200}} source={{uri:item.image}} />
+            <Card style={styles.container} >
+                <Card.Title title={item.name}  subtitle={item.user.name}/>
+                <Card.Cover style={{marginLeft:5,width:180,padding:2,borderRadius:10}} source={{uri:item.image}} />
                 <Card.Content>
                 {/* <Title>Card title</Title> */}
                 <Title>${" "+item.price}</Title>
@@ -65,7 +67,7 @@ import { connect } from "react-redux";
                     
                     </TouchableOpacity>
                     <TouchableOpacity>
-                    <Text style={{marginTop:5}}>+243{item.whatsapp_phone}</Text>
+                    <Text style={{marginTop:10,marginLeft:1}}>+243{item.whatsapp_phone}</Text>
                     </TouchableOpacity>
                 </View>
             </Card>
@@ -74,7 +76,7 @@ import { connect } from "react-redux";
         </TouchableOpacity>
 
     handleRefresh = () => {
-        this.setState({ refreshing: false }, () => { this.getItems() }); // call fetchCats after setting the state
+        this.setState({ refreshing: false }, () => { this.getItems() }); // call getItems after setting the state
     }
 
     showModal(){
@@ -102,15 +104,16 @@ import { connect } from "react-redux";
                 data={this.state.datas}
                 renderItem={item => this.renderItemComponent(item)}
                 keyExtractor={item => item.id.toString()}
-                // ItemSeparatorComponent={this.ItemSeparator}
+            
+                ListEmptyComponent={<EmptyFlatList />}
                 refreshing={this.state.refreshing}
                 onRefresh={this.handleRefresh}
                 numColumns={2}
             />
               
-
                 <CommentModal 
                     isVisible={this.state.isModalShow}
+                    currentCommunity = {this.props.route.params.currentCommunity}
                 />
             </SafeAreaView>
             <FAB
@@ -136,7 +139,7 @@ const styles = StyleSheet.create({
   container: {
     flex:1,
     width:"200%",
-    // margin:2,
+    margin:2,
     borderRadius:4,
     flexDirection:'row',
     backgroundColor: '#fff',
