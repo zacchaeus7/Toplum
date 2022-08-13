@@ -18,12 +18,14 @@ export default class AlbumCommunityScreen extends React.Component{
         this.state = {
             data: [],
             refreshing: true,
-            isModalShow:false
+            isModalShow:false,
+            avatarData:[{}]
         }
     }
 
     componentDidMount() {
         this.fetchCats();
+        console.log(this.avatarData)
     }
 
     fetchCats() {
@@ -62,11 +64,12 @@ export default class AlbumCommunityScreen extends React.Component{
     ImagePicker.openPicker({
         width: 300,
         height: 400,
-        cropping: true
-      }).then(image => {
-        console.log(image);
-         this.setState({avatar:image.path})
-         this.setState({avatarData:image});
+         multiple: true,
+         cropping: true,
+      }).then(Images => {
+        // console.log(Images);
+         this.setState({avatar:Images.path})
+         this.setState({avatarData:Images});
       });
 
 }

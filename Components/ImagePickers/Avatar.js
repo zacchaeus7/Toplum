@@ -28,7 +28,7 @@ export class AvatarImage extends React.Component {
     }
 
     componentDidMount(){
-        console.log(this.state.avatar)
+        console.log(this.props.currentCommunity)
     }
 
     onClickAvatar(){
@@ -36,7 +36,11 @@ export class AvatarImage extends React.Component {
         ImagePicker.openPicker({
             width: 300,
             height: 400,
-            cropping: true
+            cropping: true,
+            freeStyleCropEnabled:true,
+            cropperToolbarTitle:"Selectionner l'image",
+            enableRotationGesture:true,
+            cropperCircleOverlay:true
           }).then(image => {
             console.log(image);
              this.setState({avatar:image.path})
@@ -65,7 +69,7 @@ export class AvatarImage extends React.Component {
        formData.append('price',this.state.price);
        formData.append('whatsapp_phone',this.state.whatsappPhone);
        formData.append('user_id',this.props.user.id),
-       formData.append('community_id',1),
+       formData.append('community_id',this.props.currentCommunity),
 
        this.api.createFormData(formData);
 

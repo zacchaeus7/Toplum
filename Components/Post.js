@@ -17,6 +17,7 @@ import { connect } from "react-redux";
 import API from "../API/API";
  import WrapperComponent from "./Modals/CommentModal";
 import DescriptionCard from "./DescriptionCard";
+import EmptyFlatList from "./EmptyFlatList";
 
 class Post extends React.Component{
 
@@ -118,6 +119,7 @@ class Post extends React.Component{
                     renderItem={(item) => this.renderItemComponent(item)}
                     keyExtractor={item => item.id.toString()}
                     ItemSeparatorComponent={this.ItemSeparator}
+                    ListEmptyComponent={<EmptyFlatList />}
                     refreshing={this.state.refreshing}
                     onRefresh={refresh}
                     numColumns={1}

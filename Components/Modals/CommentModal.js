@@ -5,10 +5,14 @@ import AvatarImage from "../ImagePickers/Avatar";
 
 class CommentModal extends React.Component {
 
+  componentDidMount(){
+    
+  }
   render(){
 
-    const {isVisible,isCancel} = this.props;
+    const {isVisible,isCancel,currentCommunity} = this.props;
 
+    console.log(currentCommunity)
     return (
       <View>
         <Modal 
@@ -21,7 +25,9 @@ class CommentModal extends React.Component {
           style={{ marginVertical: 150,borderTopLeftRadius:10,borderTopRightRadius:10 }}
         >
           <View style={{ flex: 1,backgroundColor:"#fff",width:"100%" }}>
-           <AvatarImage />
+           <AvatarImage 
+           currentCommunity = {currentCommunity}
+           />
           </View>
         </Modal>
       </View>

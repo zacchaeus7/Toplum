@@ -9,34 +9,39 @@ import ShopScreen from '../ShopScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 
-const ActivityTab = ()=> (
-      
-  <Tab.Navigator
-      initialRouteName="Home"
-      activeColor="#fff"
-      barStyle={{ backgroundColor: '#fff' }}
-    >
+const ActivityTab = (route,navigation)=>{
 
-    <Tab.Screen
-        name="Shop"
-        component={ShopScreen}
-        options={{
-          tabBarLabel: 'Shop',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="basket" color="#000" size={25} />
-          ),
-        }}
-      />
+  const currentCommunity = route.route.params.currentCommunity;
+  return(
+    
+    <Tab.Navigator
+        initialRouteName="Home"
+        activeColor="#fff"
+        barStyle={{ backgroundColor: '#fff' }}
+      >
+  
       <Tab.Screen
-        name="Activity"
-        component={ActivityScreen}
-        options={{
-          tabBarLabel: 'Livres',
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="book" color="#000" size={25} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-)
+          name="Shop"
+          component={ShopScreen}
+          options={{
+            tabBarLabel: 'Shop',
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="basket" color="#14F" size={25} />
+            ),
+          }}
+          initialParams={{currentCommunity: currentCommunity}}
+        />
+        <Tab.Screen
+          name="Activity"
+          component={ActivityScreen}
+          options={{
+            tabBarLabel: 'Services',
+            tabBarIcon: ({ color, size }) => (
+              <Icon name="book" color="#14F" size={25} />
+            ),
+          }}
+        />
+      </Tab.Navigator>
+  )
+} 
 export default ActivityTab;
