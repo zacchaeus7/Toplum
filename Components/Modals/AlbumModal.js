@@ -1,194 +1,144 @@
 import React from "react";
-import { View,Text,Dimensions, StyleSheet,Image,TouchableOpacity } from 'react-native';
-import { ActivityIndicator, Avatar,IconButton, Button, TextInput } from 'react-native-paper';
-// import ImagePicker from 'react-native-image-picker';
-// import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import Modal from "react-native-modal";
+import { View,Image,TouchableOpacity,ScrollView } from 'react-native';
+import { Button } from 'react-native-paper';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import ImagePicker from 'react-native-image-crop-picker';
-import { connect } from "react-redux";
 import API from "../../API/API";
 
-export class AlbumModal extends React.Component {
+class AlbumModal extends React.Component {
 
     constructor(props){
         super(props)
-        this.state = {
-           avatar : null,
-           name:null,
-           price:null,
-           whatsappPhone:null,
-           avatarData:[{}]
+
+        this.state={
+            avatarData:[]
         }
-        this.onClickAvatar = this.onClickAvatar.bind(this);
+
         this.api = new API();
     }
 
-    componentDidMount(){
-        console.log(this.state.avatar)
-    }
-
-    onClickAvatar(){
+    oPenGallery(){
        
         ImagePicker.openPicker({
             width: 300,
             height: 400,
-            cropping: true
-          }).then(image => {
-            console.log(image);
-             this.setState({avatar:image.path})
-             this.setState({avatarData:image});
-          });
-
-    }
-
-    uploadAvatar = async()=>{
-
-    // const response = await this.api.send(data,'uploadAvatar');
-
-        let URL = "http://192.168.1.155:8000/api/uploadAvatar"
-        var name =Date.now();
-        // const expas = this.state.avatarData.path.split(".")
-       const formData = new FormData();
-       formData.append('file',{
-             uri:this.state.avatarData.path,
-             type:this.state.avatarData.mime,
-            //  name:name+"."+expas[2],
-            //  price:this.state.price,
-            // whatsapp_phone:this.state.whatsappPhone,
-            // user_id:this.props.user.id,
-            // community_id:1
-       })
-
+             multiple: true,
+             cropping: true,
+          }).then(Images => {
+            //  console.log(Images);
+             this.setState({avatar:Images.path})
+             this.setState({avatarData:Images});
     
+              console.log(this.state.avatarData)
+          });
+    
+    }
 
-       let data = 
-       {
-           file:formData, 
-           name:this.state.name,
-           price:this.state.price,
-           whatsapp_phone:this.state.whatsappPhone,
-           user_id:this.props.user.id,
-           community_id:1
-       }
+    uploadOnAlbumm = async()=>{
 
-       const test = this.api.createFormData(data);
-            
-       
-       let res = await fetch(
-        URL,
-        {
-          method: 'post',
-          headers: {
-            //  'Content-Type': 'multipart/form-data;',
-            // 'Accept': 'application/json',
-            // 'Content-Type': 'application/json'
-          },
-          body: data,
-        }
-      );
-        let responseJson = await res.json();
+        let URL = "http://192.168.1.155:8000/api/add_on_community_album"
+        var name =Date.now();
+       const formData = new FormData();
 
-           console.log(responseJson)
-        //   console.log(response);
-        // console.log(data);
+        this.state.avatarData.map((image,index)=>{
 
-       
+            formData.append('file',{
+
+             uri:image.path,
+             type:image.mime,
+             name:image.path
+             
+            }
+
+        )})
+        
+
+        this.api.createFormData(formData);
+
+        let res = await fetch(
+            URL,
+            {
+              method: 'post',
+              headers: {
+                  'Content-Type': 'multipart/form-data',
+              },
+              body: formData,
+            }
+          );
+            let responseJson = await res.text();
+    
+        console.log(responseJson);
+
+        //  console.log(formData);
 
     }
 
-    render () {
-        const {theme} = this.props
-        return (
+  componentDidMount(){
+    console.log(this.state.avatarData)
+  }
+  componentDidUpdate(){
+    // console.log(this.state.avatarData)
+  }
+  render(){
 
-            <View style={styles.container}>
+    const {isVisible,isCancel,currentCommunity} = this.props;
 
-                <View style={styles.header}>
-                    <IconButton
-                        icon="arrow-left"
-                        color="#00f"
-                        size={20}
-                        style={{ paddingTop: 15}}
-                        onPress={() => this.props.navigation.goBack()}
-                    />
-                    <Text style={{fontSize:20,paddingTop:10,alignSelf:'center',color:"#00f"}}>Ajouter article Au shop</Text>
+    console.log(currentCommunity)
+    return (
+      <View>
+        <Modal 
+          isVisible={isVisible}
+          animationIn="slideInUp"
+          animationInTiming={1000}
+          // coverScreen={true}
+          // backdropOpacity={0.5}
+          // deviceHeight={0.5}
+          style={{ marginVertical: 150,borderTopLeftRadius:10,borderTopRightRadius:10 }}
+        >
+          <View style={{ flex: 1,backgroundColor:"#fff",width:"100%",alignItems:'center',justifyContent:'center' }}>
+            {this.state.avatarData.length  === 0 ? 
+            <TouchableOpacity
+                onPress={()=>this.oPenGallery()}
+            >
+                <Ionicons 
+                name="ios-cloud-upload-outline" 
+                size={200} 
+                />
+            </TouchableOpacity>
+
+            :
+            <ScrollView>
+                <View style={{flexDirection:'row'}}>
+                    {this.state.avatarData.map((image, index) => {
+                        return (
+                            <View>
+                                <Image
+                                    source={{ uri: image.path }}
+                                    style={{width:120,height:120,paddingTop:10,margin:5}}
+                                />
+                            </View>
+                        );
+                    })}
+                     
                 </View>
-                <TextInput 
-                    style={styles.TextInputsStyles}
-                    label="Le nom de l'article(obligatoire)"
-                    value={this.state.name}
-                    onChangeText={(value)=>this.setState({name:value})}
-                />
-                <TextInput 
-                     style={styles.TextInputsStyles}
-                    label="Prix en franc"
-                    value={this.state.price}
-                    onChangeText={(value)=>this.setState({price:value})}
-                    keyboardType="numeric"
-                />
-                 <TextInput 
-                     style={styles.TextInputsStyles}
-                    label="Numero whatSapp(optionnel)"
-                    value={this.state.whatsappPhone}
-                    onChangeText={(value)=>this.setState({whatsappPhone:value})}
-                    keyboardType="numeric"
-                />
-                <TouchableOpacity
-                    style={{margin:1,width:100,height:100}}
-                        onPress={()=>this.onClickAvatar()}
-                    >
-                    {
-                        this.state.avatar == null ?
-                        <Image 
-                            source={require("../../assets/images/icons/select_icon.png")}
-                            style={{width:100,height:100}}
-
-                        />:
-                        <Image
-                            source={{ uri: this.state.avatar }}
-                            style={{width:100,height:80,paddingTop:10}}
-                        />
-                    }
-               
-               
-                </TouchableOpacity>
                 <Button 
                     style={{marginTop:2,backgroundColor:"#000",margin:5,borderRadius:10}}
                     icon="loading"
                     mode="elevated"
                     // loading={this.state.isLoading}
                     // disabled={this.state.name.length > 3 ? false: true}
-                    onPress={() => this.uploadAvatar()}>
-                    Enregistrer
+                    onPress={() => this.uploadOnAlbumm()}>
+                    Poster sur l'album
                 </Button>
-            </View>
+            </ScrollView>
+            }
            
-            
-        );
-    }
-}
-
-const styles = StyleSheet.create({
-   
-    container:{
-        flex:1, 
-    },
-    header:{
-        height:50,
-        backgroundColor:"#ccc",
-        flexDirection:'row'
-    },
-    TextInputsStyles:{
-        margin:3,
-        borderRadius:2,
-        height:50,
-        backgroundColor:"#fff",
-        padding:5
-    }
-
-});
-
-const mapStateToProps = (state)=>{
-    return {
-      user:state.userReducer.user
-    }
+          </View>
+        </Modal>
+      </View>
+    );
   }
-export default connect(mapStateToProps)(AlbumModal)
+  }
+
+  export default AlbumModal

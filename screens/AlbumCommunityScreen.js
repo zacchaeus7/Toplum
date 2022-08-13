@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { FAB } from 'react-native-paper';
 import ImagePicker from 'react-native-image-crop-picker';
+import AlbumModal from "../Components/Modals/AlbumModal";
 
 export default class AlbumCommunityScreen extends React.Component{
 
@@ -18,14 +19,18 @@ export default class AlbumCommunityScreen extends React.Component{
         this.state = {
             data: [],
             refreshing: true,
-            isModalShow:false,
-            avatarData:[{}]
+            isModaVisible:false,
+          
         }
     }
 
     componentDidMount() {
         this.fetchCats();
-        console.log(this.avatarData)
+       
+    }
+
+    componentDidUpdate(){
+      console.log(this.state.avatarData)
     }
 
     fetchCats() {
@@ -59,20 +64,7 @@ export default class AlbumCommunityScreen extends React.Component{
       this.setState({isModalShow:true})
   }
 
-  onClickAvatar(){
-       
-    ImagePicker.openPicker({
-        width: 300,
-        height: 400,
-         multiple: true,
-         cropping: true,
-      }).then(Images => {
-        // console.log(Images);
-         this.setState({avatar:Images.path})
-         this.setState({avatarData:Images});
-      });
-
-}
+ 
 
     render() {
       return (
@@ -89,10 +81,12 @@ export default class AlbumCommunityScreen extends React.Component{
           <FAB
             icon="camera"
             style={styles.fab}
-            onPress={() =>this.onClickAvatar()}
+            onPress={() =>this.setState({isModaVisible:true})}
             />
 
-      
+            <AlbumModal 
+            isVisible={this.state.isModaVisible}
+            />
         </SafeAreaView>)
     }
 }
