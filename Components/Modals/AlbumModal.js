@@ -66,7 +66,7 @@ class AlbumModal extends React.Component {
               body: formData,
             }
           );
-            let responseJson = await res.text();
+            let responseJson = await res.json();
     
         console.log(responseJson);
 

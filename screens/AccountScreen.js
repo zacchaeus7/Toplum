@@ -6,10 +6,13 @@ import {
     StyleSheet ,
     ActivityIndicator,
     StatusBar,
-    ImageBackground,
+    TouchableOpacity,
     Image
 } from 'react-native';
 import { withTheme, Card, Button, IconButton, Text, Title, Paragraph, List, Divider } from "react-native-paper";
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import ImagePicker from 'react-native-image-crop-picker';
 import { connect } from 'react-redux'; 
 import API from "../API/API";
 
@@ -20,6 +23,8 @@ class AccountScreen extends React.Component{
     super(props);
 
     this.state = {
+      profile : null,
+      profileData:{}
     //   phone:'',
     //   password:'',
     //   check_Inputchange:false,
@@ -31,10 +36,63 @@ class AccountScreen extends React.Component{
     };
 
     this.api = new API();
+    
     this.localStorage = new LocalStorage();
   }
 
   componentDidMount(){console.log(this.props.user)}
+
+  oPenGallery(){
+       
+    ImagePicker.openPicker({
+        width: 300,
+        height: 400,
+         cropping: true,
+      }).then(Images => {
+        //  console.log(Images);
+         this.setState({profile:Images.path})
+         this.setState({profileData:Images})
+          //  console.log(this.state.profileData)
+      });
+
+      this.uploadProfile()
+
+}
+
+componentDidUpdate(){
+  // console.log(this.state.profileData.path);
+}
+
+uploadProfile = async()=>{
+
+    let URL = this.api.serverUrl+"/update_profile"
+
+    var name =Date.now();
+  const formData = new FormData();
+  formData.append('file',{
+        uri:this.state.profileData.path,
+        type:this.state.profileData.mime,
+        name:this.state.profileData.path
+        
+  })
+
+  this.api.createFormData(formData)
+
+  // let res = await fetch(
+  //   URL,
+  //   {
+  //     method: 'post',
+  //     headers: {
+  //         'Content-Type': 'multipart/form-data',
+  //     },
+  //     body: formData,
+  //   }
+  // );
+    //  let responseJson = await res.json();
+
+    console.log(URL);
+
+}
 
 
   render(){
@@ -66,13 +124,30 @@ class AccountScreen extends React.Component{
                 </View>
             </View>
            <View style={{flexDirection:'row',marginVertical:10}}>
-            <Image 
-                style={styles(theme).illustrationImage}
-                source={require('../assets/images/icons/account_png.png')}
-                />
+              {this.state.profile == null ?
+              <TouchableOpacity
+                onPress={()=>this.oPenGallery()}
+              >
+                  <EvilIcons 
+                    name="user" 
+                    size={150} 
+                  />
+                </TouchableOpacity>
+                :
+                <TouchableOpacity 
+                  onPress={()=>this.oPenGallery()}
+                  >
+                  <Image
+                        source={{ uri: this.state.profile }}
+                        // loadingIndicatorSource={required('../assets/')}
+                        style={{width:80,height:80,borderRadius:40,marginLeft:10}}
+                    />
+                </TouchableOpacity>
+              }
+
                <View>
-                    <Text style={{paddingTop:30}}>{this.props.user.name}</Text>
-                    <Paragraph style={{opacity:0.5}}>Tout est possible a clui qui croit </Paragraph>
+                    <Text style={{paddingTop:30,marginLeft:5}}>{this.props.user.name}</Text>
+                
                </View>
            </View>
             <View style={{ padding: 13,borderBottomColor:"#ccc",borderWidth:1 }}>
