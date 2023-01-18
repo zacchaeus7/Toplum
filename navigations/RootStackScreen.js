@@ -26,7 +26,9 @@ class RootStackScreen extends React.Component{
 
 
     render(){
+
         const { theme } = this.props;
+
         return(
             <RootStack.Navigator screenOptions={{ headerShown: false}}  headerMode="None">
 
@@ -45,6 +47,7 @@ class RootStackScreen extends React.Component{
                 <RootStack.Screen name="JoinCommunityScreen" component={JoinCommunityScreen} />
                 <RootStack.Screen name="AccountScreen" component={AccountScreen} />
                 <RootStack.Screen name="MakePostScreen" component={MakePostScreen} options={{headerShown:false}} />
+                
             </RootStack.Navigator>
         );
     }
