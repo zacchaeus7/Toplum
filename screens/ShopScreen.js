@@ -57,13 +57,19 @@ import EmptyFlatList from "../Components/EmptyFlatList";
                 <Title>${" "+item.price}</Title>
                 </Card.Content>
                 <View style={{flexDirection:"row"}}>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                      onPress={() => {
                         Linking.openURL(
                           'http://api.whatsapp.com/send?phone=+243'+item.whatsapp_phone
                         );
                       }}>
                           <FontAwesome name="whatsapp" color="#0f0" size={40} />
+                    
+                    </TouchableOpacity> */}
+
+                    <TouchableOpacity
+                     onPress={() => this.props.navigation.navigate('MessageScreen')}>
+                          <FontAwesome name="sms" color="#0f0" size={40} />
                     
                     </TouchableOpacity>
                     <TouchableOpacity>
@@ -72,7 +78,7 @@ import EmptyFlatList from "../Components/EmptyFlatList";
                 </View>
             </Card>
             <Divider />
-            </View>
+        </View>
         </TouchableOpacity>
 
     handleRefresh = () => {
