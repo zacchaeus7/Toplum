@@ -33,6 +33,8 @@
      colors: {
        ...theme.colors,
        primary: '#14F',
+       white: '#fff',
+       black: '#000',
        secondary: '#000',
        accent: '#F77F41',
        white: '#fff',

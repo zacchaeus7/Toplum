@@ -47,7 +47,7 @@ class RootStackScreen extends React.Component{
                 <RootStack.Screen name="AccueilCommunity" component={AccueilCommunitySCreen} />
                 <RootStack.Screen name="JoinCommunityScreen" component={JoinCommunityScreen} />
                 <RootStack.Screen name="AccountScreen" component={AccountScreen} />
-                <RootStack.Screen name="MessageScreen" component={MessageScreen} />
+                <RootStack.Screen name="MessageScreen" component={MessageScreen} options={{headerShown:false}} />
                 <RootStack.Screen name="MakePostScreen" component={MakePostScreen} options={{headerShown:false}} />
                 
             </RootStack.Navigator>
